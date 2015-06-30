@@ -1,6 +1,5 @@
 #!/bin/bash
 
-set -x
 
 iozone_sp3_gm_ext3="https://w3.suse.de/~rd-qa/Results/ProductTests/SLES-11-SP3/GM/i586/apac2-ph026.apac.novell.com/qa_iozone_bigmem_basic-2015-02-14-11-47-17"
 iozone_sp3_gm_xfs="https://w3.suse.de/~rd-qa/Results/ProductTests/SLES-11-SP3/GM/i586/apac2-ph026.apac.novell.com/qa_iozone_bigmem_basic-2015-02-14-16-08-13"

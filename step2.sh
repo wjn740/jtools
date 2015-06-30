@@ -1,5 +1,6 @@
 #!/bin/sh
 
+set -x
 . ./step1.sh > /dev/null
 
 NEW_DIR=new
@@ -24,6 +25,7 @@ do
 		echo "iozone_bigmem_basic_ext3 testing fail"
 		exit 1
 	fi
+	${ROOT_DIR}/iozone_data_comparing.sh ${NEW_DIR}
 	;;
 	iozone_bigmem_basic_xfs)
 	${ROOT_DIR}/iozone_disp.sh iozone_bigmem_basic_xfs
