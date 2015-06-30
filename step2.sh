@@ -18,9 +18,21 @@ do
 	case $testsuite in
 	iozone_bigmem_basic_ext3)
 	${ROOT_DIR}/iozone_disp.sh iozone_bigmem_basic_ext3
+	if [ $? -eq 0 ]; then
+		${ROOT_DIR}/iozone_fetch_old_result.sh ${NEW_DIR}
+	else
+		echo "iozone_bigmem_basic_ext3 testing fail"
+		exit 1
+	fi
 	;;
 	iozone_bigmem_basic_xfs)
 	${ROOT_DIR}/iozone_disp.sh iozone_bigmem_basic_xfs
+	if [ $? -eq 0 ]; then
+		${ROOT_DIR}/iozone_fetch_old_result.sh ${NEW_DIR}
+	else
+		echo "iozone_bigmem_basic_xfs testing fail"
+		exit 1
+	fi
 	;;
 	kernbench)
 	${ROOT_DIR}/kernbench_disp.sh kernbench

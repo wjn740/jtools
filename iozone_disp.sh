@@ -4,7 +4,6 @@
 #NEW_LOGS_DIR=${ROOT_DIR}/logs_bz2
 #HANDLER_DIR=${ROOT_DIR}/James_James_James_handler_directory
 
-set -x 
 
 working_dir=${HANDLER_DIR}/$1
 
@@ -56,9 +55,6 @@ do
 done
 
 
-
-
-
 mkdir -pv ${new_dir}/result
 pushd ${new_dir}/data_group
 	for dir in `ls`
@@ -66,8 +62,9 @@ pushd ${new_dir}/data_group
 	pushd $dir
 	for i in `seq 1 42`
 	do
-		echo `cat line$i | awk '{a+=$1}END{printf("%.1f\n",a/NR)}'` >> ${new_dir}/result/$dir.result
+		echo `cat line$i | awk '{a+=$1}END{printf("%.1f\n",a/NR)}'` >> ${new_dir}/result/$dir
 	done
 	popd
 	done
 popd
+exit 0
