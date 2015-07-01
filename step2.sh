@@ -35,6 +35,7 @@ do
 		echo "iozone_bigmem_basic_xfs testing fail"
 		exit 1
 	fi
+	${ROOT_DIR}/iozone_data_comparing.sh ${NEW_DIR}
 	;;
 	kernbench)
 	${ROOT_DIR}/kernbench_disp.sh kernbench
@@ -52,10 +53,24 @@ do
 	${ROOT_DIR}/netperf.sh netperf_loop6
 	;;
 	reaim_ioperf_ext3)
-	${ROOT_DIR}/reaim_ioperf.sh reaim_ioperf_ext3
+	${ROOT_DIR}/reaim_ioperf_disp.sh reaim_ioperf_ext3
+	if [ $? -eq 0 ]; then
+		${ROOT_DIR}/reaim_ioperf_fetch_old_result.sh ${NEW_DIR}
+	else
+		echo "iozone_bigmem_basic_xfs testing fail"
+		exit 1
+	fi
+	${ROOT_DIR}/reaim_ioperf_data_comparing.sh ${NEW_DIR}
 	;;
 	reaim_ioperf_xfs)
-	${ROOT_DIR}/reaim_ioperf.sh reaim_ioperf_xfs
+	${ROOT_DIR}/reaim_ioperf_disp.sh reaim_ioperf_xfs
+	if [ $? -eq 0 ]; then
+		${ROOT_DIR}/reaim_ioperf_fetch_old_result.sh ${NEW_DIR}
+	else
+		echo "iozone_bigmem_basic_xfs testing fail"
+		exit 1
+	fi
+	${ROOT_DIR}/reaim_ioperf_data_comparing.sh ${NEW_DIR}
 	;;
 	siege)
 	${ROOT_DIR}/siege.sh siege
