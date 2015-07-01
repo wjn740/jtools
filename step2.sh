@@ -39,6 +39,13 @@ do
 	;;
 	kernbench)
 	${ROOT_DIR}/kernbench_disp.sh kernbench
+	if [ $? -eq 0 ]; then
+		${ROOT_DIR}/kernbench_fetch_old_result.sh ${NEW_DIR}
+	else
+		echo "kernbench testing fail"
+		exit 1
+	fi
+	${ROOT_DIR}/kernbench_data_comparing.sh ${NEW_DIR}
 	;;
 	libmicro_bench)
 	${ROOT_DIR}/libmicro_bench.sh libmicro_bench
