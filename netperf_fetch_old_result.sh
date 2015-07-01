@@ -64,11 +64,10 @@ mkdir result
 for file in ${file_list}
 do
 	touch ${OLD_DIR}/result/${file}
-
-	if echo ${y} | grep '\-tcp$'; then
+	if echo ${file} | grep '\-tcp$'; then
 	for i in $(cat ${file} | grep "^ [0-9]*" | awk '{print $5}');do echo $i >> ${OLD_DIR}/result/${file};done
 	fi
-	if echo ${y} | grep '\-udp$'; then
+	if echo ${file} | grep '\-udp$'; then
 	for i in $(cat ${file} | egrep '^[0-9]+'| head -n 2 | awk '{if(NR==1)print $6;if(NR==2) print $4;}');do echo $i >> ${OLD_DIR}/result/${file};done
 	fi
 done
