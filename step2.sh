@@ -60,7 +60,7 @@ do
 		echo "iozone_bigmem_basic_xfs testing fail"
 		exit 1
 	fi
-	${ROOT_DIR}/reaim_ioperf_data_comparing.sh ${NEW_DIR}
+	${ROOT_DIR}/reaim_ioperf_comparing.sh ${NEW_DIR}
 	;;
 	reaim_ioperf_xfs)
 	${ROOT_DIR}/reaim_ioperf_disp.sh reaim_ioperf_xfs
@@ -70,7 +70,7 @@ do
 		echo "iozone_bigmem_basic_xfs testing fail"
 		exit 1
 	fi
-	${ROOT_DIR}/reaim_ioperf_data_comparing.sh ${NEW_DIR}
+	${ROOT_DIR}/reaim_ioperf_comparing.sh ${NEW_DIR}
 	;;
 	siege)
 	${ROOT_DIR}/siege.sh siege

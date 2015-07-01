@@ -1,8 +1,8 @@
 #!/bin/bash
 
 
-iozone_sp3_gm_ext3="https://w3.suse.de/~rd-qa/Results/ProductTests/SLES-11-SP3/GM/i586/apac2-ph026.apac.novell.com/qa_iozone_bigmem_basic-2015-02-14-11-47-17"
-iozone_sp3_gm_xfs="https://w3.suse.de/~rd-qa/Results/ProductTests/SLES-11-SP3/GM/i586/apac2-ph026.apac.novell.com/qa_iozone_bigmem_basic-2015-02-14-16-08-13"
+reaim_ioperf_sp3_gm_ext3="https://w3.suse.de/~rd-qa/Results/ProductTests/SLES-11-SP3/GM/i586/apac2-ph026.apac.novell.com/reaim-ioperf-2015-02-05-14-27-15/"
+reaim_ioperf_sp3_gm_xfs="https://w3.suse.de/~rd-qa/Results/ProductTests/SLES-11-SP3/GM/i586/apac2-ph026.apac.novell.com/reaim-ioperf-2015-02-05-18-43-36/"
 
 
 echo "===start==========="
@@ -20,7 +20,7 @@ do
 	echo $parent | grep '_ext3$' 
 	if [ $? -eq 0 ];then
 		echo "==ext3==$parent=========="
-		curl $iozone_sp3_gm_ext3/$string > $OLD_DIR/$string
+		curl $reaim_ioperf_sp3_gm_ext3/reaim-alltests > $OLD_DIR/reaim-alltests
 	else
 		echo "!=ext3==$parent=========="
 
@@ -28,7 +28,7 @@ do
 	echo $parent | grep '_xfs$'
 	if [ $? -eq 0 ];then
 		echo "==xfs===$parent=========="
-		curl $iozone_sp3_gm_xfs/$string > $OLD_DIR/$string
+		curl $reaim_ioperf_sp3_gm_xfs/reaim-alltests > $OLD_DIR/reaim-alltests
 	else
 		echo "!=xfs===$parent=========="
 	fi
@@ -43,6 +43,6 @@ file_list=`ls`
 mkdir result
 for file in ${file_list}
 do
-	for i in $(cat ${file} | grep -A 6 '^ *KB' |tail -n 6 |  awk '{print $3, $4, $5, $6, $7, $8, $9}');do echo $i >> ${OLD_DIR}/result/${file};done
+	for i in $(cat ${file} | grep "^Max Jobs per Minute " | awk '{print $5}');do echo $i >> ${OLD_DIR}/result/${file};done
 done
 popd
