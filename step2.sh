@@ -49,6 +49,13 @@ do
 	;;
 	libmicro_bench)
 	${ROOT_DIR}/libmicro_bench.sh libmicro_bench
+	if [ $? -eq 0 ]; then
+		${ROOT_DIR}/libmicro_bench_fetch_old_result.sh ${NEW_DIR}
+	else
+		echo "libmicro_bench testing fail"
+		exit 1
+	fi
+	${ROOT_DIR}/libmicro_bench_data_comparing.sh ${NEW_DIR}
 	;;
 	lmbench_bench)
 	${ROOT_DIR}/lmbench_bench.sh lmbench_bench
