@@ -1,9 +1,10 @@
-#!/bin/bash
+#!/bin/sh
 
 #ROOT_DIR=$(pwd)
 #NEW_LOGS_DIR=${ROOT_DIR}/logs_bz2
-#HANDLER_DIR=${ROOT_DIR}/James_James_James_handler_directory
+#HANDLER_DIR=${ROOT_DIR}/James_handler_directory
 
+set -x 
 
 working_dir=${HANDLER_DIR}/$1
 
@@ -30,8 +31,7 @@ do
 	rm -rf t
 	#remove noused files dependence on testsutie
 	pushd ${log_dir}
-	rm -rf `ls | grep -v "^iozone-bigmem-"`
-	rm -rf iozone-bigmem-abuildinfo
+	rm -rf `ls | grep -v "^reaim-ioperf$"`
 	popd
 	
 done
@@ -39,31 +39,33 @@ done
 new_dir=`pwd`
 new_dir_file_list=`ls`
 mkdir -pv ${new_dir}/data_group
-#x is directory
+#x is directory indcate testrun log
 for x in ${new_dir_file_list}
 do
 	pushd $x
-	#y is logfile
 	for y in `ls`
 	do
 	mkdir -pv ${new_dir}/data_group/${y}
 	touch ${new_dir}/data_group/${y}/${y}.${x}
 	j=1
-	for i in $(cat ${y} | grep -A 6 '^ *KB' |tail -n 6 |  awk '{print $3, $4, $5, $6, $7, $8, $9}');do echo $i >> ${new_dir}/data_group/${y}/${y}.${x}; echo $i >> ${new_dir}/data_group/${y}/line${j};((j++));done
+	for i in $(cat ${y} | grep "^Max Jobs per Minute " | awk '{print $5}');do echo $i >> ${new_dir}/data_group/${y}/${y}.${x}; echo $i >> ${new_dir}/data_group/${y}/line${j};((j++));done
 	done
 	popd
+	
 done
-
 
 mkdir -pv ${new_dir}/result
 pushd ${new_dir}/data_group
 	for dir in `ls`
 	do
 	pushd $dir
+	echo "==-========debug======"
+	echo "j=$j"
 	for i in `seq 1 $(($j - 1))`
 	do
 		echo `cat line$i | awk '{a+=$1}END{printf("%.1f\n",a/NR)}'` >> ${new_dir}/result/$dir
 	done
+	echo "==-========debugend======"
 	popd
 	done
 popd
