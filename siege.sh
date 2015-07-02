@@ -2,7 +2,7 @@
 
 #ROOT_DIR=$(pwd)
 #NEW_LOGS_DIR=${ROOT_DIR}/logs_bz2
-#HANDLER_DIR=${ROOT_DIR}/James_James_James_handler_directory
+#HANDLER_DIR=${ROOT_DIR}/James_handler_directory
 
 set -x 
 
@@ -35,3 +35,40 @@ do
 	popd
 	
 done
+
+#build data_group
+new_dir=`pwd`
+new_dir_file_list=`ls`
+mkdir -pv ${new_dir}/data_group
+#x is directory
+for x in ${new_dir_file_list}
+do
+	pushd $x
+	#y is logfile
+	for y in `ls`
+	do
+	mkdir -pv ${new_dir}/data_group/${y}
+	touch ${new_dir}/data_group/${y}/${y}.${x}
+	j=1
+	#因为我们需要合并新测试数据（求平均，求和）
+	#所以我们需要把数据转化成一行一行的
+	for i in $(cat ${y} | egrep "^Transaction rate:|^Throughput:" | awk -F ':' '{print $2}'|awk '{print $1}');do echo $i >> ${new_dir}/data_group/${y}/${y}.${x}; echo $i >> ${new_dir}/data_group/${y}/line${j};((j++));done
+	done
+	popd
+done
+
+
+#ask a number of samples 's average value.
+mkdir -pv ${new_dir}/result
+pushd ${new_dir}/data_group
+	for dir in `ls`
+	do
+	pushd $dir
+	for i in `seq 1 $(($j - 1))`
+	do
+		echo `cat line$i | awk '{a+=$1}END{printf("%.2f\n",a/NR)}'` >> ${new_dir}/result/$dir
+	done
+	popd
+	done
+popd
+exit 0
