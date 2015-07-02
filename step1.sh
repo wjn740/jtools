@@ -1,8 +1,14 @@
 #!/bin/sh
 
+
 export ROOT_DIR=$(pwd)
 export NEW_LOGS_DIR=${ROOT_DIR}/logs_bz2
 export HANDLER_DIR=${ROOT_DIR}/James_James_James_handler_directory
+
+#sync logs from Testing Server
+#pushd ${NEW_LOGS_DIR}
+#rsync root@147.2.207.210:/var/log/qaset/log/* .
+#popd
 
 
 test_list=$(ls ${NEW_LOGS_DIR}/*.tar.bz2 | awk -F '-' '{print $1}' | sort -u)

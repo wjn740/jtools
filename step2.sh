@@ -1,6 +1,5 @@
 #!/bin/sh
 
-set -x
 . ./step1.sh > /dev/null
 
 NEW_DIR=new
@@ -17,6 +16,35 @@ do
 	mkdir -pv ${NEW_DIR} ${OLD_DIR}
 	pushd ${NEW_DIR}
 	case $testsuite in
+	bonniepp_ext3)
+	${ROOT_DIR}/bonniepp_disp.sh bonniepp_ext3
+	;;
+	bonniepp_fsync_ext3)
+	${ROOT_DIR}/bonniepp_disp.sh bonniepp_fsync_ext3
+	;;
+	bonniepp_xfs)
+	${ROOT_DIR}/bonniepp_disp.sh bonniepp_xfs
+	;;
+	tiobench_basic_ext3)
+	${ROOT_DIR}/tiobench_disp.sh tiobench_basic_ext3
+	if [ $? -eq 0 ]; then
+		${ROOT_DIR}/tiobench_fetch_old_result.sh ${NEW_DIR}
+	else
+		echo "tiobench_basic_ext3 testing fail"
+		exit 1
+	fi
+	${ROOT_DIR}/tiobench_data_comparing.sh ${NEW_DIR}
+	;;
+	tiobench_basic_xfs)
+	${ROOT_DIR}/tiobench_disp.sh tiobench_basic_xfs
+	if [ $? -eq 0 ]; then
+		${ROOT_DIR}/tiobench_fetch_old_result.sh ${NEW_DIR}
+	else
+		echo "tiobench_basic_xfs testing fail"
+		exit 1
+	fi
+	${ROOT_DIR}/tiobench_data_comparing.sh ${NEW_DIR}
+	;;
 	iozone_bigmem_basic_ext3)
 	${ROOT_DIR}/iozone_disp.sh iozone_bigmem_basic_ext3
 	if [ $? -eq 0 ]; then
@@ -59,6 +87,13 @@ do
 	;;
 	lmbench_bench)
 	${ROOT_DIR}/lmbench_bench.sh lmbench_bench
+	if [ $? -eq 0 ]; then
+		${ROOT_DIR}/lmbench_fetch_old_result.sh ${NEW_DIR}
+	else
+		echo "lmbench testing fail"
+		exit 1
+	fi
+	${ROOT_DIR}/lmbench_data_comparing.sh ${NEW_DIR}
 	;;
 	netperf_loop4)
 	${ROOT_DIR}/netperf.sh netperf_loop4
@@ -102,6 +137,13 @@ do
 	;;
 	siege)
 	${ROOT_DIR}/siege.sh siege
+	if [ $? -eq 0 ]; then
+		${ROOT_DIR}/siege_fetch_old_result.sh ${NEW_DIR}
+	else
+		echo "siege testing fail"
+		exit 1
+	fi
+	${ROOT_DIR}/siege_data_comparing.sh ${NEW_DIR}
 	;;
 	sysbench_oltp_ext3)
 	${ROOT_DIR}/sysbench.sh sysbench_oltp_ext3
@@ -125,6 +167,7 @@ do
 	;;
 	*)
 	echo 'Please review code.'
+	echo 'Maybe some new testsuite log package be download to logs_bz2'
 	echo ${testsuite}
 	exit 1
 	;;

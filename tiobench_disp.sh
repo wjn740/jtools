@@ -1,10 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
 #ROOT_DIR=$(pwd)
 #NEW_LOGS_DIR=${ROOT_DIR}/logs_bz2
-#HANDLER_DIR=${ROOT_DIR}/James_handler_directory
+#HANDLER_DIR=${ROOT_DIR}/James_James_James_handler_directory
 
-set -x 
 
 working_dir=${HANDLER_DIR}/$1
 
@@ -31,10 +30,12 @@ do
 	rm -rf t
 	#remove noused files dependence on testsutie
 	pushd ${log_dir}
-	rm -rf `ls | grep -v "^lmbench$"`
+	rm -rf `ls | grep -v "^tiobench-"`
+	rm -rf iozone-bigmem-abuildinfo
 	popd
 	
 done
+
 #build data_group
 new_dir=`pwd`
 new_dir_file_list=`ls`
@@ -49,7 +50,7 @@ do
 	mkdir -pv ${new_dir}/data_group/${y}
 	touch ${new_dir}/data_group/${y}/${y}.${x}
 	j=1
-	for i in $(cat ${y} | grep -A 7 '^Context switching' |tail -n 3 |  awk '{print $4, $5, $6, $7, $8, $9, $10}');do echo $i >> ${new_dir}/data_group/${y}/${y}.${x}; echo $i >> ${new_dir}/data_group/${y}/line${j};((j++));done
+	for i in $(cat ${y} | grep "^[2-4]\.[0-9]*\.[0-9]*-[0-9.]*-[a-z]*" | awk '{print $5}');do echo $i >> ${new_dir}/data_group/${y}/${y}.${x}; echo $i >> ${new_dir}/data_group/${y}/line${j};((j++));done
 	done
 	popd
 done
