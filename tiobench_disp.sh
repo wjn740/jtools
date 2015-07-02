@@ -63,7 +63,7 @@ pushd ${new_dir}/data_group
 	pushd $dir
 	for i in `seq 1 $(($j - 1))`
 	do
-		echo `cat line$i | awk '{a+=$1}END{printf("%.1f\n",a/NR)}'` >> ${new_dir}/result/$dir
+		echo `cat line$i | awk '{a+=$1}END{printf("%.2f\n",a/NR)}'` >> ${new_dir}/result/$dir
 	done
 	popd
 	done
