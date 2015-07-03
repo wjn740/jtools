@@ -18,7 +18,7 @@ do
 	arrayOld=($(cat ${OLD_RESULTES}/${filename}))	
 	for i in $(seq 0 $((${#arrayNew[@]}-1)))
 	do
-	c=$(echo "(${arrayOld[$i]}/${arrayNew[$i]})*100"|bc -l)
+	c=$(echo "(${arrayNew[$i]}/${arrayOld[$i]})*100"|bc -l)
 	printf "%.2f%%\n" $c >> ${COMPARING_RESULTES}/${filename}
 	done
 	echo "===============end================"
