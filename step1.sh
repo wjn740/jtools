@@ -3,12 +3,17 @@
 
 export ROOT_DIR=$(pwd)
 export NEW_LOGS_DIR=${ROOT_DIR}/logs_bz2
+export OLD_LOGS_DIR=${ROOT_DIR}/old_logs
 export HANDLER_DIR=${ROOT_DIR}/James_James_James_handler_directory
 
 #sync logs from Testing Server
 #pushd ${NEW_LOGS_DIR}
 #rsync root@147.2.207.210:/var/log/qaset/log/* .
 #popd
+
+if ! [ -d ${OLD_LOGS_DIR} ];then
+	mkdir -pv ${OLD_LOGS_DIR}
+fi
 
 
 test_list=$(ls ${NEW_LOGS_DIR}/*.tar.bz2 | awk -F '-' '{print $1}' | sort -u)

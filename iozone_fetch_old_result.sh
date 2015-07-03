@@ -7,7 +7,6 @@ iozone_sp3_gm_xfs="https://w3.suse.de/~rd-qa/Results/ProductTests/SLES-11-SP3/GM
 
 echo "===start==========="
 OLD_DIR=../old
-
 if ! [ -d $OLD_DIR ]; then
 	mkdir $OLD_DIR
 fi

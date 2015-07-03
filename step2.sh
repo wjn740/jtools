@@ -28,7 +28,7 @@ do
 	tiobench_basic_ext3)
 	${ROOT_DIR}/tiobench_disp.sh tiobench_basic_ext3
 	if [ $? -eq 0 ]; then
-		${ROOT_DIR}/tiobench_fetch_old_result.sh ${NEW_DIR}
+		${ROOT_DIR}/tiobench_fetch_old_result.sh ${OLD_DIR} tiobench_basic_ext3
 	else
 		echo "tiobench_basic_ext3 testing fail"
 		exit 1
@@ -38,7 +38,7 @@ do
 	tiobench_basic_xfs)
 	${ROOT_DIR}/tiobench_disp.sh tiobench_basic_xfs
 	if [ $? -eq 0 ]; then
-		${ROOT_DIR}/tiobench_fetch_old_result.sh ${NEW_DIR}
+		${ROOT_DIR}/tiobench_fetch_old_result.sh ${OLD_DIR} tiobench_basic_xfs
 	else
 		echo "tiobench_basic_xfs testing fail"
 		exit 1
