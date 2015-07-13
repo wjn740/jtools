@@ -16,6 +16,46 @@ do
 	mkdir -pv ${NEW_DIR} ${OLD_DIR}
 	pushd ${NEW_DIR}
 	case $testsuite in
+	dbench4_ext3)
+	${ROOT_DIR}/dbench_disp.sh dbench4_ext3
+	if [ $? -eq 0 ]; then
+		${ROOT_DIR}/dbench_fetch_old_result.sh ${OLD_DIR} dbench4_ext3
+	else
+		echo "dbench4_ext3 testing fail"
+		exit 1
+	fi
+	${ROOT_DIR}/dbench_data_comparing.sh ${NEW_DIR}
+	;;
+	dbench4_fsync_ext3)
+	${ROOT_DIR}/dbench_disp.sh dbench4_fsync_ext3
+	if [ $? -eq 0 ]; then
+		${ROOT_DIR}/dbench_fetch_old_result.sh ${OLD_DIR} dbench4_fsync_ext3
+	else
+		echo "dbench4_fsync_ext3 testing fail"
+		exit 1
+	fi
+	${ROOT_DIR}/dbench_data_comparing.sh ${NEW_DIR}
+	;;
+	dbench4_fsync_xfs)
+	${ROOT_DIR}/dbench_disp.sh dbench4_fsync_xfs
+	if [ $? -eq 0 ]; then
+		${ROOT_DIR}/dbench_fetch_old_result.sh ${OLD_DIR} dbench4_fsync_xfs
+	else
+		echo "dbench4_fsync_xfs testing fail"
+		exit 1
+	fi
+	${ROOT_DIR}/dbench_data_comparing.sh ${NEW_DIR}
+	;;
+	dbench4_xfs)
+	${ROOT_DIR}/dbench_disp.sh dbench4_xfs
+	if [ $? -eq 0 ]; then
+		${ROOT_DIR}/dbench_fetch_old_result.sh ${OLD_DIR} dbench4_xfs
+	else
+		echo "dbench4_xfs testing fail"
+		exit 1
+	fi
+	${ROOT_DIR}/dbench_data_comparing.sh ${NEW_DIR}
+	;;
 	bonniepp_ext3)
 	${ROOT_DIR}/bonniepp_disp.sh bonniepp_ext3
 	;;
