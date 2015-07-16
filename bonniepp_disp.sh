@@ -17,8 +17,9 @@ fi
 
 echo $0 done.
 
-tiobench_extract ${NEW_LOGS_DIR} ${1}
+bonniepp_extract ${NEW_LOGS_DIR} ${1}
 
-data_group "tiobench"
+
+data_group "bonniepp"
 
 exit 0

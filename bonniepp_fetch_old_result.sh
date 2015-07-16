@@ -30,9 +30,9 @@ fi
 
 pushd ${OLD_DIR}
 
-tiobench_extract ${2} ${1}
+bonniepp_extract ${2} ${1}
 
-data_group "tiobench"
+data_group "bonniepp"
 
 popd
 ##$1 is OLD_LOGS_DIR's name

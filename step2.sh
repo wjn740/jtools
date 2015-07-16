@@ -16,6 +16,66 @@ do
 	mkdir -pv ${NEW_DIR} ${OLD_DIR}
 	pushd ${NEW_DIR}
 	case $testsuite in
+	pgbench_small_ext3)
+	${ROOT_DIR}/pgbench_disp.sh ${testsuite}
+	if [ $? -eq 0 ]; then
+		${ROOT_DIR}/pgbench_fetch_old_result.sh ${testsuite} ${OLD_LOGS_DIR}
+	else
+		echo "${testsuite} testing fail"
+		exit 1
+	fi
+	${ROOT_DIR}/pgbench_data_comparing.sh ${NEW_DIR}
+	;;
+	pgbench_small_xfs)
+	${ROOT_DIR}/pgbench_disp.sh ${testsuite}
+	if [ $? -eq 0 ]; then
+		${ROOT_DIR}/pgbench_fetch_old_result.sh ${testsuite} ${OLD_LOGS_DIR}
+	else
+		echo "${testsuite} testing fail"
+		exit 1
+	fi
+	${ROOT_DIR}/pgbench_data_comparing.sh ${NEW_DIR}
+	;;
+	bonniepp_ext3)
+	${ROOT_DIR}/bonniepp_disp.sh ${testsuite}
+	if [ $? -eq 0 ]; then
+		${ROOT_DIR}/bonniepp_fetch_old_result.sh ${testsuite} ${OLD_LOGS_DIR}
+	else
+		echo "${testsuite} testing fail"
+		exit 1
+	fi
+	${ROOT_DIR}/bonniepp_data_comparing.sh ${NEW_DIR}
+	;;
+	bonniepp_fsync_ext3)
+	${ROOT_DIR}/bonniepp_disp.sh ${testsuite}
+	if [ $? -eq 0 ]; then
+		${ROOT_DIR}/bonniepp_fetch_old_result.sh ${testsuite} ${OLD_LOGS_DIR}
+	else
+		echo "${testsuite} testing fail"
+		exit 1
+	fi
+	${ROOT_DIR}/bonniepp_data_comparing.sh ${NEW_DIR}
+	;;
+	bonniepp_xfs)
+	${ROOT_DIR}/bonniepp_disp.sh ${testsuite}
+	if [ $? -eq 0 ]; then
+		${ROOT_DIR}/bonniepp_fetch_old_result.sh ${testsuite} ${OLD_LOGS_DIR}
+	else
+		echo "${testsuite} testing fail"
+		exit 1
+	fi
+	${ROOT_DIR}/bonniepp_data_comparing.sh ${NEW_DIR}
+	;;
+	bonniepp_fsync_xfs)
+	${ROOT_DIR}/bonniepp_disp.sh ${testsuite}
+	if [ $? -eq 0 ]; then
+		${ROOT_DIR}/bonniepp_fetch_old_result.sh ${testsuite} ${OLD_LOGS_DIR}
+	else
+		echo "${testsuite} testing fail"
+		exit 1
+	fi
+	${ROOT_DIR}/bonniepp_data_comparing.sh ${NEW_DIR}
+	;;
 	dbench4_ext3)
 	${ROOT_DIR}/dbench_disp.sh dbench4_ext3
 	if [ $? -eq 0 ]; then
@@ -56,19 +116,10 @@ do
 	fi
 	${ROOT_DIR}/dbench_data_comparing.sh ${NEW_DIR}
 	;;
-	bonniepp_ext3)
-	${ROOT_DIR}/bonniepp_disp.sh bonniepp_ext3
-	;;
-	bonniepp_fsync_ext3)
-	${ROOT_DIR}/bonniepp_disp.sh bonniepp_fsync_ext3
-	;;
-	bonniepp_xfs)
-	${ROOT_DIR}/bonniepp_disp.sh bonniepp_xfs
-	;;
 	tiobench_basic_ext3)
 	${ROOT_DIR}/tiobench_disp.sh tiobench_basic_ext3
 	if [ $? -eq 0 ]; then
-		${ROOT_DIR}/tiobench_fetch_old_result.sh ${OLD_DIR} tiobench_basic_ext3
+		${ROOT_DIR}/tiobench_fetch_old_result.sh $testsuite ${OLD_LOGS_DIR}
 	else
 		echo "tiobench_basic_ext3 testing fail"
 		exit 1
@@ -78,7 +129,7 @@ do
 	tiobench_basic_xfs)
 	${ROOT_DIR}/tiobench_disp.sh tiobench_basic_xfs
 	if [ $? -eq 0 ]; then
-		${ROOT_DIR}/tiobench_fetch_old_result.sh ${OLD_DIR} tiobench_basic_xfs
+		${ROOT_DIR}/tiobench_fetch_old_result.sh ${testsuite} ${OLD_LOGS_DIR}
 	else
 		echo "tiobench_basic_xfs testing fail"
 		exit 1
