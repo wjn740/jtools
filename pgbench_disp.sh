@@ -17,8 +17,9 @@ fi
 
 echo $0 done.
 
-tiobench_extract ${NEW_LOGS_DIR} ${1}
+pgbench_extract ${NEW_LOGS_DIR} ${1}
 
- d_group"tiobench"
+
+ d_group"pgbench"
 
 exit 0

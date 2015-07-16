@@ -3,6 +3,9 @@ Tools for analyse results of testsuites.
 Any problem send email to jnwang@suse.com
 
 
+It will pick up all testcases in NEW_LOGS_DIR to compare with corresponding testcase in OLD_LOGS_DIR.
+
+
 
 Run the following cmd:
 ./step2.sh
