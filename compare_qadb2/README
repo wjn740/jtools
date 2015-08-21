@@ -1,0 +1,5 @@
+view result use the following cmdline:
+
+for f in `find comparing_dir/ -type f| grep .compare_result`;do less $f; done
+
+Press 'q' go to next.
