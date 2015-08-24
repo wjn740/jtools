@@ -30,7 +30,7 @@ libmicro_bench_filter()
 }
 lmbench_filter()
 {
-    grep -A 7 '^Context switching' |tail -n 3 |  awk '{print $4, $5, $6, $7, $8, $9, $10}'
+    grep -A 7 '^Context switching'| sed -n 6p| awk '{print $4 $5}'| tr '|' " "
 }
 netperf_tcp_filter()
 {
@@ -84,7 +84,8 @@ speed_formula()
 }
 iozone_formula()
 {
-    speed_formula
+    awk '{printf "%s/%s/%-15s\t %-10s\t %-10s\t %+0.5f\n",$1,$2,$3,$4,$5,$5/$4*100-100}'
+    #speed_formula
 }
 kernbench_formula()
 {
@@ -194,10 +195,126 @@ setup_fortmat_dir()
     done
 }
 
+validate_testcase ()
+{
+#$1:casename
+for x in `ls`
+do
+    pushd $x
+    for y in `ls`
+    do
+        case $casename in 
+                bonnie++*)
+                    cat $y | bonniepp_filter
+                    if [ $? -ne 0 ];then
+                        rm $y
+                    fi
+                    ;;
+                dbench4*)
+                    cat $y | dbench_filter
+                    if [ $? -ne 0 ];then
+                        rm $y
+                    fi
+                    ;;
+                lmbench*)
+                    cat $y | lmbench_filter
+                    if [ $? -ne 0 ];then
+                        rm $y
+                    fi
+                    ;;
+                netperf*)
+                    case $y in
+                        *udp)
+                            cat $y | netperf_udp_filter
+                            if [ $? -ne 0 ];then
+                                rm $y
+                            fi
+                            ;;
+                        *tcp)
+                            cat $y | netperf_tcp_filter
+                            if [ $? -ne 0 ];then
+                                rm $y
+                            fi
+                            ;;
+                    esac
+                    ;;
+                pgbench*)
+                    cat $y | pgbench_filter
+                    if [ $? -ne 0 ];then
+                        rm $y
+                    fi
+                    ;;
+                qa_iozone*)
+                    cat $y | iozone_filter
+                    if [ $? -ne 0 ];then
+                        rm $y
+                    fi
+                    ;;
+                qa_tiobench*)
+                    cat $y | tiobench_filter
+                    if [ $? -ne 0 ];then
+                        rm $y
+                    fi
+                    ;;
+                reaim_disk_*)
+                    ret=`cat $y | reaim_ioperf_filter`
+                    if [ -z "$ret" ];then
+                        rm $y
+                    fi
+                    ;;
+                reaim_alltest*)
+                    cat $y | reaim_ioperf_filter
+                    if [ $? -ne 0 ];then
+                        rm $y
+                    fi
+                    ;;
+                sysbench_oltp*)
+                    cat $y | sysbench_filter
+                    if [ $? -ne 0 ];then
+                        rm $y
+                    fi
+                    ;;
+                sysbench-sys)
+                    cat $y | sysbench_filter
+                    if [ $? -ne 0 ];then
+                        rm $y
+                    fi
+                    ;;
+                libmicro*)
+                    cat $y | libmicro_bench_filter
+                    if [ $? -ne 0 ];then
+                        rm $y
+                    fi
+                    ;;
+                qa_siege_performance*)
+                    cat $y | siege_filter
+                    if [ $? -ne 0 ];then
+                        rm $y
+                    fi
+                    ;;
+                kernbench*)
+                    cat $y | kernbench_filter
+                    if [ $? -ne 0 ];then
+                        rm $y
+                    fi
+                    ;;
+                *)
+                    echo -n "There are some testcase need filters in $0: " >&2
+                    rm -v $y
+                    echo "${casename}" >&2
+        esac
+    done
+    popd
+done
+find . -type d -empty -exec rmdir {} \;
+}
 handle_testcase()
 {
     #$1:casename
     logdir_list=`ls`                                             
+    if [ -z "${logdir_list}" ]; then
+        return
+    fi
     mkdir -pv ${DATA_GROUP}
     #x is directory 
     for x in ${logdir_list}                                      
@@ -296,7 +413,7 @@ handle_testcase()
         for i in `seq 1 $(($j - 1))`
         do
             if [ -f line$i ]; then
-                echo `cat line$i | awk '{a+=$1}END{printf("%.2f\n",a/NR)}'` >> ../../${RESULT_DATA}/${casename}
+                echo `cat line$i | awk '{a+=$1}END{printf("%.2f\n",a/NR)}'` >> ../../${RESULT_DATA}/${dir}
             fi
         done
         popd
@@ -342,6 +459,8 @@ filling_data_group()
                     else
                         continue
                     fi
+
+                    validate_testcase ${casename}
                     handle_testcase ${casename}
                     popd
                 done
@@ -475,8 +594,7 @@ comparing_function()
                         fi
                         mkdir -pv ${COMARING_RESULT}
                         touch ${COMARING_RESULT}/${filename}
-                        echo "${casename}" > ${COMARING_RESULT}/${filename}
-                        echo "${product[0]}  ${product[1]}" >> ${COMARING_RESULT}/${filename}
+                        echo "${casename} => ${filename}" > ${COMARING_RESULT}/${filename}
                         case $casename in
                             bonnie++*)
                                 paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | bonniepp_formula>> ${COMARING_RESULT}/${filename}
@@ -497,7 +615,8 @@ comparing_function()
                                 paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | pgbench_formula >> ${COMARING_RESULT}/${filename}
                                 ;;
                             qa_iozone*)
-                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | iozone_formula>> ${COMARING_RESULT}/${filename}
+                                echo "                                 ${product[0]}     ${product[1]}     ratio" >> ${COMARING_RESULT}/${filename}
+                                paste ~/iozone_title_colunm ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | iozone_formula>> ${COMARING_RESULT}/${filename}
                                 ;;
                             qa_tiobench*)
                                 paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | tiobench_formula>> ${COMARING_RESULT}/${filename}
