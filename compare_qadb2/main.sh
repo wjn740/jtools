@@ -126,15 +126,17 @@ sysbench_formula()
 }
 dbench_formula()
 {
-    time_formula
+    awk '{printf "%s %15s %10s\t %+0.5f\n",$1,$2,$3,$3/$2*100-100}'
+    #speed_formula
 }
 pgbench_formula()
 {
-    speed_formula
+    awk '{printf "%s %s %s\t %12s  %12s\t %+0.5f\n",$1,$2,$3,$4,$5,$5/$4*100-100}'
+    #speed_formula
 }
 tiobench_formula()
 {
-    awk '{printf "%40s\t %-10s\t %-10s\t %+0.5f\n",$1,$2,$3,$3/$2*100-100}'
+    awk '{printf "%-35s\t%10s%10s  %+0.5f\n",$1,$2,$3,$3/$2*100-100}'
     #time_formula
 }
 bonniepp_formula()
@@ -603,7 +605,8 @@ comparing_function()
                                 paste ~/bonnie++_title_column ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | bonniepp_formula>> ${COMARING_RESULT}/${filename}
                                 ;;
                             dbench4*)
-                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | dbench_formula>> ${COMARING_RESULT}/${filename}
+                                echo "Throughput               ${product[0]}     ${product[1]}     ratio" >> ${COMARING_RESULT}/${filename}
+                                paste ~/dbench4_title_column ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | dbench_formula>> ${COMARING_RESULT}/${filename}
                                 ;;
                             lmbench*)
                                 paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | lmbench_formula>> ${COMARING_RESULT}/${filename}
@@ -615,7 +618,8 @@ comparing_function()
                                 paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | netperf_tcp_formula>> ${COMARING_RESULT}/${filename}
                                         ;;
                             pgbench*)
-                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | pgbench_formula >> ${COMARING_RESULT}/${filename}
+                                echo "tps                            ${product[0]}     ${product[1]}     ratio" >> ${COMARING_RESULT}/${filename}
+                                paste ~/pgbench_title_column ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | pgbench_formula >> ${COMARING_RESULT}/${filename}
                                 ;;
                             qa_iozone*)
                                 echo "                                 ${product[0]}     ${product[1]}     ratio" >> ${COMARING_RESULT}/${filename}
