@@ -31,7 +31,7 @@ kernbench_filter()
 }
 libmicro_bench_filter()
 {
-    grep ^memset | awk '{print $4}'
+    grep -v "^#" | grep -v "^ " | grep -v "^Running" | grep -v "fail .* succeed .* count .* internal_error .* skipped" | grep -v ".*:.*: on .* after .*" | grep "^[a-z]" | awk '{print $4}'
 }
 lmbench_filter()
 {
@@ -84,6 +84,7 @@ time_formula()
 }
 speed_formula()
 {
+    # please explain for dummies like Harald what this AWK formatting is doing ;-)
     awk '{printf "%-10s\t %-10s\t %+0.5f\n",$1,$2,$2/$1*100-100}'
 
 }
@@ -98,7 +99,8 @@ kernbench_formula()
 }
 libmicro_bench_formula()
 {
-    time_formula
+    awk 'BEGIN{i=0}{if ($2/$3*100-100 < -10) {printf "%15s \t%10s %10s %+0.5f **\n",$1,$2,$3,$2/$3*100-100;i+=1} else {printf "%15s \t%10s %10s %+ 0.5f\n",$1,$2,$3,$2/$3*100-100}}END{printf "Failed %d, Total %d, Ratio %0.5f%",i,NR,i/NR*100}'
+    #time_formula
 }
 lmbench_formula()
 {
@@ -237,7 +239,17 @@ validate_testcase ()
                     ;;
                 netperf*)
                     case $y in
+                        *udp6)
+                            if ! cat $y | validate_filter ;then
+                                rm $y
+                            fi
+                            ;;
                         *udp)
+                            if ! cat $y | validate_filter ;then
+                                rm $y
+                            fi
+                            ;;
+                        *tcp6)
                             if ! cat $y | validate_filter ;then
                                 rm $y
                             fi
@@ -351,7 +363,15 @@ handle_testcase()
                             for i in $(cat ${y} | netperf_udp_filter);do echo $i >> ../${DATA_GROUP}/${y}/${y}.${x}; echo $i >> ../${DATA_GROUP}/${y}/line${j};((j++));done
                             echo $j > ../${DATA_GROUP}/${y}/.lines
                             ;;
+                        *udp6)
+                            for i in $(cat ${y} | netperf_udp_filter);do echo $i >> ../${DATA_GROUP}/${y}/${y}.${x}; echo $i >> ../${DATA_GROUP}/${y}/line${j};((j++));done
+                            echo $j > ../${DATA_GROUP}/${y}/.lines
+                            ;;
                         *tcp)
+                            for i in $(cat ${y} | netperf_tcp_filter);do echo $i >> ../${DATA_GROUP}/${y}/${y}.${x}; echo $i >> ../${DATA_GROUP}/${y}/line${j};((j++));done
+                            echo $j > ../${DATA_GROUP}/${y}/.lines
+                            ;;
+                        *tcp6)
                             for i in $(cat ${y} | netperf_tcp_filter);do echo $i >> ../${DATA_GROUP}/${y}/${y}.${x}; echo $i >> ../${DATA_GROUP}/${y}/line${j};((j++));done
                             echo $j > ../${DATA_GROUP}/${y}/.lines
                             ;;
@@ -611,8 +631,14 @@ comparing_function()
                             lmbench*)
                                 paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | lmbench_formula>> ${COMARING_RESULT}/${filename}
                                 ;;
+                            *udp6)
+                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | netperf_udp_formula>> ${COMARING_RESULT}/${filename}
+                                        ;;
                             *udp)
                                 paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | netperf_udp_formula>> ${COMARING_RESULT}/${filename}
+                                        ;;
+                            *tcp6)
+                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | netperf_tcp_formula>> ${COMARING_RESULT}/${filename}
                                         ;;
                             *tcp)
                                 paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | netperf_tcp_formula>> ${COMARING_RESULT}/${filename}
@@ -643,7 +669,7 @@ comparing_function()
                                 paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | sysbench_formula>> ${COMARING_RESULT}/${filename}
                                 ;;
                             libmicro*)
-                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | libmicro_bench_formula>> ${COMARING_RESULT}/${filename}
+                                paste ~/libmicro_bench_column ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | libmicro_bench_formula>> ${COMARING_RESULT}/${filename}
                                 ;;
                             qa_siege_performance*)
                                 paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | siege_formula>> ${COMARING_RESULT}/${filename}
