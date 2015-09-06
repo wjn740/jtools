@@ -99,7 +99,7 @@ kernbench_formula()
 }
 libmicro_bench_formula()
 {
-    awk 'BEGIN{i=0}{if ($2/$3*100-100 < -10) {printf "%15s \t%10s %10s %+0.5f **\n",$1,$2,$3,$2/$3*100-100;i+=1} else {printf "%15s \t%10s %10s %+ 0.5f\n",$1,$2,$3,$2/$3*100-100}}END{printf "Failed %d, Total %d, Ratio %0.5f%",i,NR,i/NR*100}'
+    awk 'BEGIN{i=0}{if ($2/$3*100-100 < -10) {printf "%15s \t%10s %10s %+12.5f **\n",$1,$2,$3,$2/$3*100-100;i+=1} else {printf "%15s \t%10s %10s %+12.5f\n",$1,$2,$3,$2/$3*100-100}}END{printf "Failed %d, Total %d, Ratio %0.5f%",i,NR,i/NR*100}'
     #time_formula
 }
 lmbench_formula()
