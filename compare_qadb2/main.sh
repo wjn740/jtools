@@ -51,7 +51,7 @@ reaim_ioperf_filter()
 }
 siege_filter()
 {
-    egrep "^Transaction rate:|^Throughput:" | awk -F ':' '{print $2}'|awk '{print $1}'
+    awk 'BEGIN{i=0;j=0;x=0;y=0}/Transaction rate:/{i+=$3;x++} /Throughput:/{j+=$2;y++}END{printf "%f %f\n",i/x,j/y}'
 }
 sysbench_filter()
 {
@@ -80,17 +80,17 @@ bonniepp_filter()
 ##########################
 time_formula()
 {
-    awk '{printf "%-10s\t %-10s\t %+0.5f\n",$1,$2,$1/$2*100-100}'
+    awk '{printf "%-10s\t %-10s\t %+0.5f\t%s,%s\t%s,%s\n",$1,$2,$1/$2*100-100,$4,$5,$6,$7}'
 }
 speed_formula()
 {
     # please explain for dummies like Harald what this AWK formatting is doing ;-)
-    awk '{printf "%-10s\t %-10s\t %+0.5f\n",$1,$2,$2/$1*100-100}'
+    awk '{printf "%-10s\t %-10s\t %+0.5f\t%s,%s\t%s,%s\n",$1,$2,$2/$1*100-100,$4,$5,$6,$7}'
 
 }
 iozone_formula()
 {
-    awk '{printf "%s/%s/%-15s\t %-10s\t %-10s\t %+0.5f\n",$1,$2,$3,$4,$5,$5/$4*100-100}'
+    awk '{printf "%s/%s/%-15s\t %-10s\t %-10s\t %+0.5f\t%s,%s\t%s,%s\n",$1,$2,$3,$4,$5,$5/$4*100-100,$4,$5,$6,$7}'
     #speed_formula
 }
 kernbench_formula()
@@ -99,7 +99,7 @@ kernbench_formula()
 }
 libmicro_bench_formula()
 {
-    awk 'BEGIN{i=0}{if ($2/$3*100-100 < -10) {printf "%15s \t%10s %10s %+12.5f **\n",$1,$2,$3,$2/$3*100-100;i+=1} else {printf "%15s \t%10s %10s %+12.5f\n",$1,$2,$3,$2/$3*100-100}}END{printf "Failed %d, Total %d, Ratio %0.5f%",i,NR,i/NR*100}'
+    awk 'BEGIN{i=0}{if ($2/$3*100-100 < -10) {printf "%15s \t%10s %10s %+12.5f\t%s,%s\t%s,%s **\n",$1,$2,$3,$2/$3*100-100,$4,$5,$6,$7;i+=1} else {printf "%15s \t%10s %10s %+12.5f\t%s,%s\t%s,%s\n",$1,$2,$3,$2/$3*100-100,$4,$5,$6,$7}}END{printf "Failed %d, Total %d, Ratio %0.5f%",i,NR,i/NR*100}'
     #time_formula
 }
 lmbench_formula()
@@ -120,30 +120,32 @@ reaim_ioperf_formula()
 }
 siege_formula()
 {
-    speed_formula
+    #speed_formula
+    awk '{printf "%20s\t%-10s\t %-10s\t %+0.5f  %s,%s  %s,%s\n",$1,$2,$3,$3/$2*100-100,$4,$5,$6,$7}'
 }
 sysbench_formula()
 {
-    time_formula
+    #time_formula
+    awk '{printf "%-10s\t%-15s\t %-10s\t %+0.5f\t%s,%s\t%s,%s\n",$1,$2,$3,$2/$3*100-100,$4,$5,$6,$7}'
 }
 dbench_formula()
 {
-    awk '{printf "%s %15s %10s\t %+0.5f\n",$1,$2,$3,$3/$2*100-100}'
+    awk '{printf "%s %15s %10s\t %+0.5f\t%s,%s\t%s,%s\n",$1,$2,$3,$3/$2*100-100,$4,$5,$6,$7}'
     #speed_formula
 }
 pgbench_formula()
 {
-    awk '{printf "%s %s %s\t %12s  %12s\t %+0.5f\n",$1,$2,$3,$4,$5,$5/$4*100-100}'
+    awk '{printf "%s %s %s\t %12s  %12s\t %+0.5f\t%s,%s\t%s,%s\n",$1,$2,$3,$4,$5,$5/$4*100-100,$4,$5,$6,$7}'
     #speed_formula
 }
 tiobench_formula()
 {
-    awk '{printf "%-35s\t%10s%10s  %+0.5f\n",$1,$2,$3,$3/$2*100-100}'
+    awk '{printf "%-35s\t%10s%10s  %+0.5f\t%s,%s\t%s,%s\n",$1,$2,$3,$3/$2*100-100,$4,$5,$6,$7}'
     #time_formula
 }
 bonniepp_formula()
 {
-    awk '{printf "%-20s\t %-10s\t %-10s\t %+0.5f\n",$1,$2,$3,$3/$2*100-100}'
+    awk '{printf "%-20s\t %-10s\t %-10s\t %+0.5f\t%s,%s\t%s,%s\n",$1,$2,$3,$3/$2*100-100,$4,$5,$6,$7}'
     #speed_formula
 }
 
@@ -438,8 +440,10 @@ handle_testcase()
         do
             if [ -f line$i ]; then
                 echo `cat line$i | awk '{a+=$1}END{printf("%.4f\n",a/NR)}'` >> ../../${RESULT_DATA}/${dir}
+                echo `cat line$i | awk '{sum+=$1; array[NR]=$1} END {for(x=1;x<=NR;x++){sumsq+=((array[x]-(sum/NR))**2);}print sqrt(sumsq/NR)}'` >> ../../${RESULT_DATA}/${dir}_stddev
             fi
         done
+        paste ../../${RESULT_DATA}/${dir} ../../${RESULT_DATA}/${dir}_stddev | awk '{printf "%s\n",$2/$1*100}' > ../../${RESULT_DATA}/${dir}_cv
         popd
     done
     popd
@@ -616,69 +620,87 @@ comparing_function()
                         if ! [ -f ${product[1]}/${RESULT_DATA}/${filename} ];then
                             continue
                         fi
+                        if echo $filename | grep "_stddev$" ;then
+                            continue
+                        fi
+                        if echo $filename | grep "_cv$" ;then
+                            continue
+                        fi
                         mkdir -pv ${COMARING_RESULT}
                         touch ${COMARING_RESULT}/${filename}
                         echo "${casename} => ${filename}" > ${COMARING_RESULT}/${filename}
+                        #create comparing result file
                         case $casename in
                             bonnie++*)
-                                echo "                         ${product[0]}     ${product[1]}     ratio" >> ${COMARING_RESULT}/${filename}
-                                paste ~/bonnie++_title_column ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | bonniepp_formula>> ${COMARING_RESULT}/${filename}
+                                echo "                         ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
+                                paste ${SETUP_DIR}/bonnie++_title_column ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv| bonniepp_formula>> ${COMARING_RESULT}/${filename}
                                 ;;
                             dbench4*)
-                                echo "Throughput               ${product[0]}     ${product[1]}     ratio" >> ${COMARING_RESULT}/${filename}
-                                paste ~/dbench4_title_column ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | dbench_formula>> ${COMARING_RESULT}/${filename}
+                                echo "Throughput               ${product[0]}     ${product[1]}     ratio        stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
+                                paste ${SETUP_DIR}/dbench4_title_column ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv| dbench_formula>> ${COMARING_RESULT}/${filename}
                                 ;;
                             lmbench*)
-                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | lmbench_formula>> ${COMARING_RESULT}/${filename}
+                                echo "                         ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
+                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename}  ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv| lmbench_formula>> ${COMARING_RESULT}/${filename}
                                 ;;
                             *udp6)
-                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | netperf_udp_formula>> ${COMARING_RESULT}/${filename}
+                                echo "                         ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
+                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename}  ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv| netperf_udp_formula>> ${COMARING_RESULT}/${filename}
                                         ;;
                             *udp)
-                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | netperf_udp_formula>> ${COMARING_RESULT}/${filename}
+                                echo "                         ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
+                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename}  ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv| netperf_udp_formula>> ${COMARING_RESULT}/${filename}
                                         ;;
                             *tcp6)
-                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | netperf_tcp_formula>> ${COMARING_RESULT}/${filename}
+                                echo "                         ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
+                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv | netperf_tcp_formula>> ${COMARING_RESULT}/${filename}
                                         ;;
                             *tcp)
-                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | netperf_tcp_formula>> ${COMARING_RESULT}/${filename}
+                                echo "                         ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
+                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename}  ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv| netperf_tcp_formula>> ${COMARING_RESULT}/${filename}
                                         ;;
                             pgbench*)
-                                echo "tps                            ${product[0]}     ${product[1]}     ratio" >> ${COMARING_RESULT}/${filename}
-                                paste ~/pgbench_title_column ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | pgbench_formula >> ${COMARING_RESULT}/${filename}
+                                echo "tps                            ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
+                                paste ${SETUP_DIR}/pgbench_title_column ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv | pgbench_formula >> ${COMARING_RESULT}/${filename}
                                 ;;
                             qa_iozone*)
-                                echo "                                 ${product[0]}     ${product[1]}     ratio" >> ${COMARING_RESULT}/${filename}
-                                paste ${SETUP_DIR}/iozone_title_column ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | iozone_formula>> ${COMARING_RESULT}/${filename}
+                                echo "                                 ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
+                                paste ${SETUP_DIR}/iozone_title_column ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv | iozone_formula>> ${COMARING_RESULT}/${filename}
                                 ;;
                             qa_tiobench*)
-                                echo "                                                 ${product[0]}     ${product[1]}     ratio" >> ${COMARING_RESULT}/${filename}
-                                paste ~/tiobench_title_column ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | tiobench_formula>> ${COMARING_RESULT}/${filename}
+                                echo "                                           ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
+                                paste ${SETUP_DIR}/tiobench_title_column ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv | tiobench_formula>> ${COMARING_RESULT}/${filename}
                                 ;;
                             reaim_disk_*)
-                                echo "                         ${product[0]}     ${product[1]}     ratio" >> ${COMARING_RESULT}/${filename}
-                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | reaim_ioperf_formula>> ${COMARING_RESULT}/${filename}
+                                echo "                         ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
+                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv | reaim_ioperf_formula>> ${COMARING_RESULT}/${filename}
                                 ;;
                             reaim_alltest*)
-                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | reaim_ioperf_formula>> ${COMARING_RESULT}/${filename}
+                                echo "                         ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
+                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv | reaim_ioperf_formula>> ${COMARING_RESULT}/${filename}
                                 ;;
                             sysbench_oltp*)
-                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | sysbench_formula>> ${COMARING_RESULT}/${filename}
+                                echo "                         ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
+                                paste ~/sysbench-oltp_column ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv | sysbench_formula>> ${COMARING_RESULT}/${filename}
                                 ;;
                             sysbench-sys)
-                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | sysbench_formula>> ${COMARING_RESULT}/${filename}
+                                echo "                         ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
+                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv | sysbench_formula>> ${COMARING_RESULT}/${filename}
                                 ;;
                             libmicro*)
-                                paste ~/libmicro_bench_column ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | libmicro_bench_formula>> ${COMARING_RESULT}/${filename}
+                                echo "                         ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
+                                paste ${SETUP_DIR}/libmicro_bench_column ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv | libmicro_bench_formula>> ${COMARING_RESULT}/${filename}
                                 ;;
                             qa_siege_performance*)
-                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | siege_formula>> ${COMARING_RESULT}/${filename}
+                                echo "                         ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
+                                paste ${SETUP_DIR}/siege_column ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv | siege_formula>> ${COMARING_RESULT}/${filename}
                                 ;;
                             kernbench*)
-                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | kernbench_formula>> ${COMARING_RESULT}/${filename}
+                                echo "                         ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
+                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv | kernbench_formula>> ${COMARING_RESULT}/${filename}
                                 ;;
                             *)
-                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} | time_formula >> ${COMARING_RESULT}/${filename}
+                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv | time_formula >> ${COMARING_RESULT}/${filename}
                         esac
                     done
                 }
