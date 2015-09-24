@@ -80,12 +80,12 @@ bonniepp_filter()
 ##########################
 time_formula()
 {
-    awk '{printf "%-10s\t %-10s\t %+0.5f\t%s,%s\t%s,%s\n",$1,$2,$1/$2*100-100,$4,$5,$6,$7}'
+    awk '{printf "%10s %-10s\t %-10s\t %+0.5f\t%s,%s\t%s,%s\n",$1,$2,$3,$2/$3*100-100,$4,$5,$6,$7}'
 }
 speed_formula()
 {
     # please explain for dummies like Harald what this AWK formatting is doing ;-)
-    awk '{printf "%-10s\t %-10s\t %+0.5f\t%s,%s\t%s,%s\n",$1,$2,$2/$1*100-100,$4,$5,$6,$7}'
+    awk '{printf "%10s %-10s\t %-10s\t %+0.5f\t%s,%s\t%s,%s\n",$1,$2,$3,$3/$2*100-100,$4,$5,$6,$7}'
 
 }
 iozone_formula()
@@ -641,7 +641,7 @@ comparing_function()
                                 ;;
                             lmbench*)
                                 echo "                         ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
-                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename}  ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv| lmbench_formula>> ${COMARING_RESULT}/${filename}
+                                paste ~/lmbench_column ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename}  ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv| lmbench_formula>> ${COMARING_RESULT}/${filename}
                                 ;;
                             *udp6)
                                 echo "                         ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
@@ -685,7 +685,7 @@ comparing_function()
                                 ;;
                             sysbench-sys)
                                 echo "                         ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
-                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv | sysbench_formula>> ${COMARING_RESULT}/${filename}
+                                paste ~/sysbench-sys_column ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv | sysbench_formula>> ${COMARING_RESULT}/${filename}
                                 ;;
                             libmicro*)
                                 echo "                         ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}

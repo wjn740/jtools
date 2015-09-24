@@ -1,0 +1,151 @@
+147.2.207.210:
+/sys/class/block ~
+~
+mkdir: created directory ‘/mnt/t’
+=================================
+sda2:
+
+Welcome to SUSE Linux Enterprise Server 12  (x86_64) - Kernel \r (\l).
+
+
+=================================
+removed directory: ‘/mnt/t’
+147.2.207.211:
+/sys/class/block ~
+~
+mkdir: created directory ‘/mnt/t’
+=================================
+sda10:
+
+Welcome to SUSE Linux Enterprise Server 12 SP1 Beta1 (x86_64) - Kernel \r (\l).
+
+
+=================================
+=================================
+sda11:
+
+Welcome to SUSE Linux Enterprise Server 12 SP1 Beta1 (x86_64) - Kernel \r (\l).
+
+
+=================================
+=================================
+sda2:
+
+Welcome to SUSE Linux Enterprise Server 12  (x86_64) - Kernel \r (\l).
+
+
+=================================
+=================================
+sda5:
+
+Welcome to SUSE Linux Enterprise Server 11 SP4  (x86_64) - Kernel \r (\l).
+
+
+=================================
+=================================
+sda6:
+
+Welcome to SUSE Linux Enterprise Server 11 SP4  (x86_64) - Kernel \r (\l).
+
+
+=================================
+=================================
+sda7:
+
+Welcome to SUSE Linux Enterprise Server 11 SP4 RC2 (x86_64) - Kernel \r (\l).
+
+
+=================================
+=================================
+sda8:
+
+Welcome to SUSE Linux Enterprise Server 12 Beta9 (x86_64) - Kernel \r (\l).
+
+
+=================================
+removed directory: ‘/mnt/t’
+147.2.207.209:
+/sys/class/block ~
+~
+mkdir: created directory ‘/mnt/t’
+=================================
+sda3:
+
+Welcome to SUSE Linux Enterprise Server 12  (x86_64) - Kernel \r (\l).
+
+
+=================================
+=================================
+sda5:
+
+Welcome to SUSE Linux Enterprise Server 12  (x86_64) - Kernel \r (\l).
+
+
+=================================
+removed directory: ‘/mnt/t’
+147.2.207.163:
+/sys/class/block ~
+~
+mkdir: created directory ‘/mnt/t’
+=================================
+sda2:
+
+Welcome to SUSE Linux Enterprise Server 12  (x86_64) - Kernel \r (\l).
+
+
+=================================
+=================================
+sda6:
+
+Welcome to SUSE Linux Enterprise Server 12 SP1 Beta1 (x86_64) - Kernel \r (\l).
+
+
+=================================
+=================================
+sda7:
+
+Welcome to SUSE Linux Enterprise Server 12  (x86_64) - Kernel \r (\l).
+
+
+=================================
+=================================
+sda8:
+
+Welcome to SUSE Linux Enterprise Server 12 SP1 Beta1 (x86_64) - Kernel \r (\l).
+
+
+=================================
+removed directory: ‘/mnt/t’
+147.2.207.114:
+/sys/class/block ~
+~
+mkdir: created directory ‘/mnt/t’
+=================================
+sda1:
+
+Welcome to SUSE Linux Enterprise Server 12  (x86_64) - Kernel \r (\l).
+
+
+=================================
+=================================
+sda4:
+
+Welcome to SUSE Linux Enterprise Server 12 SP1 Beta1 (x86_64) - Kernel \r (\l).
+
+
+=================================
+=================================
+sda5:
+
+Welcome to SUSE Linux Enterprise Server 11 SP4 Beta2 (x86_64) - Kernel \r (\l).
+
+
+=================================
+=================================
+sda8:
+
+Welcome to SUSE Linux Enterprise Server 12  (x86_64) - Kernel \r (\l).
+
+
+=================================
+removed directory: ‘/mnt/t’

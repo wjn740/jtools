@@ -4,7 +4,7 @@
 
 foreach (@host_list) {
     print "Server: $_ ;\n";
-    system "sshpass -p susetesting ssh root\@$_ screen -ls" ;
+    system "sshpass -p ${password} ssh root\@$_ screen -ls" ;
 }
 
 
