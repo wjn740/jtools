@@ -35,7 +35,18 @@ libmicro_bench_filter()
 }
 lmbench_filter()
 {
-    grep -A 7 '^Context switching'| sed -n 6p| awk '{print $4 $5}'| tr '|' " "
+#    grep -A 7 '^Context switching'| sed -n 6p| awk '{print $4 $5}'| tr '|' " "
+hostname=$(grep -A 7 "Basic system parameters" $1 | tail -n 2 | head -n 1 | awk '{print $1}')
+grep "^$hostname" | tr '|' ' ' | awk '{switch (FNR) {case 2: print $5,$6,$7,$8,$9,$10,$11,$12,$13,$14;next;
+                                                              case 3: print $4,$5,$6,$7,$8,$9;next;
+                                                              case 4: print $4,$5,$6,$7;next;
+                                                              case 5: print $4,$5,$6,$7;next;
+                                                              case 6: print $4,$5,$6,$7,$8,$9,$10;next;
+                                                              case 7: print $4,$5,$6,$7,$8,$9;next;
+                                                              case 9: print $4,$5,$6,$7,$8,$9,$10;next;
+                                                              case 10: print $4,$5,$6,$7,$8,$9,$10,$11,$12;next;
+                                                              case 11: print $5,$6,$7,$8;next;}}' | tr 'K' ' '
+
 }
 netperf_tcp_filter()
 {
@@ -356,7 +367,7 @@ handle_testcase()
                     echo $j > ../${DATA_GROUP}/${y}/.lines
                     ;;
                 lmbench*)
-                    for i in $(cat ${y} | lmbench_filter);do echo $i >> ../${DATA_GROUP}/${y}/${y}.${x}; echo $i >> ../${DATA_GROUP}/${y}/line${j};((j++));done
+                    for i in $(cat ${y} | lmbench_filter $y);do echo $i >> ../${DATA_GROUP}/${y}/${y}.${x}; echo $i >> ../${DATA_GROUP}/${y}/line${j};((j++));done
                     echo $j > ../${DATA_GROUP}/${y}/.lines
                     ;;
                 netperf*)
