@@ -37,15 +37,17 @@ lmbench_filter()
 {
 #    grep -A 7 '^Context switching'| sed -n 6p| awk '{print $4 $5}'| tr '|' " "
 hostname=$(grep -A 7 "Basic system parameters" $1 | tail -n 2 | head -n 1 | awk '{print $1}')
-grep "^$hostname" | tr '|' ' ' | awk '{switch (FNR) {case 2: print $5,$6,$7,$8,$9,$10,$11,$12,$13,$14;next;
-                                                              case 3: print $4,$5,$6,$7,$8,$9;next;
-                                                              case 4: print $4,$5,$6,$7;next;
-                                                              case 5: print $4,$5,$6,$7;next;
-                                                              case 6: print $4,$5,$6,$7,$8,$9,$10;next;
-                                                              case 7: print $4,$5,$6,$7,$8,$9;next;
-                                                              case 9: print $4,$5,$6,$7,$8,$9,$10;next;
-                                                              case 10: print $4,$5,$6,$7,$8,$9,$10,$11,$12;next;
-                                                              case 11: print $5,$6,$7,$8;next;}}' | tr 'K' ' '
+grep "^$hostname" $1 | tr '|' ' ' | awk '{switch (FNR) {case 2: print $5,$6,$7,$8,$9,$10,$11,$12,$13,$14;break;
+                                                              case 3: print $4,$5,$6,$7,$8,$9;break;
+                                                              case 4: print $4,$5,$6,$7;break;
+                                                              case 5: print $4,$5,$6,$7;break;
+                                                              case 6: print $4,$5,$6,$7,$8,$9,$10;break;
+                                                              case 7: print $4,$5,$6,$7,$8,$9,$10;break;
+                                                              case 8: print $4,$5,$6,$7,$8,$9;break;
+                                                              case 9: break;
+                                                              case 10: print $4,$5,$6,$7,$8,$9,$10;break;
+                                                              case 11: print $5,$6,$7,$8,$9,$10,$11,$12;break;
+                                                              case 12: print $5,$6,$7,$8;break;}}' | tr 'K' ' ' | sed 's/\./\.0/g'
 
 }
 netperf_tcp_filter()
@@ -115,7 +117,7 @@ libmicro_bench_formula()
 }
 lmbench_formula()
 {
-    time_formula
+    awk '/^Band/{printf "%23s %-10s\t %-10s\t %+0.5f\t%s,%s\t%s,%s\n",$1,$2,$3,$3/$2*100-100,$4,$5,$6,$7;next;};{printf "%23s %-10s\t %-10s\t %+0.5f\t%s,%s\t%s,%s\n",$1,$2,$3,$2/$3*100-100,$4,$5,$6,$7}'
 }
 netperf_udp_formula()
 {
