@@ -103,7 +103,7 @@ speed_formula()
 }
 iozone_formula()
 {
-    awk '{printf "%s/%s/%-15s\t %-10s\t %-10s\t %+0.5f\t%s,%s\t%s,%s\n",$1,$2,$3,$4,$5,$5/$4*100-100,$4,$5,$6,$7}'
+    awk '{printf "%s/%s/%-15s\t %-10s\t %-10s\t %+0.5f\t%s,%s\t%s,%s\n",$1,$2,$3,$4,$5,$5/$4*100-100,$6,$7,$8,$9}'
     #speed_formula
 }
 kernbench_formula()
