@@ -3,7 +3,8 @@
 echo "------------------------------------------------------"
 echo "Beijing Servers:"
 echo "------------------------------------------------------"
-for number in 210 211 209 163 114
+#210 
+for number in 163 210 209 114 211
 do
     echo 147.2.207.$number:
     sshpass -p ${password} ssh root@147.2.207.${number} screen -ls 

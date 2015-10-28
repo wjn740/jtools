@@ -1,1 +1,48 @@
-[?1049h[1;35r(B[m[4l[?7h[H[2JEvery 30.0s: ./monitor.sh[1;127HThu Sep 24 14:42:21 2015[3;1H------------------------------------------------------[4dBeijing Servers:[5d------------------------------------------------------[6d147.2.207.210:[7dThere are screens on:[8;9H2153.dbench4_fsync_xfs  (Detached)[9;9H1616.SLE12SP1-performance[41G(Detached)[10d2 Sockets in /var/run/screens/S-root.[12d147.2.207.211:[13dThere are screens on:[14;9H2031.iozone_doublemem_xfs[41G(Detached)[15;9H1381.SLE12SP1-performance[41G(Detached)[16d2 Sockets in /var/run/screens/S-root.[18d147.2.207.209:[19dThere are screens on:[20;9H2065.reaim_allworks     (Detached)[21;9H1629.SLE12SP1-performance[41G(Detached)[22d2 Sockets in /var/run/screens/S-root.[24d147.2.207.163:[25dThere are screens on:[26;9H2495.iozone_doublemem_xfs[41G(Detached)[27;9H2036.SLE12SP1-performance[41G(Detached)[28d2 Sockets in /var/run/screens/S-root.[30d147.2.207.114:[31dThere are screens on:[32;9H2286.reaim_allworks     (Detached)[33;9H1802.SLE12SP1-performance[41G(Detached)[34d2 Sockets in /var/run/screens/S-root.[35;150H[1;142H3:00[35;150H[1;142H4:08[35;150H[1;144H47[35;150H[1;142H5:28[35;150H[1;142H6:0[35;150H[1;142H7:09[35;150H[1;144H4[35;150H[1;142H8:28[35;150H[1;142H9:0[35;150H[1;144H47[35;150H
+------------------------------------------------------
+Beijing Servers:
+------------------------------------------------------
+147.2.207.210:
+There are screens on:
+	2199.tiobench_doublemem_async_xfs	(Detached)
+	1729.SLE12SP1-performance	(Detached)
+2 Sockets in /var/run/screens/S-root.
+
+147.2.207.211:
+There are screens on:
+	1978.dbench4_async_ext3	(Detached)
+	1394.SLE12SP1-performance	(Detached)
+2 Sockets in /var/run/screens/S-root.
+
+147.2.207.209:
+There are screens on:
+	1958.reaim_allworks	(Detached)
+	1610.SLE12SP1-performance	(Detached)
+2 Sockets in /var/run/screens/S-root.
+
+147.2.207.163:
+There are screens on:
+	2486.pgbench_small_ro_xfs	(Detached)
+	2041.SLE12SP1-performance	(Detached)
+2 Sockets in /var/run/screens/S-root.
+
+147.2.207.114:
+There are screens on:
+	2102.reaim_allworks	(Detached)
+	1797.SLE12SP1-performance	(Detached)
+2 Sockets in /var/run/screens/S-root.
+
+------------------------------------------------------
+Nuermberg Servers:
+------------------------------------------------------
+10.162.2.54:
+There are screens on:
+	2259.iozone_doublemem_ext4	(Detached)
+	1560.SLE12SP1-performance	(Detached)
+2 Sockets in /var/run/screens/S-root.
+
+10.162.2.53:
+There are screens on:
+	2527.bonniepp_fsync_ext3	(Detached)
+	1852.SLE12SP1-performance	(Detached)
+2 Sockets in /var/run/screens/S-root.
+
