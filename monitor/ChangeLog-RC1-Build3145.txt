@@ -1,0 +1,2431 @@
+o Updated MozillaFirefox (security/bugfix/feature)
+
+- update to Firefox 38.3.0 ESR (bsc#947003)
+  * MFSA 2015-96/CVE-2015-4500/CVE-2015-4501
+    (bmo#1165706, bmo#1186657, bmo#1044077, bmo#1152026,
+    bmo#1161063, bmo#1181651, bmo#1183153, bmo#1186962,
+    bmo#1201793, bmo#1202844)
+    Miscellaneous memory safety hazards (rv:41.0 / rv:38.3)
+  * MFSA 2015-101/CVE-2015-4506
+    (bmo#1192226)
+    Buffer overflow in libvpx while parsing vp9 format video
+  * MFSA 2015-105/CVE-2015-4511
+    (bmo#1200148)
+    Buffer overflow while decoding WebM video
+  * MFSA 2015-106/CVE-2015-4509
+    (bmo#1198435)
+    Use-after-free while manipulating HTML media content
+  * MFSA 2015-110/CVE-2015-4519
+    (bmo#1189814)
+    Dragging and dropping images exposes final URL after
+    redirects
+  * MFSA 2015-111/CVE-2015-4520
+    (bmo#1200856, bmo#1200869)
+    Errors in the handling of CORS preflight request headers
+  * MFSA 2015-112/CVE-2015-4517/CVE-2015-4521/CVE-2015-4522
+    CVE-2015-7174/CVE-2015-7175/CVE-2015-7176/CVE-2015-7177
+    CVE-2015-7180
+    (bmo#1170246, bmo#1172055, bmo#1174479, bmo#1186725,
+    bmo#1170794, bmo#1168959, bmo#1172189, bmo#1191463)
+    Vulnerabilities found through code inspection
+
+-----------------------------------------------------------------------------
+
+o Updated accountsservice (security/bugfix/feature)
+
+- Add accountsservice-933083-load-root-setting.patch (bnc#933083)
+  Load settings of an account which is not 'human' but can still be
+  able to login to the system. (like 'root')
+
+-----------------------------------------------------------------------------
+
+o Updated alsa-utils (security/bugfix/feature)
+
+- Suppress alsactl invocation on systems without sound cards
+  (bsc#940950):
+  0017-alsactl-Add-path-condition-to-alsa-store-and-alsa-re.patch
+
+-----------------------------------------------------------------------------
+
+o Updated apache2-mod_jk (security/bugfix/feature)
+
+- Requries: %{apache_suse_maintenance_mmn}
+  This will pull this module to the update (in released distribution)
+  when apache maintainer thinks it is good (due api/abi changes).
+- Apply patch to fix bnc#927845 CVE-2014-8111 VUL-1: apache2-mod_jk: Tomcat
+  mod_jk information leak due to incorrect JkMount/JkUnmount directives
+  processing:
+  * apache2-mod_jk-CVE-2014-8111.patch
+- access configuration conditional in jk.conf example
+- Add asc signature file.
+- Fix URL for homepage
+- fix tomcat paths in jk.conf [bnc#742618]
+- Version bump to 1.2.40 fixes bnc#880798:
+
+-----------------------------------------------------------------------------
+
+o Updated apache2 (security/bugfix/feature)
+
+- schwab@suse.de: Fixup libdir in installed files
+  (fixes [bnc#949486])
+- start_apache2: reintroduce sysconfig.d, include it on
+  command line (not in httpd.conf) instead of individual directives
+  [bnc#949434] (internal), [bnc#941331]
+
+-----------------------------------------------------------------------------
+
+o Updated autoyast2 (security/bugfix/feature)
+
+- Move lib/ directory to autoyast2-installation package
+  (bsc#949776)
+- 3.1.97
+- Handle pkgGpgCheck callback introduced in libzypp 14.39.0
+  (bsc#948608)
+- 3.1.96
+- Enabled translation of some buttons (bsc#948834)
+- 3.1.95
+
+-----------------------------------------------------------------------------
+
+o Updated babeltrace (security/bugfix/feature)
+
+- Cleanup urls in spec file (FATE#319273)
+
+-----------------------------------------------------------------------------
+
+o Updated bind (security/bugfix/feature)
+
+- Remove the start/stop dependency of named and lwresd on remote-fs
+  to break a service dependency cycle (bsc#947483).
+
+-----------------------------------------------------------------------------
+
+o Updated binutils (security/bugfix/feature)
+
+- gold-arm64-abi-pagesize.patch: fix ABI pagesize for aarch64 in gold
+  [bsc#949066]
+
+-----------------------------------------------------------------------------
+
+o Updated blktrace (security/bugfix/feature)
+
+- Handle more than 512 CPUs (bsc#939307):
+  * verify_blkparse: Change maxecpus to deal with systems larger the 512
+  * btreplay: Machines are now large enough that holes need to be dealt
+  * btreplay: use sysconf to get the number of configured cpus
+  * blktrace: use number of configured cpus instead of online cpus
+  * blktrace blkreplay: convert to use a dynamic cpu_set_t
+  * btreplay: Fix typo in scaling up the dynamic cpu set size.
+- Added patches:
+  * verify_blkparse-change-maxecpus-to-deal-with-systems-larger-the-512.patch
+  * btreplay-machines-are-now-large-enough-that-holes-need-to-be-dealt-with.patch
+  * btreplay-use-sysconf-to-get-the-number-of-configured-cpus.patch
+  * blktrace-use-number-of-configured-cpus-instead-of-online-cpus.patch
+  * blktrace-blkreplay-convert-to-use-a-dynamic-cpu_set_t.patch
+  * btreplay-fix-typo-in-scaling-up-the-dynamic-cpu-set-size.patch
+
+-----------------------------------------------------------------------------
+
+o Updated cmake (security/bugfix/feature)
+
+- Added cmake.attr and cmake.prov as sources, ported from a recent
+  version of cmake to produce automatic RPM provides (bnc#947585)
+- Tagged %{_sysconfdir}/rpm/macros.cmake as %config
+
+-----------------------------------------------------------------------------
+
+o Updated coreutils (security/bugfix/feature)
+
+- coreutils-doc-adjust-reference-to-info-nodes-in-man-pages.patch:
+  add upstream patch:
+  doc: adjust reference to info nodes in man pages (boo#933396)
+- coreutils-i18n.patch: Use a later version of the previous patch
+  to fix the sort I18N issue (boo#928749, CVE-2015-4041) to also
+  avoid CVE-2015-4042.
+  https://github.com/pixelb/coreutils/commit/bea5e36cc876
+- Fix memory handling error with case insensitive sort using UTF-8
+  (boo#928749): coreutils-i18n.patch
+  src/sort.c (keycompare_mb): Ensure the buffer is big enough
+  to handle anything output from wctomb().  Theoretically any
+  input char could be converted to multiple output chars,
+  and so we need to multiply the storage by MB_LEN_MAX.
+- Add upstream patches for df(1):
+  * doc: mention that df -a includes duplicate file systems (deb#737399)
+  - coreutils-df-doc-df-a-includes-duplicate-file-systems.patch
+  * df: ensure -a shows all remote file system entries (deb#737399)
+  - coreutils-df-show-all-remote-file-systems.patch
+  * df: only suppress remote mounts of separate exports with --total
+    (deb#737399, rh#920806, boo#866010, boo#901905)
+  - coreutils-df-total-suppress-separate-remotes.patch
+  (bnc#921559, bnc#907290, bnc#930565).
+
+-----------------------------------------------------------------------------
+
+o Updated cpupower (security/bugfix/feature)
+
+- Replace a previous patch with the corrected one that got mainline.
+  The previous patch had some broken line breaks in the manpage.
+  Also include mainline git info in patch header
+  D cpupower_disable_by_latency.patch
+  A cpupower_idle_set_allow_disabling_cstate_by_latency.patch
+
+-----------------------------------------------------------------------------
+
+o Updated crash (security/bugfix/feature)
+
+- Enable RT KMP build (bsc#948840)
+- For 7.1.3 ppc64le the following patches are obsoleted by mainline
+  crash-gdb-7.6-add-powerpc64le-linux.patch
+  crash-gdb-7.6-bound_minimal_symbol.patch
+  crash-gdb-7.6-floatformat.patch
+  crash-gdb-7.6-ppc64-ELFv2-trampoline-match.patch
+  crash-gdb-7.6-ppc64_sysv_abi_push_float.patch
+  crash-gdb-7.6-ppc64le.patch
+  crash-gdb-7.6-ppc_insns_match_pattern.patch
+  crash-gdb-7.6-update-autoconf-2013-04-24.patch
+  crash-gdb-7.6-update-autoconf-2013-06-10.patch
+  crash-gdb-7.6.series
+  crash-patch-gdb.patch
+- Update to 7.1.3 (bsc#946458)
+  o Introduction of "dis -f <address>" which disassembles from the
+    address to the end of the function
+  o Introduction of "dis -s <address>" which displays the filename
+    and line number associated with the specified text location,
+    followed by a source code listing if available.
+  o Addition of a new "--src <directory>" command line option for
+    use by the "dis -s" option if the kernel source is not located
+    in the standard location.
+  o Do not search for a panic task in s390x dumpfiles that are
+    marked as a "live dump"
+  o Fix unnecessary error messages when a directory is used as a
+    command line argument
+  o See http://people.redhat.com/anderson/crash.changelog.html for
+    the complete changelog
+- Removed these patches obsoleted by mainline:
+  crash-x86_64-nested-nmi.patch
+  crash-keep-file-orig-with-name-on-select.patch
+  crash-kmem_cache-downsize.patch
+  crash-s390x-add-vector-support.patch
+- Refreshed patches
+
+-----------------------------------------------------------------------------
+
+o Updated dhcp (security/bugfix/feature)
+
+- Applied a patch by Jiri Popelka catching dhcp server aborts with
+  "Unable to set up timer: out of range" on very long or infinite
+  timer intervals / lease lifetimes (bsc#947780)
+  [+ 0019-dhcp-4.2.4-P1-interval.patch]
+- Corrected patch references in and a missed (bsc#919959) patch
+  description in previous changelog entry.
+  + 0007-dhcp-4.1.1-P1-lpf-bind-msg-fix.patch,
+- Fixed server to not report success before send (bsc#919959)
+  [+ 0017-server-no-success-report-before-send.919959.patch]
+
+-----------------------------------------------------------------------------
+
+o Updated dracut (security/bugfix/feature)
+
+- Add 0181-load-xhci-pci.patch (boo#939411)
+- Add 0182-fix_add_drivers_hang.patch from Base:System (bsc#923116)
+- Revert:
+  0176-Parse-rootflags-correctly.patch
+  bnc#940100
+  The patch caused a regression and added quite some complexity.
+  The bug (912734) which got fixed by the reverted patch is solved via
+  documentation TID for now. It is worked (mainline/factory) for a proper
+  solution which might get added later when properly tested.
+- Fix the boot from SD/MMC card, including sdhci-* kernel modules
+  into initrd (bnc#942361):
+  0181-kernel-modules-Fix-storage-module-selection-for-sdhc.patch
+  0182-kernel-modules-increase-SDHCI-driver-inclusion.patch
+
+-----------------------------------------------------------------------------
+
+o Updated duperemove (security/bugfix/feature)
+
+- Update to duperemove v0.10
+  - Documentation updates for latest stable version
+  - document --fdupes mode in manpage
+  - update man page headers
+  - update FAQ
+  References: bsc#950229
+
+-----------------------------------------------------------------------------
+
+o Updated fcoe-utils (security/bugfix/feature)
+
+- Fix enumeration of FCoE connections (bsc#947587)
+  + 0018-support-multiple-connections.patch
+
+-----------------------------------------------------------------------------
+
+o Updated gfxboot (security/bugfix/feature)
+
+- work around memory corruption issue seen on hyper-v (bsc#876640)
+- added 'archive' Makefile target
+- updated git2log
+- Add a basic README.md
+- implement LEAP boot splash
+- 4.5.9
+
+-----------------------------------------------------------------------------
+
+o Updated glibc (security/bugfix/feature)
+
+- nss-files-long-lines-2.patch: Properly reread entry after failure in
+  nss_files getent function (bsc#945779, BZ #18991)
+
+-----------------------------------------------------------------------------
+
+o Updated grub2 (security/bugfix/feature)
+
+- Upstream patches for fixing file descriptor leakage (bsc#943784)
+  * added 0001-unix-password-Fix-file-descriptor-leak.patch
+  * added 0002-linux-getroot-fix-descriptor-leak.patch
+  * added 0003-util-grub-mount-fix-descriptor-leak.patch
+  * added 0004-linux-ofpath-fix-descriptor-leak.patch
+  * added 0005-grub-fstest-fix-descriptor-leak.patch
+- evaluate the menu entry's title string by printf (bsc#946993)
+  * modified grub2-once
+- add 0001-efinet-Check-for-immediate-completition.patch,
+  0001-efinet-enable-hardware-filters-when-opening-interfac.patch,
+  grub2-arm64-efinet-handle-get_status-on-buggy-firmware-properly.patch
+  (bsc#947203)
+- Fix license for setjmp module
+  * added grub2-arm64-setjmp-Add-missing-license-macro.patch
+- replace grub2-efinet-reopen-SNP-protocol-for-exclusive-use-by-grub.patch
+  with upstream version:
+  * 0001-efidisk-move-device-path-helpers-in-core-for-efinet.patch
+  * 0002-efinet-skip-virtual-IPv4-and-IPv6-devices-when-enume.patch
+  * 0003-efinet-open-Simple-Network-Protocol-exclusively.patch
+  Fixes EFI network boot in some QEMU configurations.
+
+-----------------------------------------------------------------------------
+
+o Updated gtk-vnc (security/bugfix/feature)
+
+- Add gtk-vnc-Enable-double-buffering-on-GTK3.patch to fix the
+  toolbar displaying problem. (boo#890568)
+
+-----------------------------------------------------------------------------
+
+o Updated gtk-vnc2 (security/bugfix/feature)
+
+- Add gtk-vnc-Enable-double-buffering-on-GTK3.patch to fix the
+  toolbar displaying problem. (boo#890568)
+
+-----------------------------------------------------------------------------
+
+o Updated gvfs (security/bugfix/feature)
+
+- Add gvfs-hal-volume-monitor-memory-leak.patch (bnc#924621)
+  gvfs-hal-volume-monitor memory issue
+- Add gvfs-monitor-proxy-debug.patch (bnc#903858)
+  Disable the monitor proxy debug by default.
+
+-----------------------------------------------------------------------------
+
+o Updated haveged (security/bugfix/feature)
+
+- haveged.service: reverted the dependency on systemd-journald.socket
+  for now, as it causes a dependency loop. bsc#949728
+- modules-setup.sh should be module-setup.sh in dracut, also 755
+- add dependency on systemd-journald.socket to make haveged
+  really start before journald in the initrd. bsc#898669
+- add fix-enforced-clock-gettime.patch to fix build on generic
+  platforms like e.g. aarch64, which is only needed due to
+  our (non-recommended choice) of using gettime (fate#318370)
+
+-----------------------------------------------------------------------------
+
+o Updated hwinfo (security/bugfix/feature)
+
+- scsi serial id: read vpd page 0x80 from sysfs, if possible (bsc#949287)
+- 21.23
+- Add a general README.md
+- Split README into README-legacy and README-hwprobe
+- 21.22
+
+-----------------------------------------------------------------------------
+
+o Updated installation-images-SLES (security/bugfix/feature)
+
+- drop console=ttyS0 from s390x cd boot options (bsc#944443)
+- 14.200
+- fix SUSEConnect integration (bsc#949934)
+- 14.199
+- Add link to linux-devtools documentation
+- Let the top-level README be only a pointer.
+- Removed leftover file; see doc/README.md doc/files.md
+- Try to display docs both on GitHub and ReadTheDocs
+- 14.198
+- adjust module config to latest kernel
+- 14.196
+
+-----------------------------------------------------------------------------
+
+o Updated iproute2 (security/bugfix/feature)
+
+- man-fix-documentation-references-in-manual-pages.patch:
+  replace Debian specific documentation references by SUSE ones
+  (bsc#949063)
+
+-----------------------------------------------------------------------------
+
+o Updated ipset (security/bugfix/feature)
+
+- add aarch64-counter-extension-ipset.patch (backport from 6.24)
+  for aarch64 builds since those are building against kernel 4.1
+  (fate#318444)
+- Enable RT KMP build (bsc#948840)
+
+-----------------------------------------------------------------------------
+
+o Updated kdump (security/bugfix/feature)
+
+- kdump-move-SFTP-to-own-file.patch: Split off SSH transfers from
+  transfer.cc (FATE#318874, bsc#917747).
+- kdump-sftppacket.patch: Class to encode/decode SFTP packets
+  (FATE#318874, bsc#917747).
+- kdump-SFTPTransfer-base.patch: Dummy SFTPTransfer based on
+  external ssh command (FATE#318874, bsc#917747).
+- kdump-drop-KSFTPErrorCode-libssh2-dep.patch: Drop KSFTPErrorCode
+  dependency on libssh2 (FATE#318874, bsc#917747).
+- kdump-sftp-init-session.patch: Initialize an SFTP session
+  (FATE#318874, bsc#917747).
+- kdump-sftp-mkpath.patch: Implement SFTPTransfer::mkpath and call
+  it at initialization (FATE#318874, bsc#917747).
+- kdump-sftp-file-create.patch: Implement file create and close for
+  SFTP (FATE#318874, bsc#917747).
+- kdump-sftp-data-transfer.patch: Implement file data transfer over
+  SFTP (FATE#318874, bsc#917747).
+- kdump-openssh-files-in-kdumprd.patch: Copy openssh files to
+  kdumprd (FATE#318874, bsc#917747).
+- kdump-drop-libssh2-dep.patch: Drop dependency on libssh2
+  (FATE#318874, bsc#917747).
+- kdump-fadump-umount.patch: Clean up kdump mounts before
+  continuing with FADUMP (bsc#923790).
+- kdump-fadump-reboot.patch: Honour KDUMP_IMMEDIATE_REBOOT with
+  FADUMP (bsc#917846).
+- kdump-netcheck-0001-routable-class.patch: Add Routable class
+  (bsc#944201).
+- kdump-netcheck-0002-netlink-timeout.patch: Add timeout handling
+  to NetLink receive (bsc#944201).
+- kdump-netcheck-0003-target-check.patch: Add a network check with
+  configurable timeout (bsc#944201).
+- kdump-fadump-message-on-load.patch: FADUMP: Improve init script
+  diagnostics (bsc#944699).
+- kdump-always-create-multipath.conf.patch: Always create a
+  multipath.conf in kdumprd (bsc#948956).
+- kdump-limit-max-udev-workers.patch: Limit number of udev workers
+  to 8 (bsc#944606, bsc#947825).
+- kdump-udev-reload-only-once.patch: Reload kdump only once if
+  multiple udev events happen in parallel (bsc#934581).
+- kdump-fix-mkdumprd-regenerate.patch: Rename CONFIG to
+  KDUMP_CONFIG (bsc#946242).
+- kdump-device-timeout.patch: Re-introduce the timeout generator;
+  adding RequiresMountsFor= does not fully solve the original
+  issue (bsc#909515, bsc#943902).
+- kdump-fate318842-0006-improve-small-x86_64.patch: Improve
+  calibrate on small x86_64 systems (FATE#318842, bsc#947539).
+
+-----------------------------------------------------------------------------
+
+o Updated kernel-source (security/bugfix/feature)
+
+- intel_pstate: Adjust performance knobs on servers for SLES
+  (bnc#945201).
+- commit b7c2b74
+- Refresh
+  patches.suse/btrfs-8241-update-fix-for-read-corruption-of-compressed-a.patch.
+- commit 6d8479e
+- rpm/kernel-obs-build.spec.in: Add virtio_rng to the initrd
+  This allows to feed some randomness to the OBS workers.
+- commit fbb0589
+- cxgb4: add device ID for few T5 adapters (bsc#948225).
+- commit 8b1ca0a
+- macvlan: Support bonding events (bsc#948521).
+- commit fbf4a48
+- enclosure: fix WARN_ON removing an adapter in multi-path devices
+  (bsc#949629).
+- commit 351c33d
+- intel_pstate: Add SKY-S support (bsc#949260).
+- commit 134391c
+- ipvs: drop first packet to dead server (bsc#946078).
+- commit 3088523
+- btrfs: change max_inline default to 2048 (bsc#949472).
+- Btrfs: set default max_inline to 8KiB instead of 8MiB (bsc#949472).
+- commit a7cd517
+- xhci: change xhci 1.0 only restrictions to support xhci 1.1
+  (bnc#949463).
+- commit d775f48
+- Reenable call scsi_activate_tcq() per SCSi target and enabled tagged_support inside struct scsi_device (bsc#922632).
+- commit 3011bcb
+- Refresh
+  patches.suse/btrfs-8361-Btrfs-keep-dropped-roots-in-cache-until-transaction-.patch.
+- commit b5d3ee1
+- Btrfs: fix order by which delayed references are run
+  (bnc#949440).
+- commit 3c3434e
+- NVMe: Don't write cq doorbell on suspended queues (bsc#948374).
+- commit 705e0ea
+- NVMe: Fix ioctl passthrough length calculation (bsc#948374).
+- NVMe: Return busy status on suspended queue (bsc#948374).
+- commit 99525c6
+- NVMe: Stripe queue IRQ vector assignments (bsc#948374).
+- commit 08f2cb3
+- ipv6: Remove un-used argument from ip6_dst_alloc() (bsc#947321).
+- ipv6: Remove DST_METRICS_FORCE_OVERWRITE and _rt6i_peer
+  (bsc#947321).
+- commit b1d0c4c
+- kgr: reserve a place in thread_struct for storing RIP onx86_64
+  (fate#313296).
+- x86: Use entering[_ack]_irq() instead of open coding it
+  (fate#315887).
+- Update Xen patches to 3.12.48 and c/s 1293.
+- Refresh patches.xen/xen3-patch-3.9 (bsc#946312).
+- Refresh other Xen patches.
+- commit 31d6a80
+- kabi: memcg: high limit placeholder (fate#312101).
+  re-introduce the kabi placeholder in the correct directory this time.
+  All the kabi related stuff before kabi freeze are supposed to go
+  into patches.suse.
+- commit c1efc43
+- Delete patches.kabi/* workarounds
+- commit d2ab76f
+- perf/x86/uncore/hsw-ep: Handle systems with only two SBOXes
+  (FATE#318983, bsc#949360).
+- perf/x86/intel/uncore: Fix IRP uncore register offsets on
+  Haswell EP (FATE#318983, bsc#949360).
+- perf/x86/intel/uncore: Fix boot crash on SBOX PMU on Haswell-EP
+  (FATE#318983, bsc#949360).
+- commit 0eb30a3
+- Refresh
+  patches.suse/btrfs-8346-btrfs-qgroup-Add-the-ability-to-skip-given-qgroup-fo.patch.
+- commit 16e082a
+- Refresh
+  patches.drivers/0001-usb-Add-USB-3.1-SuperSpeedPlus-device-capability-des.patch.
+- Refresh
+  patches.drivers/0002-usb-store-the-new-usb-3.1-SuperSpeedPlus-device-capa.patch.
+- commit e662a48
+- With fake signal, CPU-bound stack-inspection-based optimization is
+  redundant. CPU-bound tasks get migrated on their return to userspace
+  from IPI handling. The optimization is based on fragile stack heuristic.
+  So drop it. (bsc#948685)
+- Refresh patches.suse/kgr-0039-kgr-fix-ugly-race.patch.
+- Refresh
+  patches.suse/kgr-0072-kgr-use-for_each_process_thread.patch.
+- Refresh
+  patches.suse/kgr-0079-kgr-fix-migration-of-kthreads-to-the-new-universe.patch.
+- Delete
+  patches.suse/kgr-0021-kgr-x86-optimize-handling-of-CPU-bound-tasks.patch.
+- Delete
+  patches.suse/kgr-0104-fix-unwinder-and-user-addresses.patch.
+- commit 47b0870
+- more kABI padding in USB (bnc#949044).
+- usb: store the new usb 3.1 SuperSpeedPlus device capability
+  descriptor (bnc#949044).
+- usb: Add USB 3.1 SuperSpeedPlus device capability descriptor
+  (bnc#949044).
+- commit 42ccacb
+- supported.conf: Fix dependencies on ppc64le
+  of_mdio needed by mdio-gpio
+- commit c0993a7
+- tcp: tso: remove tp->tso_deferred (bsc#937086).
+- commit a4f6154
+- qlcnic: Update version to 5.3.63 (bsc#922064 FATE#318609).
+- qlcnic: Don't use kzalloc unncecessarily for allocating large
+  chunk of memory (bsc#922064 FATE#318609).
+- qlcnic: Add new VF device ID 0x8C30 (bsc#922064 FATE#318609).
+- qlcnic: Print firmware minidump buffer and template header
+  addresses (bsc#922064 FATE#318609).
+- qlcnic: Add support to enable capability to extend minidump
+  for iSCSI (bsc#922064 FATE#318609).
+- qlcnic: Rearrange ordering of header files inclusion (bsc#922064
+  FATE#318609).
+- qlcnic: Fix corruption while copying (bsc#922064 FATE#318609).
+- net: qlcnic: Deletion of unnecessary memset (bsc#922064
+  FATE#318609).
+- net: qlcnic: clean up sysfs error codes (bsc#922064
+  FATE#318609).
+- ethernet: codespell comment spelling fixes (bsc#922064
+  FATE#318609).
+- treewide: Fix typo in printk messages (bsc#922064 FATE#318609).
+- qlcnic: Fix trivial typo in comment (bsc#922064 FATE#318609).
+- qlcnic: Delete existing multicast MAC list before adding new
+  (bsc#922064 FATE#318609).
+- qlogic: Deletion of unnecessary checks before two function calls
+  (bsc#922064 FATE#318609).
+- qlcnic: Fix return value in qlcnic_probe() (bsc#922064
+  FATE#318609).
+- qlcnic: Update version to 5.3.62 (bsc#922064 FATE#318609).
+- qlcnic: Fix number of arguments in destroy tx context command
+  (bsc#922064 FATE#318609).
+- qlcnic: Fix programming number of arguments in a command
+  (bsc#922064 FATE#318609).
+- qlcnic: Fix ordering of stats in stats buffer (bsc#922064
+  FATE#318609).
+- qlcnic: Remove __QLCNIC_DEV_UP bit check to read TX queues
+  statistics (bsc#922064 FATE#318609).
+- qlcnic: Fix memory corruption while reading stats using ethtool
+  (bsc#922064 FATE#318609).
+- qlcnic: Use qlcnic_83xx_flash_read32() API instead of lockless
+  version of the API (bsc#922064 FATE#318609).
+- treewide: Fix typo in printk (bsc#922064 FATE#318609).
+- qlcnic: Add support to run firmware POST (bsc#922064
+  FATE#318609).
+- qlcnic: Use usleep_range() instead of msleep() for sleep less
+  than 20ms (bsc#922064 FATE#318609).
+- qlcnic: Add support for 0x8830 device ID (bsc#922064
+  FATE#318609).
+- qlcnic: Update Link speed and port type info for 83xx adapter
+  (bsc#922064 FATE#318609).
+- qlcnic: Fix endianess issue in firmware load from file operation
+  (bsc#922064 FATE#318609).
+- qlcnic: Fix endianess issue in FW dump template header
+  (bsc#922064 FATE#318609).
+- qlcnic: Fix flash access interface to application (bsc#922064
+  FATE#318609).
+- qlcnic: Initialize dcbnl_ops before register_netdev (bsc#922064
+  FATE#318609).
+- qlcnic: Set driver version before registering netdev (bsc#922064
+  FATE#318609).
+- qlcnic: Fix update of ethtool stats (bsc#922064 FATE#318609).
+- qlcnic: Update version to 5.3.61 (bsc#922064 FATE#318609).
+- qlcnic: Enhance Tx timeout debug data collection (bsc#922064
+  FATE#318609).
+- qlcnic: Update version to 5.3.60 (bsc#922064 FATE#318609).
+- qlcnic: Optimize ring count validations (bsc#922064
+  FATE#318609).
+- qlcnic: Pre-allocate DMA buffer used for minidump collection
+  (bsc#922064 FATE#318609).
+- qlcnic: remove duplicate QLC_83XX_GET_LSO_CAPABILITY define
+  (bsc#922064 FATE#318609).
+- qlcnic: Initialize mailbox cmd structure to zero (bsc#922064
+  FATE#318609).
+- qlogic: Use time_before() (bsc#922064 FATE#318609).
+- net: get rid of SET_ETHTOOL_OPS (bsc#922064 FATE#318609).
+- qlcnic: Update version to 5.3.59 (bsc#922064 FATE#318609).
+- qlcnic: Collect firmware dump using DMA on 82xx adapters
+  (bsc#922064 FATE#318609).
+- qlcnic: Add mac learning support to SR-IOV VF (bsc#922064
+  FATE#318609).
+- qlcnic: Add support to process commands in atomic context
+  (bsc#922064 FATE#318609).
+- qlcnic: Allow SR-IOV VF probe in hypervisor (bsc#922064
+  FATE#318609).
+- qlcnic: Set real_num_{tx|rx}_queues properly (bsc#922064
+  FATE#318609).
+- qlcnic: Fix panic while dumping TX queues on TX timeout
+  (bsc#922064 FATE#318609).
+- qlcnic: Update version to 5.3.58 (bsc#922064 FATE#318609).
+- qlcnic: Limit vNIC support in legacy interrupt mode (bsc#922064
+  FATE#318609).
+- qlcnic: Add driver logs in error path (bsc#922064 FATE#318609).
+- qlcnic: Allow setting TX interrupt coalescing parameters from VF
+  (bsc#922064 FATE#318609).
+- commit c2432c9
+- qlcnic: Add hwmon interface to export board temperature
+  (bsc#922064 FATE#318609).
+- Update config files.
+- commit 907c8cf
+- qlcnic: Optimize MAC learning code (bsc#922064 FATE#318609).
+- commit b48e8b2
+- qlcnic: Fix build failure due to undefined reference to
+  `vxlan_get_rx_port' (bsc#922064 FATE#318609).
+- Update config files.
+- commit f9de3d6
+- qlcnic: Add VXLAN Rx offload support (bsc#922064 FATE#318609).
+- qlcnic: Add VXLAN Tx offload support (bsc#922064 FATE#318609).
+- commit 8a05857
+- Refresh
+  patches.arch/0001-x86-kvm-svm-Use-WARN_ON_ONCE-for-missing-X86_FEATURE_NRIPS.patch.
+  Upstream status.
+- commit 02a0a90
+- target/rbd: fix PR info memory leaks (bnc#948831).
+- target/rbd: fix COMPARE AND WRITE page vector leak (bnc#948831).
+- commit 0e96e3b
+- Refresh
+  patches.fixes/nvme-0098-avoid-infinite-loop-on-broken-device.patch.
+- commit 9a4eb92
+- NVMe: Avoid infinite loop on broken device (bsc#948374).
+- commit 22a8535
+- kgr: wake up kthreads periodically (fate#313296).
+- kgr: fix migration of kthreads to the new universe
+  (fate#313296).
+- commit 63b337b
+- Drivers: hv: utils: run polling callback always in interrupt
+  context (bnc#943529).
+- commit 5db68f5
+- x86/hyperv: Fix the build in the !CONFIG_KEXEC_CORE case.
+- Drivers: hv: vmbus: fix init_vp_index() for reloading hv_netvsc.
+- commit 88d79b2
+- ipv6: addrconf: validate new MTU before applying it (bsc#944296
+  CVE-2015-0272).
+- commit 9bf46cc
+- Update mainline reference
+  patches.fixes/netfilter-nf_conntrack_proto_sctp-minimal-multihomin.patch.
+- commit 0bff168
+- Linux 3.12.49 (CVE-2015-5283 bnc#942509 bsc#939834 bsc#947155
+  bsc#939716).
+- Refresh
+  patches.fixes/0001-md-split-detach-operation-out-from-stop.patch.
+- Refresh
+  patches.fixes/0003-md-protect-pers-changes-with-mddev-lock.patch.
+- Delete
+  patches.fixes/Input-evdev-do-not-report-errors-form-flush.
+- Delete patches.fixes/nfsv4-dont-set-for-O_RDONLY.
+- Delete
+  patches.fixes/sctp-fix-race-on-protocol-netns-initialization.patch.
+- Delete
+  patches.suse/btrfs-8217-check-if-previous-transaction-aborted-to-avoid.patch.
+- Update config files.
+  CONFIG_ARM64_ERRATUM_843419 is not set
+  If anybody needs that, they should create a bnc or fate.
+- commit 3ced81a
+- Refresh
+  patches.drivers/0006-mpt3sas-provides-the-physical-location-of-sas-drives.patch.
+- commit a303442
+- Initialize msg/shm IPC objects before doing ipc_addid()
+  (bsc#948536, CVE-2015-7613).
+- commit 314f0e3
+- Refresh
+  patches.suse/btrfs-8239-fix-stale-dir-entries-after-unlink-inode-evict.patch.
+- Refresh
+  patches.suse/btrfs-8240-fix-stale-dir-entries-after-removing-a-link-an.patch.
+  Commented some lines in the commit message of the patch files, because
+  those lines confuse gnu's 'patch' and make it fail as reported by
+  Jean Delvare.
+- commit bf98106
+- supported.conf: Fix indentation
+- commit e7e44b8
+- rtc: cmos: Revert "rtc-cmos: Add an alarm disable quirk"
+  (bsc#930145).
+- rtc: cmos: Cancel alarm timer if alarm time is equal to now+1
+  seconds (bsc#930145).
+- Refresh patches.xen/xen-x86-EFI.
+- commit 5c9ab22
+- ipv6: Check RTF_LOCAL on rt->rt6i_flags instead of rt->dst.flags
+  (bsc#947321).
+- kABI: protect struct rt6_info changes from bsc#947321 changes
+  (bsc#947321).
+- ipv6: Stop rt6_info from using inet_peer's metrics (bsc#947321).
+- ipv6: Stop /128 route from disappearing after pmtu update
+  (bsc#947321).
+- ipv6: Extend the route lookups to low priority metrics
+  (bsc#947321).
+- ipv6: Consider RTF_CACHE when searching the fib6 tree
+  (bsc#947321).
+- commit b8374dd
+- SCSI: Fix hard lockup in scsi_remove_target() (bsc#944749).
+- commit 6739364
+- apparmor: temporary work around for bug while unloading policy
+  (boo#941867).
+- commit 2c81711
+- supported.conf: Add missing dependencies of supported modules
+  hwmon_vid needed by nct6775
+  hwmon_vid needed by w83627ehf
+  reed_solomon needed by ramoops
+- commit c057de8
+- genirq: Make sure irq descriptors really exist when
+  __irq_alloc_descs returns (bsc#945626).
+- commit 9b067e5
+- iommu/vt-d: Create RMRR mappings in newly allocated domains
+  (bsc#943916).
+- iommu/vt-d: Split iommu_prepare_identity_map (bsc#943916).
+- commit 7778e75
+- Use WARN_ON_ONCE for missing X86_FEATURE_NRIPS (bsc#947537).
+- commit fe3a97e
+- kgr: reserve a place in thread_struct for storing RIP on x86_64
+  (fate#313296).
+- commit ed5cf6a
+- Update config files. (bnc#946374)
+  add CONFIG_INTEL_PMC_IPC=m
+- commit f9c5995
+- watchdog: iTCO_wdt: Add support for TCO on Intel Sunrisepoint
+  (bnc#946374).
+- mfd: watchdog: iTCO_wdt: Expose watchdog properties using
+  platform data (bnc#946374).
+- intel_pmc_ipc: Add Intel Apollo Lake PMC IPC driver
+  (bnc#946374).
+- watchdog: use dev_get_platdata() (bnc#946374).
+- i2c: i801: Create iTCO device on newer Intel PCHs (bnc#946374).
+- i2c: i801: Use managed pcim_* PCI device initialization and
+  reservation (bnc#946374).
+- i2c: i801: Remove pci_enable_device() call from i801_resume()
+  (bnc#946374).
+- i2c: i801: Use managed devm_* memory and irq allocation
+  (bnc#946374).
+- i2c: i801: Remove i801_driver forward declaration (bnc#946374).
+- i2c: i801: Don't break user-visible strings (bnc#946374).
+- commit 945e700
+- NVMe: Mismatched host/device page size support (bsc#935961).
+- commit 6ad7736
+- Refresh
+  patches.suse/btrfs-8226-fix-read-corruption-of-compressed-and-shared-e.patch.
+- commit ff65eec
+- Btrfs: update fix for read corruption of compressed and shared
+  extents (bsc#948256).
+- commit 8f10ebd
+- Update patches.kernel.org/patch-3.12.39-40 (FATE#315482
+  LTC#111793 CVE-2015-2666 FATE#316038 bnc#883741 bnc#892612
+  bnc#907969 bnc#914726 bnc#920262 bsc#921313 bsc#921990
+  bsc#922944 bnc#854993 FATE#315929 bnc#877098 LTC#110078
+  bsc#919463 CVE-2015-2150 XSA-120 bnc#927257 CVE-2015-3331
+  bsc#869564 CVE-2014-2568).
+  Update References to include bsc#869564/CVE-2014-2568.
+- commit cd8b05d
+- Refresh
+  patches.drivers/drm-i915-Avoid-race-of-intel_crt_detect_hotplug-with-HPD-interrupt-v2.patch.
+- drm/i915: Avoid race of intel_crt_detect_hotplug() with HPD
+  interrupt, v2 (bsc#942938).
+- Delete
+  patches.drivers/drm-i915-Avoid-race-of-intel_crt_detect_hotplug-with-HPD-interrupt.patch.
+- commit fca6378
+- btrfs: qgroup: account shared subtree during snapshot delete
+  (bnc#935087, bnc#945649).
+- btrfs: Add qgroup tracing (bnc#935087, bnc#945649).
+- Btrfs: keep dropped roots in cache until transaction commit,
+  V2 (bnc#935087, bnc#945649).
+- Btrfs: use btrfs_get_fs_root in resolve_indirect_ref
+  (bnc#935087, bnc#945649).
+- btrfs: qgroup: Fix a regression in qgroup reserved space
+  (bnc#935087, bnc#945649).
+- btrfs: qgroup: Make snapshot accounting work with new
+  extent-oriented qgroup (bnc#935087, bnc#945649).
+- btrfs: qgroup: Add the ability to skip given qgroup for
+  old/new_roots (bnc#935087, bnc#945649).
+- btrfs: ulist: Add ulist_del() function (bnc#935087, bnc#945649).
+- btrfs: qgroup: Cleanup the old ref_node-oriented mechanism
+  (bnc#935087, bnc#945649).
+- btrfs: qgroup: Switch self test to extent-oriented qgroup
+  mechanism (bnc#935087, bnc#945649).
+- btrfs: qgroup: Switch to new extent-oriented qgroup mechanism
+  (bnc#935087, bnc#945649).
+- btrfs: qgroup: Switch rescan to new mechanism (bnc#935087,
+  bnc#945649).
+- btrfs: qgroup: Add new qgroup calculation function
+  btrfs_qgroup_account_extents() (bnc#935087, bnc#945649).
+- btrfs: backref: Add special time_seq == (u64)-1 case for
+  btrfs_find_all_roots() (bnc#935087, bnc#945649).
+- btrfs: qgroup: Add new function to record old_roots (bnc#935087,
+  bnc#945649).
+- btrfs: qgroup: Record possible quota-related extent for qgroup
+  (bnc#935087, bnc#945649).
+- btrfs: qgroup: Add function qgroup_update_counters()
+  (bnc#935087, bnc#945649).
+- btrfs: qgroup: Add function qgroup_update_refcnt() (bnc#935087,
+  bnc#945649).
+- btrfs: extent-tree: Use ref_node to replace unneeded parameters
+  in __inc_extent_ref() and __free_extent() (bnc#935087,
+  bnc#945649).
+- btrfs: qgroup: Cleanup open-coded old/new_refcnt update and read
+  (bnc#935087, bnc#945649).
+- btrfs: delayed-ref: Cleanup the unneeded functions (bnc#935087,
+  bnc#945649).
+- btrfs: delayed-ref: Use list to replace the ref_root in ref_head
+  (bnc#935087, bnc#945649).
+- btrfs: backref: Don't merge refs which are not for same block
+  (bnc#935087, bnc#945649).
+- Btrfs: remove transaction from send (bnc#935087, bnc#945649).
+- btrfs: qgroup: move WARN_ON() to the correct location
+  (bnc#935087, bnc#945649).
+- btrfs: fix leak in qgroup_subtree_accounting() error path
+  (bnc#935087, bnc#945649).
+- Btrfs: fix comp_oper to get right order (bnc#935087,
+  bnc#945649).
+- commit 4e1e213
+- Btrfs: fix stale dir entries after removing a link and fsync
+  (bnc#942925).
+- Btrfs: fix stale dir entries after unlink, inode eviction and
+  fsync (bnc#942925).
+- Btrfs: fill ->last_trans for delayed inode in btrfs_fill_inode
+  (bnc#942925).
+- Btrfs: fix stale directory entries after fsync log replay
+  (bnc#942925).
+- Btrfs: fix metadata inconsistencies after directory fsync
+  (bnc#942925).
+- Btrfs: make btrfs_search_forward return with nodes unlocked
+  (bnc#942925).
+- commit d2d6134
+- kexec: fix out of the ELF headers buffer issue in syscall
+  kexec_file_load() (bnc#942802).
+- commit 1c87b0e
+- md: clear CHANGE_PENDING in readonly array (bsc#941530).
+- md/raid1: ensure device failure recorded before write request
+  returns (bsc#941530).
+- commit 8f7fce6
+- sctp: fix race on protocol/netns initialization (bsc#947155,
+  CVE-2015-5283).
+- commit e0b2806
+- md: Return error if request_module fails and returns positive
+  value (bsc#947506).
+- commit f5b8cf8
+- RDS: verify the underlying transport exists before creating
+  a connection (bsc#945825, CVE-2015-6937).
+- commit cbfd50e
+- xhci: rework cycle bit checking for new dequeue pointers
+  (bnc#944028).
+- xhci: Workaround for PME stuck issues in Intel xhci
+  (bnc#944028).
+- commit 1a49ced
+- Refresh
+  patches.drivers/ixgbe-0119-ixgbe-Remove-tail-write-abstraction-and-add-missing-.patch.
+- Delete
+  patches.drivers/ixgbe-0080-ixgbe-flush-when-in-xmit_more-mode-and-under-descrip.patch.
+  (bsc#944602 bsc#946826)
+- commit 9a2d92d
+- BTRFS: support NFSv2 export (bnc#929871).
+- commit e41cbad
+- sched, numa: do not hint for NUMA balancing on VM_MIXEDMAP
+  mappings (bnc#943573).
+- mm: numa: disable change protection for vma(VM_HUGETLB)
+  (bnc#943573).
+- commit 6f4b412
+- Btrfs: fix incorrect compression ratio detection (fate#316463).
+- Btrfs: incremental send, fix clone operations for compressed
+  extents (fate#316463).
+- Btrfs: use right clone root offset for compressed extents
+  (fate#316463).
+- btrfs: zero out left over bytes after processing compression
+  streams (fate#316463).
+- btrfs compression: merge inflate and deflate z_streams
+  (fate#316463).
+- btrfs: use E2BIG instead of EIO if compression does not help
+  (fate#316463).
+- btrfs: return errno instead of -1 from compression
+  (fate#316463).
+- btrfs: fix inline compressed read err corruption (fate#316463).
+- commit cffac10
+- sched: Fix cpu_active_mask/cpu_online_mask race (bsc#936773).
+- Delete
+  patches.fixes/x86-smpboot-Check-for-cpu_active-on-cpu-initializati.patch.
+- commit cb14f5b
+- PCI: Set MPS to match upstream bridge (bsc#943313).
+- PCI: Move MPS configuration check to pci_configure_device()
+  (bsc#943313).
+- commit d3b9a59
+- Btrfs: fix read corruption of compressed and shared extents
+  (bnc#946906).
+- Btrfs: fix file read corruption after extent cloning and fsync
+  (bnc#946902).
+- commit 2770f49
+- Refresh
+  patches.suse/btrfs-8217-check-if-previous-transaction-aborted-to-avoid.patch.
+- commit bfccc69
+- Make sure XPRT_CONNECTING gets cleared when needed (bsc#946309).
+- commit 66ed2f8
+- net/mlx4_en: Use PTYS register to set ethtool settings (Speed)
+  (bsc#945710).
+- net/mlx4_en: Use PTYS register to query ethtool settings
+  (bsc#945710).
+- ethtool, net/mlx4_en: Add 100M, 20G, 56G speeds ethtool
+  reporting support (bsc#945710).
+- net/mlx4_core: Add ethernet backplane autoneg device capability
+  (bsc#945710).
+- net/mlx4_core: Introduce ACCESS_REG CMD and eth_prot_ctrl dev
+  cap (bsc#945710).
+- commit f86875f
+- rcu: Reject memory-order-induced stall-warning false positives (bnc#941908).
+- commit 9c8a9fc
+- tcp: refine TSO autosizing (bsc#937086).
+- commit 3a76883
+- kabi: fix ppc64le and s390x symvers and symtypes
+  They don't build with Ceph support, but are still affected by the
+  related LIO target changes.
+- commit 699c4b2
+- Cherry pick SLE12-SP1:f2179c151a6e56f4914664f0548826cc631076e1
+- cpufreq: intel_pstate: Add CPU ID for Braswell processor (fate#318533).
+- intel_pstate: Add CPU IDs for Broadwell processors (fate#318532).
+- intel_pstate: Add CPUID for BDW-H CPU (fate#318532).
+- intel_pstate: Add support for SkyLake (fate#318533).
+- intel_pstate: Correct BYT VID values (bnc#907973, FATE#316038).
+- intel_pstate: Remove periodic P state boost (bnc#907973, FATE#316038).
+- intel_pstate: add sample time scaling (bnc#907973, FATE#316038, bnc#924722, bnc#916543).
+- intel_pstate: don't touch turbo bit if turbo disabled or unavailable (bnc#907973, FATE#316038).
+- intel_pstate: remove setting P state to MAX on init (bnc#907973, FATE#316038).
+- intel_pstate: remove unneeded sample buffers (bnc#907973, FATE#316038).
+- intel_pstate: set BYT MSR with wrmsrl_on_cpu() (bnc#907973, FATE#316038).
+- Refresh patches.drivers/intel_pstate-Add-setting-voltage-value-for-baytrail-P-states.patch.
+- Refresh patches.drivers/intel_pstate-Add-support-for-Baytrail-turbo-P-states.patch.
+- Refresh patches.drivers/intel_pstate-Fix-BYT-frequency-reporting.patch.
+- Refresh patches.drivers/intel_pstate-Fix-setting-VID.patch.
+- Refresh patches.drivers/intel_pstate-Set-turbo-VID-for-BayTrail.patch.
+- Refresh patches.drivers/intel_pstate-Use-LFM-bus-ratio-as-min-ratio-P-state.patch.
+- commit 5631966
+- rpm/kernel-spec-macros: Include the version string in the Obsoletes line
+- commit 083cdb4
+- rpm/kernel-binary.spec.in: Obsolete previous builds of the same package (boo#867595)
+- commit ffb73eb
+- NVMe: Add shutdown timeout as module parameter
+  (bnc#936076,FATE#318544).
+- commit 13d383b
+
+-----------------------------------------------------------------------------
+
+o Updated kexec-tools (security/bugfix/feature)
+
+- kexec-tools-xen-inhibit-file-based-syscall.patch: To inhibit file
+  based syscall on XEN, using old syscall to load crash kernel.
+  (bsc#947172)
+- kexec-tools-load-crash-kernel-high.patch: Load crash kernel high
+  on x86 (bsc#946365).
+
+-----------------------------------------------------------------------------
+
+o Updated kiwi (security/bugfix/feature)
+
+- v7.02.72 released
+- Support multipath lookup for ZFCP devices on s390
+  The disk device the image was ipl'ed from might be configured to be
+  in a multipath stack. In this case it's required to use the mapped
+  device instead of one of the multipath targets directly. This is
+  related to (bnc#944017) and (bnc#946387)
+- v7.02.71 released
+- Update -requires matcher for SLE12 SP1
+  The macro %{suse_version} returns 1316 for SLE12 SP1, this must be
+  addressed in the spec file to let the internal -requires packages
+  contain the correct list for building images inside of the
+  buildservice (bsc#949046)
+- Rename SLE JeOS descriptions
+  In order to avoid a naming conflict with the JeOS product we agreed
+  on renaming the SLE JeOS description in kiwi to contain the community
+  keyword to separate this descriptions from the SUSE JeOS product
+  This addresses (fate#319430)
+- Fixed resetBootBind copy of boot data
+  Make sure to take hidden files into account
+- v7.02.70 released
+- Added Leap42.1 x86 boot image descriptions
+  Allow the buildservice to build against Leap (bsc#947328)
+- v7.02.69 released
+- Update mysystems macro in spec file
+  Support Leap and Tumbleweed distributions
+- Fix grub2-mkimage on PowerPC
+  Signed-off-by: Dinar Valeev <dvaleev@suse.com>
+- insmod video drivers (bsc#947328)
+- don't overwrite grub2 background image
+  The background image is already defined in theme.txt. Overwriting
+  breaks the editing menu (bsc#947326).
+- Added arm suse-tumbleweed vmx|oemboot descriptions
+- Added SLE12 example JeOS template for arm
+- Add root filesystem label to images
+  In order to allow devicepersistency="by-label" also for the
+  root filesystem, the setupFilesystem method has been extended
+  for all supported filesystems to add a root label too. The
+  default name for the root label is 'ROOT'. This addresses
+  bnc#946236
+- Arm boot images supports SLE12 and leap42.1
+- Added type attribute wwid_wait_timeout
+  multipath devices from a SAN system take some time to appear on
+  the host. In order to have all presented wwn's available on the
+  host it's required to wait some time because we can't poll for
+  the appearance of a specific device the wait period is now
+  customizable. The default wait period is 3 seconds
+- Fixed reading of search path for editboot* scripts
+  In build and create mode the origin path of the XML description was
+  not correctly initialized. kiwi skipped reading the meta information
+  from the unpacked image root tree because it already has a pointer
+  to the XML description, however this data set does not provide the
+  origin path of the kiwi call
+- Remove duplicate provide of kiwi-image:tbz
+- Fixed XML writer for array of objects
+  Elements which can appear multiple times like the vagrantconfig
+  element are stored as array of objects. The XML writer has to
+  iterate over the array and ask for the XML setup of each of
+  the objects inside of the array
+- Added custom hybridpersistent_filesystem attribute
+  By default kiwi creates a btrfs partition as write space for hybrid
+  live systems. With the new attribute one can specify also the 'fat'
+  filesystem as write space. This would allow to create hybrid live
+  images which are compatible with the Windows OS in a similar way
+  like kiwi's livestick tool does it. This Fixes #475
+
+-----------------------------------------------------------------------------
+
+o Updated libguestfs (security/bugfix/feature)
+
+- Add password default encryption method for sles. fate#318952
+- Add -l to zypper for install and update.
+- Create the .cache folder if it doesn't exist already.
+  bsc#939097.
+
+-----------------------------------------------------------------------------
+
+o Updated libpng15 (security/bugfix/feature)
+
+- correctly install library link [bnc#947278]
+
+-----------------------------------------------------------------------------
+
+o Updated libsolv (security/bugfix/feature)
+
+- fix bug in recommends handling [bnc#948482]
+- also check installed packages in multiversion handling
+- fix build on Mageia
+- bump version to 0.6.14
+- support a generic string for pattern-visible() [bnc#900769]
+- add a SOLVER_ALLOWUNINSTALL job type
+- add ordercycle introspection
+- fix mkmask handling of a zero size
+- support 'recommends' in repo_mdk.c
+- support filelist parsing in installcheck
+- bump version to 0.6.13
+
+-----------------------------------------------------------------------------
+
+o Updated libstorage (security/bugfix/feature)
+
+- changed some requires to suggests (bsc#907331 and bsc#915097)
+- 2.25.33
+
+-----------------------------------------------------------------------------
+
+o Updated libteam (security/bugfix/feature)
+
+- Add cap_net_raw.patch:
+  * CAP_NET_RAW capability is needed for packet sockets creation.
+- Update to new upstream release 1.21:
+  * libteam: check for definition of NLA_PUT_S* separately
+  * libteam: add missing "static inline" in nl_updates
+- Update to new upstream release 1.20:
+  * libteam: fix compile error with newer libnl
+- Update to new upstream release 1.19:
+  * Remove patches that went upstream:
+  - add_missing_prototypes_for_admin_state_functions.patch
+  - dont_fail_on_missing_port.patch
+  - drop_privileges_to_teamd_user.patch
+  - libteam_teamd_Track_admin_state_of_team_device.patch
+  - libteamdctl_fix_timeval_value_for_select.patch
+  - reduce_usock_file_permissions_to_700.patch
+  - teamd_lacp_Don_t_send_LACP_frames_when_master_team.patch
+  - teamd_loadbalance_mode_lacks_a_.hwaddr_changed.patch
+  * teamd: fix delay_up mistaken rename to queue_id
+  * teamd: lacp: update actor state before sending LACP frames
+  * teamd: add Before=network.target to systemd service file
+- Fix teamd deamon directory to /run/teamd (bsc#947542)
+- Fix teamd user directory to /var/lib/empty
+- Handle dbus policy file under tools package
+- Reload DBus daemon after tools package (un)installation in order
+  to (un)apply new policy (bsc#947542)
+- Add add_dbus_policy_template.patch
+- Do not call useradd command adding new 'teamd' user with an -o
+  option (bsc#947542)
+
+-----------------------------------------------------------------------------
+
+o Updated liburcu0 (security/bugfix/feature)
+
+- Update to version 0.8.8, required for upgrade of other lttng
+  packages from 2.7.0-rc1 to 2.7.0 (FATE#319273)
+  Changelog 0.8.8:
+  * Disable sys_membarrier
+  * Fix: volatile in assert()
+  * uatomic: Specify complete types for atomic function calls
+  * Fix: handle sys_futex() FUTEX_WAIT interrupted by signal
+  * Fix: compat_futex.c: *uaddr should be read as volatile
+  * Fix: make benchmark test run in oot build
+  * Fix: call_rcu_thread() affinity failure
+  * urcu: fix deprecation warning with new glibc
+
+-----------------------------------------------------------------------------
+
+o Updated libvirt (security/bugfix/feature)
+
+- spec: the libvirt apparmor profiles #include files from the
+  apparmor-profiles package, thus should have a dependency on it
+  bsc#949793
+- Fix profile_status to distringuish between errors and unconfined
+  domains. a1bdf04b-apparmor-dominfo.patch. bsc#948516
+- Update to libvirt 1.2.18.1 stable release
+  - Inherit many upstream bug fixes
+  - Drop patches included in the stable release
+    15120b8c-libxl-no-resume-on-suspend-fail.patch,
+    269d39af-storage-allocation-fix.patch,
+    26c5fa3a-virt-aa-helper-missing-doc.patch,
+    2f01cfdf-virt-aa-helper-allow-ovmf.patch,
+    3468542f-virFileUnlink.patch,
+    44a54eb0-libxl-fix-refcnt-MigrationDstArgs.patch,
+    52970dec-virt-aa-helper-improve-valid-path.patch,
+    56945e13-libxl-AttachDeviceConfig-hostdev.patch,
+    60acb38-revert-curmem-inactive-dom.patch,
+    8b1d84e6-refreshVol-failure.patch,
+    91fdcefa-virt-aa-helper-allow-nvram.patch,
+    d25a5e08-virt-aa-helper-simplify-restriction-logic.patch
+    e0025d29-storage-mode-check.patch,
+    e80b84a7-libxl-acquire-job-on-migrate.patch
+  - Drop signature file. Stable releases are not signed
+  - FATE#314466, FATE#314497, FATE#315157, FATE#318383
+
+-----------------------------------------------------------------------------
+
+o Updated libx86emu (security/bugfix/feature)
+
+- avoid using reserved c++ words
+- fix typo in Makefile
+- fix some compiler warnings
+- prepare for obs auto-submission
+- add VERSION file back
+- 1.5
+- better invalid code detection
+- fix instruction log for some instructions
+- create VERSION and changelog from git repo
+- log message
+- don't use 'i386'
+- properly decode all descriptor types
+
+-----------------------------------------------------------------------------
+
+o Updated libyui-ncurses-pkg (security/bugfix/feature)
+
+- Fix unselecting patterns for installation (unify behavior with
+  qt packager) (bnc#916568)
+- 2.48.2
+
+-----------------------------------------------------------------------------
+
+o Updated libyui-qt-pkg (security/bugfix/feature)
+
+- Better handling of secondary repository filters when there is
+  no enough screen space (bnc#876540)
+- 2.45.5
+
+-----------------------------------------------------------------------------
+
+o Updated libyui-qt (security/bugfix/feature)
+
+- fixed styling for the release notes dialog content (bsc#947167)
+- 2.46.21
+
+-----------------------------------------------------------------------------
+
+o Updated libzypp (security/bugfix/feature)
+
+- Update zypp-po.tar.bz2
+- Update zypp-po.tar.bz2
+- fix suse_version test (bsc#949046)
+- version 15.19.2 (19)
+- Locks: fix using namespaces (for FATE#318299)
+- version 15.19.1 (19)
+- fix reserved identifier violation (fixes #51)
+- solver: speed up collecting pool data to build the job queue
+- doc: short abstract about 'Code 12 Application Metadata'
+- version 15.19.0 (19)
+- solver verify: multiversion property needs to be assigned to
+  installed items too.
+- ZYppCommitResult: add attemptToModify to indicate an attempt to
+  actually install/remove was made (bsc#946750, FATE#319467)
+- version 15.18.0 (14)
+- SetTracker: fix computation of change sets (bsc#946898)
+- version 15.17.2 (14)
+- Pattern: support dynamic computation of pattern visibility (bsc#900769)
+- Avoid URL rewrite if probing local cache directories (bsc#946129)
+- version 15.17.1 (14)
+
+-----------------------------------------------------------------------------
+
+o Updated linuxrc (security/bugfix/feature)
+
+- ensure ifcfg options don't get lost (bsc#948774)
+- 5.0.60
+- put udev modprobe rules file into /run so it doesn't get copied into the
+  final system (bsc#947807)
+- 5.0.59
+- Add documentation about how the project is sent to the distribution
+- 5.0.58
+
+-----------------------------------------------------------------------------
+
+o Updated lio-utils (security/bugfix/feature)
+
+- Revert changes that tried to create lio_setup.sh
+  and tcm_setup.sh if they did not exist (bsc#945835)
+
+-----------------------------------------------------------------------------
+
+o Updated lttng-modules (security/bugfix/feature)
+
+- Enable RT KMP build (bsc#948840)
+- Upgrade to release version 2.7.0 (FATE#319273)
+  See http://git.lttng.org/?p=lttng-modules.git;a=blob_plain;f=ChangeLog;hb=v2.7.0
+  for changelog from v2.7.0-rc1 to v2.7.0
+
+-----------------------------------------------------------------------------
+
+o Updated lttng-tools (security/bugfix/feature)
+
+- Upgrade to release version 2.7.0 (FATE#319273)
+  http://git.lttng.org/?p=lttng-tools.git;a=blob_plain;f=ChangeLog;hb=v2.7.0
+  to view changelog from v2.7.0-rc1 to v2.7.0
+
+-----------------------------------------------------------------------------
+
+o Updated lttng-ust (security/bugfix/feature)
+
+- Update to relese version v2.7.0 (FATE#319273)
+  See http://git.lttng.org/?p=lttng-ust.git;a=blob_plain;f=ChangeLog;hb=v2.7.0
+  for changelog from v2.7.0-rc1 to v2.7.0
+
+-----------------------------------------------------------------------------
+
+o Updated mcelog (security/bugfix/feature)
+
+- Instead of adding new supported CPU patches, jump to latest version (1.2.4).
+  This sounds like a big version jump, but mcelog is in maintenance mode and
+  did only get some patches over the last years.
+  Beside two new manpages describing the already available triggers and
+  the mcelog.conf file, only CPU updates and bug fixes get added.
+- Add skylake support (bnc#946734)
+  Also some broadwell models, knights landing and quite some atom processors
+  are now recognized as well.
+- Avoid warnings at boot up (bsc#920197)
+
+-----------------------------------------------------------------------------
+
+o Updated mdadm (security/bugfix/feature)
+
+- 0001-IMSM-Clear-migration-record-on-disks-more-often.patch
+  Ensure IMSM migration record cleared after a reshape
+  (bsc#943028)
+- 0002-imsm-simplified-multiple-OROMs-support.patch
+  0002-IMSM-Count-arrays-per-orom.patch
+  Don't create more IMSM array then OROM supports
+  (bsc#943026)
+- 0002-mdadm-make-cluster-raid-also-could-support-re-add.patch
+  Further md-cluster support
+  (fate#316335)
+- 69-clustermd.rules: only run clustermd-confirm.sh if the
+  'change' request is for adding a device to a clustered array.
+- 0001-Increment-version-for-clustered-bitmaps.patch
+  0002-Do-not-create-bad-block-log-for-clustered-devices.patch
+  Update to match upstream version
+- 0001-config-new-option-to-suppress-adding-bad-block-lists.patch
+  0001-mdmon-don-t-include-super0-and-super1-in-mdmon.patch
+  backported to support above updates.
+  (fate#316335)
+- 0004-mdadm-make-cluster-raid-also-could-support-re-add.patch
+  Partial spport for --re-add in clusters
+  (bsc#941697)
+- 0001-Assemble-correctly-capture-error-from-write_bitmap.patch
+  0002-main-remove-use-of-uninitialized-rv.patch
+  Bug fixes in md-cluster patches.
+  (fate#316335)
+- 0003-Assemble-don-t-assemble-IMSM-array-without-OROM.patch
+  0004-Assemble-really-don-t-assemble-IMSM-array-without-OR.patch
+  Assembling an IMSM array when disabled in OROM can lead to
+  data corruption.  So best to disable it.
+  (bsc#939748 bsc#937363)
+
+-----------------------------------------------------------------------------
+
+o Updated mozilla-nspr (security/bugfix/feature)
+
+- update to version 4.10.9
+  * bmo#1021167: Leak of |poll_list| on failure in _MW_PollInternal
+  * bmo#1030692: Make compiling nspr on windows possible again.
+  * bmo#1088790: dosprint() doesn't support %zu and other size formats
+  * bmo#1130787: prtime.h does not compile with MSVC's /Za (ISO C/C++
+    conformance) option
+  * bmo#1153610: MIPS64: Add support for n64 ABI
+  * bmo#1156029: Teach clang-analyzer about PR_ASSERT
+  * bmo#1160125: MSVC version detection is broken CC is set to a wrapper
+    (like sccache)
+  * bmo#1163346: Add NSPR support for FreeBSD mips/mips64
+  * bmo#1169185: Add support for OpenRISC (or1k)
+  * bmo:1174749: Remove configure block for iOS that uses MACOS_SDK_DIR
+  * bmo#1174781: PR_GetInheritedFD can use uninitialized variables
+
+-----------------------------------------------------------------------------
+
+o Updated net-snmp (security/bugfix/feature)
+
+- revert the --disable-md5 as it breaks various applications bsc#944302
+- net-snmp-reenable-md5-fips.patch: allow MD5 in FIPS mode for the api.
+
+-----------------------------------------------------------------------------
+
+o Updated netcfg (security/bugfix/feature)
+
+- Use linux.suse instead linux.site bnc#948531
+
+-----------------------------------------------------------------------------
+
+o Updated nfs-utils (security/bugfix/feature)
+
+- 0001-mountd-fix-next_mnt-handling-for.patch
+  Make sure 'crossmnt' works when exporting '/'
+  (bnc#945727)
+- nfsserver.service.  Provide ExecReload directive.
+  This allows "systemctl reload nfsserver" to work.
+  PropagatesReloadTo but itself is not enough if this
+  unit doesn't have it's own Reload James_handler.
+  (bsc#947296)
+
+-----------------------------------------------------------------------------
+
+o Updated nss_ldap (security/bugfix/feature)
+
+- Rename patch files to be prefixed with a numeric sequence number.
+- Back port a bug fix from upstream release 266 -
+  "fix for BUG#412: don't close nested contexts"
+  in order to resolve an LDAP connection issue in one-shot operation mode.
+  bsc#934444
+
+-----------------------------------------------------------------------------
+
+o Updated open-iscsi (security/bugfix/feature)
+
+- isns: exit with success when terminated with SIGTERM (bsc#948561)
+- isns: Adding signal managment around DB update,
+  and ignore empty DB file (bsc#941791)
+- isns: Remove the debugging output from isnsd (bsc#949443)
+- added patch submitted upstream by QLogic:
+  iscsiuio: Add QLogic Vendor ID to support newer NX2 HBAs
+- open-isns: For bsc#941944:
+- open-isns: For bsc#941791:
+
+-----------------------------------------------------------------------------
+
+o Updated openCryptoki (security/bugfix/feature)
+
+- Added /var/lib/opencryptoki/lite/TOK_OBJ token directory (bsc#943070)
+- Added ocki-3.2_02_ep11-token-incorrectly-copied-the-public-key-object-.patch
+  - Fixed two public key object inclusion in EP11 token (bsc#946808)
+- Added ocki-3.2_03_ICSF-Token-C_SignUpdate-was-sometimes-segfaulting-an.patch
+  - Fixed GPF when calling C_SignUpdate using ICFS toekn (bsc#946172)
+- Added ocki-3.2_04_CKA_EC_POINT-is-not-required-in-the-ECDSA-private-ke.patch
+  - Fixed failure to import ECDSA because of lack of attribute (bsc#948114)
+
+-----------------------------------------------------------------------------
+
+o Updated openhpi (security/bugfix/feature)
+
+- make permissions more strict on the configuration (bsc#916934)
+- added openhpi-3.4.0_no_md5.patch:
+  make openhpi build again when md5 is disabled in net-snmp.
+  Our net-snmp is built without MD5 so you can not use that
+  authentication option anymore and have to use SHA.
+
+-----------------------------------------------------------------------------
+
+o Updated openscap (security/bugfix/feature)
+
+- openscap-new-inventory.patch: detect SUSE SLE versions in
+  the CPE inventory. bsc#939789
+- scap-yast2sec-xccdf.xml: use the current correct CPE name
+  for SLES 12. bsc#939789
+
+-----------------------------------------------------------------------------
+
+o Updated openssl (security/bugfix/feature)
+
+- clear openssl error when fips selftests fail in non-fips mode
+  (bsc#947104)
+  * added openssl-fips-clearerror.patch
+
+-----------------------------------------------------------------------------
+
+o Updated openvswitch (security/bugfix/feature)
+
+- Enable RT KMP build (bsc#948840)
+
+-----------------------------------------------------------------------------
+
+o Updated oracleasm (security/bugfix/feature)
+
+- Enable RT KMP build (bsc#948840)
+
+-----------------------------------------------------------------------------
+
+o Updated os-prober (security/bugfix/feature)
+
+- Improve-btrfs-handling-on-os-probing-for-grub2.patch
+  * Improve btrfs handling on os-probing for grub2 (bsc#892364)
+
+-----------------------------------------------------------------------------
+
+o Updated parted (security/bugfix/feature)
+
+- Relax condition to recognize true GPT to avoid misdetection of
+  gpt_sync_mbr. This prevents switching from gpt to gpt_sync_mbr
+  while fixing GPT headers after the disk is resized (bnc#946641)
+  - modify parted-gpt-mbr-sync.patch
+  - remove parted-workaround-windows7-gpt-implementation.patch
+    (not needed with the relaxed condition)
+
+-----------------------------------------------------------------------------
+
+o Updated patterns-sles (security/bugfix/feature)
+
+- added rollback-helper to minimal patern [bsc#947107]
+
+-----------------------------------------------------------------------------
+
+o Updated perl-Bootloader (security/bugfix/feature)
+
+- rework boot.readme (bsc#948778)
+- 0.844
+- fix extended partition detection (bsc#947697)
+- 0.843
+
+-----------------------------------------------------------------------------
+
+o Updated perl-IO-Socket-SSL (security/bugfix/feature)
+
+- add DHE-RSA to the default client cipher list to support PFS with
+  older machines (bnc#924976)
+  * added perl-IO-Socket-SSL_add_DHE-RSA_to_default_client_cipher_list.patch
+
+-----------------------------------------------------------------------------
+
+o Updated postfix (security/bugfix/feature)
+
+- Update to upstream version 2.11.6:
+  * Bugfix: sender_dependent_relayhost_maps ignored the relayhost
+    setting in the case of a DUNNO lookup result.
+  * Robustness: don't segfault due to excessive recursion after a
+    faulty configuration runs into the virtual_alias_recursion_limit.
+  * Bugfix: core dump when smtp_policy_maps specifies an invalid
+    TLS level.
+  * Bugfix: qmqpd null pointer bug when it logs a lost connection
+    while not in a mail transaction.
+  * Bugfix (introduced: Postfix 2.11): with connection caching
+    enabled (the default), recipients could be given to the wrong
+    mail server. (bsc#944722)
+  * Security: opportunistic TLS by default uses "medium" or
+    stronger ciphers instead of "export" or stronger.
+  * Security: Postfix TLS support by default no longer uses
+    SSLv2 or SSLv3.
+- Remove references to SuSEconfig.postfix from sysconfig docs.
+  (bsc#871575)
+- Adapt postfix-linux4.patch and rename to postfix-linux45.patch
+
+-----------------------------------------------------------------------------
+
+o Updated postgresql94-libs (security/bugfix/feature)
+
+- Security and bugfix release 9.4.5:
+  * CVE-2015-5289, bsc#949670: json or jsonb input values
+    constructed from arbitrary user input can crash the PostgreSQL
+    server and cause a denial of service.
+  * CVE-2015-5288, bsc#949669: The crypt() function included with
+    the optional pgCrypto extension could be exploited to read a
+    few additional bytes of memory. No working exploit for this
+    issue has been developed.
+- For the full release notse, see:
+  http://www.postgresql.org/docs/current/static/release-9-4-5.html
+- Move systemd related stuff and user creation to postgresql-init.
+- Remove some obsolete %suse_version conditionals
+- Adjust build time dependencies.
+- Fix some more rpmlint warnings.
+- Relax dependency on libpq to major version.
+- Make sure that plpgsql.h gets installed, because pldebugger
+  needs it.
+- Move ~postgres/.bash_profile to postgresql-server to avoid a
+  file conflict between the versioned server packages.
+- Bring PostgreSQL 9.4 to SLE12 (fate#319049).
+
+-----------------------------------------------------------------------------
+
+o Updated postgresql94 (security/bugfix/feature)
+
+- Security and bugfix release 9.4.5:
+  * CVE-2015-5289, bsc#949670: json or jsonb input values
+    constructed from arbitrary user input can crash the PostgreSQL
+    server and cause a denial of service.
+  * CVE-2015-5288, bsc#949669: The crypt() function included with
+    the optional pgCrypto extension could be exploited to read a
+    few additional bytes of memory. No working exploit for this
+    issue has been developed.
+- For the full release notse, see:
+  http://www.postgresql.org/docs/current/static/release-9-4-5.html
+- Move systemd related stuff and user creation to postgresql-init.
+- Remove some obsolete %suse_version conditionals
+- Adjust build time dependencies.
+- Fix some more rpmlint warnings.
+- Relax dependency on libpq to major version.
+- Make sure that plpgsql.h gets installed, because pldebugger
+  needs it.
+- Move ~postgres/.bash_profile to postgresql-server to avoid a
+  file conflict between the versioned server packages.
+
+-----------------------------------------------------------------------------
+
+o Updated python-base (security/bugfix/feature)
+
+- add __python2 compatibility macro (used by Fedora) (fate#318838)
+
+-----------------------------------------------------------------------------
+
+o Updated python-cryptography (security/bugfix/feature)
+
+- require the cffi version it was built against to avoid (bsc#948198)
+- Add 2293.patch for "osrandom engine already registered" (bnc#947679)
+
+-----------------------------------------------------------------------------
+
+o Updated python-libmount (security/bugfix/feature)
+
+- Fix fsck -C {fd} parsing (bsc#923777, bsc#903738,
+  util-linux-fsck-C_fd.patch).
+- Implement fsck -r {fd} (bsc#923777, bsc#903738,
+  util-linux-fsck-implement-fsck-r_fd.patch).
+- Add patches to fix lsblk output in some situations (bsc#943415,
+  util-linux-lsblk-dependencies.patch,
+  util-linux-lsblk-inverse-tree.patch,
+  util-linux-lsblk-mountpoint-toplevel.patch).
+
+-----------------------------------------------------------------------------
+
+o Updated python-rtslib (security/bugfix/feature)
+
+- Add explicit Provides for "python-rtslib-rbd", to advertise Ceph RBD
+  backstore support; (bnc#947555).
+- Hardcode Release tag for SES2 release.
+- Load the RBD backstore kernel module during initialization, if
+  available; (bnc#945230).
+  + rtslib-load-rbd-mod-on-startup.patch
+- Add support for the Ceph RBD backend; (fate#318836); (fate#319433).
+  + rtslib-fb-rbd-support.patch
+- Fixed TPG disable logic; (bnc#940216).
+  + rtslib-fix_support_for_disabled_tpgs.patch
+-Bug fix for BNC#907029-configFS mounted problem under root user in SLE12 python-rtslib
+
+-----------------------------------------------------------------------------
+
+o Updated python-six (security/bugfix/feature)
+
+- Submit 1.9.0 to SLE-12 (fate#319030, fate#318838, bsc#940812)
+- update to version 1.9.0
+- sanitize release line in specfile
+
+-----------------------------------------------------------------------------
+
+o Updated python-xattr (security/bugfix/feature)
+
+- require the cffi version it was built against to avoid (bsc#948198)
+- update to version 0.7.5:
+  * Improved error message when str/unicode is passed where bytes is
+    required
+  * Improved Python 3 compatibility
+  * Added some unicode-specific tests
+
+-----------------------------------------------------------------------------
+
+o Updated python3-base (security/bugfix/feature)
+
+- add python-2.7-libffi-aarch64.patch to fix incorrect FFI on aarch64
+- python-fix-short-dh.patch,dh2048.pem:
+  Bump DH parameters to 2048 bit to fix logjam security issue. bsc#935856
+
+-----------------------------------------------------------------------------
+
+o Updated qemu (security/bugfix/feature)
+
+- Clean up DictZip and tar block drivers (bsc#945778)
+  0028-block-Add-support-for-DictZip-enabl.patch
+  0029-block-Add-tar-container-format.patch
+  0050-dictzip-Fix-on-big-endian-systems.patch
+- Fix potential hang in emulated e1000 nic (bsc#944697 CVE-2015-6815)
+- Fix potential DoS in virtio-net (bsc#947159 CVE-2015-7295)
+- Patch queue updated from https://gitlab.suse.de/virtualization/qemu.git SLE12-SP1
+  * Patches added:
+  0057-virtio-introduce-virtqueue_unmap_sg.patch
+  0058-virtio-introduce-virtqueue_discard.patch
+  0059-virtio-net-correctly-drop-truncated.patch
+  0060-e1000-Avoid-infinite-loop-in-proces.patch
+- Split off qemu-testsuite package (backport from openSUSE)
+- List data files explicitly (backport from openSUSE)
+  * Move u-boot.e500 from qemu package to qemu-ppc where it belongs
+  * Do not package stock firmware files in qemu package on non-x86_64
+- Fix pxe boot for pre v1.5 machine types (bsc#946020)
+  * Patches added:
+  ipxe-zbin-Remove-now-unused-unnrv2b.S-de.patch
+  ipxe-zbin-Fix-check-for-existence-of-mos.patch
+- Fix vulnerability in ide emulation - potential divide-by-zero.
+  (CVE-2015-6855 bsc#945404)
+- Patch queue updated from https://gitlab.suse.de/virtualization/qemu.git SLE12-SP1
+  * Patches added:
+  0056-ide-fix-ATAPI-command-permissions.patch
+
+-----------------------------------------------------------------------------
+
+o Updated release-notes-sles (security/bugfix/feature)
+
+- 12.1.20151008 (bsc#933411):
+- Update release notes from FATE.
+
+-----------------------------------------------------------------------------
+
+o Updated rollback-helper (security/bugfix/feature)
+
+- added Supplements dependency on snapper
+- fixed dependencies of the service file
+- perform the registration tollback action (fate#319118)
+
+-----------------------------------------------------------------------------
+
+o Updated samba (security/bugfix/feature)
+
+- Relocate the tmpfiles.d directory to the client package; (bnc#947552).
+
+-----------------------------------------------------------------------------
+
+o Updated sapconf (security/bugfix/feature)
+
+- Implement fate#319480 - [ECO] Include tuned architecture in sapconf
+  * Replace the entire sapconf package content with tune daemon SAP profiles,
+  * The executables remain compatible with the original sapconf implementation.
+  * Following files are removed from package source:
+  LGPL
+  README
+  SAPconf
+  SAPconf-reconfig
+  SAPconf.8
+  config.b64
+  functions
+  sapconf
+  sapconf.8
+  sapconf.service
+  * Following file is added into package source:
+  sapconf.tgz
+
+-----------------------------------------------------------------------------
+
+o Updated sg3_utils (security/bugfix/feature)
+
+- Correct fix of udev rule (bsc#949315)
+  * Refresh: remove-stray-comma-in-udev-rule.patch
+- Fix udev rule (bsc#949315)
+  * Add: remove-stray-comma-in-udev-rule.patch
+
+-----------------------------------------------------------------------------
+
+o Updated sles-manuals_en (security/bugfix/feature)
+
+- Update text and image files (git: 6ae12bc)
+  (dummy bsc#933411).
+
+-----------------------------------------------------------------------------
+
+o Updated smt (security/bugfix/feature)
+
+- version 3.0.6
+- create a symlink to repo/SUSE when exporting to directory
+  (bsc#949361)
+- version 3.0.5
+- Set obsoleted_service_name to same service name (bsc#948551)
+- fix the location of the SSL CA Truststore in clientSetup4SMT.sh
+- upgrade from SMT11 does not preserve SCCcredentials permissions
+  (bsc#943568)
+- implement rollback for ServicePack migration feature
+  (FATE#319133, FATE#319134)
+
+-----------------------------------------------------------------------------
+
+o Updated snappy (security/bugfix/feature)
+
+- Version bump to 1.1.3:
+  * See the NEWS file for full details
+- Switch to distribution from github
+- Remove upstreamed patch:
+  * snappy-1.1.1-random-return.patch
+- Add baselibs.conf: build snappy1-32bit, as needed by
+  libqt5-qtwebengine-32bit.
+- Update to version 1.1.2
+  - This is a maintenance release with no changes to the actual
+    library source code.
+  * Stop distributing benchmark data files that have unclear
+    or unsuitable licensing.
+  * Add support for padding chunks in the framing format.
+
+-----------------------------------------------------------------------------
+
+o Updated suse-module-tools (security/bugfix/feature)
+
+- Revert change for fate#319339, as some 3rd party KMPs are built
+  with a modified template (bsc#949862).
+
+-----------------------------------------------------------------------------
+
+o Updated susehelp (security/bugfix/feature)
+
+- Replaced SuSE with SUSE in the packages' summaries and
+  descriptions (bnc#938724)
+
+-----------------------------------------------------------------------------
+
+o Updated systemd-presets-branding-SLE (security/bugfix/feature)
+
+- enable rollback.service, FATE#319118 / bsc#948824
+- enable opal_errd.service (ppc64 specific) (bsc#945390)
+- enable the sapconf.service (one shot) (bsc#944761)
+
+-----------------------------------------------------------------------------
+
+o Updated systemd (security/bugfix/feature)
+
+- Add patch rename_ro_bootparam_to_readonly.patch
+  There are systems out there where "ro" is already in use!
+  Regardless if this is a bug or not, it is not an option to
+  break existing systems.
+- revert io scheduler for ssd disks to use deadline (fate#319110)
+  Remove 1095-set-ssd-disk-to-use-noop-scheduler.patch
+  Re-add 1095-set-ssd-disk-to-use-deadline-scheduler.patch
+- Add patch
+  0001-virt-handle-Virtualbox-5.0-with-kvm-hypervisor.patch
+  to support Virtualbox 5.0 as this release now supports the
+  kvm hypervisor (boo#948705)
+- suppress warnings about duplicate sysfs paths (bsc#947212)
+  Add ported upstream patch:
+  core-downgrade-warning-about-duplicate-device-names.patch
+- Change patch 1101-rules-persistent-device-names-for-NVMe-devices.patch
+  to apply even if patch 1012-Skip-persistent-device-link-creation-on-multipath-de.patch
+  has been removed
+- rules: rework KVM persistent rules generation (bsc#938908)
+  Add 1105-rules-rework-KVM-persistent-rules-generation.patch
+- rootsymlink_generator: always return success even if stat fails (bsc#945282)
+  Add 1103-rootsymlink_generator-return-success-even-if-stat-fails.patch
+- udev: exclude device-mapper from block device ownership event locking (bsc#944799)
+  Add 1104-udev-exclude-device-mapper-from-block-device-ownersh.patch
+- The patch fix-kexec-force-reboot.patch has been added (bsc#940264)
+- Add patch watchdog-ignore-ENOTTY.patch
+  Not all watchdog drivers implement WDIOC_SETOPTIONS. Drivers which do
+  not implement it have their device always enabled. So it's fine to
+  report an error if WDIOS_DISABLECARD is passed and the ioctl is not
+  implemented, however failing when WDIOS_ENABLECARD is passed and the
+  ioctl is not implemented is not good: if the device was already
+  enabled then WDIOS_ENABLECARD was a no-op and wasn't needed in the
+  first place. So we can just ignore the error and continue (bsc#933533)
+- Add patch let-vconsole-setup-get-properties-only-once-to-copy-them.patch
+  to avoid broken virtual console mapping due stressed ioctl API
+  for the virtual consoles (boo#904214)
+- firstboot: remove SUSE specific bits for locale handling. The system locale
+  handling is currently broken on SUSE distros and probably is going to be
+  fixed. Until this happens, we shouldn't try to add another undefined
+  behaviour during firstboot. Indeed the patch only copied
+  /etc/sysconfig/language *or* /etc/locale.conf but not both. If locale
+  setting was not copied but prompted, only /etc/locale.conf was initialized
+  making any further locale changes done by YaST useless.
+- Removed patch firstboot_for_suse.patch included some fixes when
+  setting permission bits on the copied locale.conf. Include a new
+  single patch 0001-firstboot-fix-permission-bits-initialisation-done-on.patch
+  for restoring these previous fixes.
+- Add upstream patches
+  0001-core-introduce-new-Delegate-yes-no-property-controll.patch
+  0001-unit-suppress-unnecessary-cgroup-empty-check.patch
+  0002-units-enable-waiting-for-unit-termination-in-certain.patch
+  all related to cgroup handling, at least the last patch avoids
+  that processes in scopes like login shells are killed immediately
+  after signaled with SIGTERM (bsc#932284)
+- Add patch
+  correct-order-of-compose-and-key-map.patch
+  to avoid race condition for two loadkey processes, that is one
+  loading the keymap and one for loading the compose tables (bsc#941576)
+- firstboot: create a proper patch headers for firstboot patches.
+- firstboot: add upstream fix "load-fragment: ConditionFirstBoot wants a bool
+  string, not a path".
+- Don't mount system root rw, if ro is given as boot parameter (bsc#900558)
+    Add respect_ro_bootparam.patch
+- installed systemd and udev packages should have the same version.
+  These days udev and systemd are so related that it doesn't semm correct to
+  allow running systemd with udev having a different version.
+- make TERM configurable for vm serial consoles (bsc#913517)
+  Add term-serial-console-vm.patch
+- Add upstream patch found by Franck Bui
+  0001-units-local-fs.target-don-t-pull-in-default-dependen.patch
+  to avoid delay while booting with nofail entries in fstab (boo#912334)
+- Add patch firstboot_for_suse.patch that is make firstboot backport
+  work for SUSE
+- Change use-rndaddentropy-ioctl-to-load-random-seed.patch to
+  make it work on big endian
+- Remove patch use-rndaddentropy-ioctl-to-load-random-seed-s390.patch
+  as now the workaround is obsolate on big endian
+- Add firstboot.patch: backport firstboot helper and
+  ConditionFirstBoot support from upstream (FATE#318894).
+- Add upstream patch 0001-Reload-manager-defaults-at-daemon-reload.patch
+  to enable systemd to parse /etc/systemd/system.conf on daemon
+  reload (bsc#933521)
+- Add upstream patch
+  0001-sd-bus-create-clean-error-when-a-property-Set-call-w.patch
+  to avoid stucked sbus connection due invalid dbus call (bsc#937900)
+- Add Correct_assert_on_unexpected_error_code.patch to work around
+  a problem of an assert on ENODEV for closing fd on an input
+  event device (boo#939571)
+- Add patch 0001-cgroup-memory-limits-on-are-not-supported.patch
+  which fixes bsc#937512 - systemd Failed to set
+  memory.limit_in_bytes on : Invalid argument
+- Avoid restarting logind [bnc#934901]
+
+-----------------------------------------------------------------------------
+
+o Updated targetcli (security/bugfix/feature)
+
+- Add explicit Provides for "targetcli-rbd", to advertise RBD module
+  support. Similarly, use "python-rtslib-rbd" Requires; (bnc#947555).
+- Hardcode Release tag for SES2 release.
+- Add support for the Ceph RBD backend; (fate#318836); (fate#319433).
+  + targetcli-fb-rbd.patch
+- Allow portals for nonexistent IP addresses; (bnc#940531).
+  + targetcli-allow-nonexistent-portal-ips.patch
+
+-----------------------------------------------------------------------------
+
+o Updated tftp (security/bugfix/feature)
+
+- tftp-hpa-0.48-macros-crash.patch:
+  prevent buffer overflow in handling of \x macro (bnc#793883)
+- tftp-hpa-0.48-macros-v6mapped.patch:
+  for \i and \x, expand v6-mapped addresses as native IPv4
+  (bnc#793883)
+- patches come from Michal Kubecek
+- respond from the destination address taken from the first udp
+  message's ancillary data (bnc#928283)
+
+-----------------------------------------------------------------------------
+
+o Updated tigervnc (security/bugfix/feature)
+
+- u_tigervnc-vncserver-clean-pid-files.patch
+  * vncserver: Clean pid files of dead processes. (bnc#948392)
+
+-----------------------------------------------------------------------------
+
+o Updated ucode-intel (security/bugfix/feature)
+
+- Update to latest microcode version 20150121 (bnc#913004)
+
+-----------------------------------------------------------------------------
+
+o Updated update-test-trival (security/bugfix/feature)
+
+- Version bump for SLE12-SP1
+- moved 32bit-testpackage into separate subpackage
+- drop noarch
+- add baselibs.conf
+- Version bump
+
+-----------------------------------------------------------------------------
+
+o Updated util-linux-systemd (security/bugfix/feature)
+
+- Fix fsck -C {fd} parsing (bsc#923777, bsc#903738,
+  util-linux-fsck-C_fd.patch).
+- Implement fsck -r {fd} (bsc#923777, bsc#903738,
+  util-linux-fsck-implement-fsck-r_fd.patch).
+- Add patches to fix lsblk output in some situations (bsc#943415,
+  util-linux-lsblk-dependencies.patch,
+  util-linux-lsblk-inverse-tree.patch,
+  util-linux-lsblk-mountpoint-toplevel.patch).
+
+-----------------------------------------------------------------------------
+
+o Updated util-linux (security/bugfix/feature)
+
+- Fix fsck -C {fd} parsing (bsc#923777, bsc#903738,
+  util-linux-fsck-C_fd.patch).
+- Implement fsck -r {fd} (bsc#923777, bsc#903738,
+  util-linux-fsck-implement-fsck-r_fd.patch).
+- Add patches to fix lsblk output in some situations (bsc#943415,
+  util-linux-lsblk-dependencies.patch,
+  util-linux-lsblk-inverse-tree.patch,
+  util-linux-lsblk-mountpoint-toplevel.patch).
+
+-----------------------------------------------------------------------------
+
+o Updated virt-manager (security/bugfix/feature)
+
+- bsc#949566 - virt-manager: Doesn't detect openSUSE 42 correctly
+  virtinst-pvgrub2-bootloader.patch
+- bsc#947288 - qemu-img doesn't support anymore creating cow format
+  image
+  f30975c3-drop-cow-support.patch
+- bsc#947129 - Error launching manager: 'URI' is not in list
+  virtman-show-suse-install-repos.patch
+- bsc#919420 - virt-manager: installation of vm on pp64le: Couldn't
+  find hvm kernel for SUSE tree.
+  virtinst-add-ppc64-arch-support.patch
+- Upstream bug fix to console if running on Xen
+  601a82cb-fix-console_type-if-xen.patch
+
+-----------------------------------------------------------------------------
+
+o Updated vm-install (security/bugfix/feature)
+
+- Fix use of zypper when getting installation repos (bsc#947129)
+  This is a virt-manager bug that also effects vm-install
+- Fix host detection of openSUSE Leap
+- Updated language files
+- Version 0.8.46
+
+-----------------------------------------------------------------------------
+
+o Updated wicked (security/bugfix/feature)
+
+- version 0.6.26
+- nanny: add link device references to policy match (bsc#941611)
+  This causes, that nanny checks and waits until the configuration
+  for link references is applied by ifup (master device worker is
+  available) in order to not start managing ports/slaves and fail
+  on unresolvable requirements with "document error" first.
+  Unavailable reference matches caused a timing race, where nanny
+  omits to enslave ports into master (e.g. a dummy into ovsbr),
+  but was not limited to ovs setups.
+- dhcp4: fix to request offer by default in --test (bsc#942278)
+- teamd: adjust permissions of the teamd interface config to be
+  owned by teamd user if available and to always re-read dbus
+  busname from the service file (bsc#947542)
+- version 0.6.25
+- compat: read complete sysctl file set (bsc#928459)
+- wireless: fixed to parse/format hex escapes in essid (bsc#928459)
+
+-----------------------------------------------------------------------------
+
+o Updated wireshark (security/bugfix/feature)
+
+- Wireshark 1.12.7 [bnc#941500]
+  The following vulnerabilities have been fixed:
+  * Wireshark could crash when adding an item to the protocol tree.
+    wnpa-sec-2015-21
+  * Wireshark could attempt to free invalid memory.
+    wnpa-sec-2015-22
+  * Wireshark could crash when searching for a protocol dissector.
+    wnpa-sec-2015-23
+  * The ZigBee dissector could crash.
+    wnpa-sec-2015-24
+  * The GSM RLC/MAC dissector could go into an infinite loop.
+    wnpa-sec-2015-25
+  * The WaveAgent dissector could crash.
+    wnpa-sec-2015-26
+  * The OpenFlow dissector could go into an infinite loop.
+    wnpa-sec-2015-27
+  * Wireshark could crash due to invalid ptvcursor length checking.
+    wnpa-sec-2015-28
+  * The WCCP dissector could crash.
+    wnpa-sec-2015-29
+  * Further bug fixes and updated protocol support as listed in:
+    https://www.wireshark.org/docs/relnotes/wireshark-1.12.7.html
+- Delete some backported patches which is already included in 1.12.7
+  - wireshark-CVE-2015-3813.patch
+  - wireshark-1.12-gsm-dtap.patch
+  - wireshark-1.10.12-fix-wmem-headers.patch
+- Backport fix from 1.12.6 [bnc#935158]
+  wireshark-1.12-gsm-dtap.patch
+
+-----------------------------------------------------------------------------
+
+o Updated xdm (security/bugfix/feature)
+
+- Fix display-manager wrapper: only call TakeDevices in case $DM
+  actually fails to start. This was the reason why gdm often failed
+  to start with permission denied (depending on timing, gdm might
+  fired up X before TakeDevices passed, X would receive the tty7
+  by means of logind and TakeDevices reset the permissions again)
+  (boo#939594).
+- Replaced font resources for login screen with font face names.
+  Since xdm is now built with Xft support, it uses face names for
+  client side rendered fonts. The settings for screen widths >= 800
+  are the xdm defaults. For smaller screens the sizes are reduced
+  so they fit the screen better (bsc#940263).
+- Avoid confusion of user: add '-' to font names in etc/X11/xdm/Xresources.
+  This is not required for the font names used in the file but some others.
+  (bsc#940263).
+
+-----------------------------------------------------------------------------
+
+o Updated xen (security/bugfix/feature)
+
+- bsc#949138 - Setting vcpu affinity under Xen causes libvirtd
+  abort
+  54f4985f-libxl-fix-libvirtd-double-free.patch
+- bsc#949046 - Increase %suse_version in SP1 to 1316
+  xen.spec
+- Update README.SUSE detailing dom0 ballooning recommendations
+- bsc#945167 - Running command ? xl pci-assignable-add 03:10.1?
+  secondly show errors
+  55f7f9d2-libxl-slightly-refine-pci-assignable-add-remove-handling.patch
+- Upstream patches from Jan
+  55f2e438-x86-hvm-fix-saved-pmtimer-and-hpet-values.patch
+  55f9345b-x86-MSI-fail-if-no-hardware-support.patch
+  5604f239-x86-PV-properly-populate-descriptor-tables.patch
+  5604f2e6-vt-d-fix-IM-bit-mask-and-unmask-of-FECTL_REG.patch
+  560a4af9-x86-EPT-tighten-conditions-of-IOMMU-mapping-updates.patch
+  560a7c36-x86-p2m-pt-delay-freeing-of-intermediate-page-tables.patch
+  560a7c53-x86-p2m-pt-ignore-pt-share-flag-for-shadow-mode-guests.patch
+  560bd926-credit1-fix-tickling-when-it-happens-from-a-remote-pCPU.patch
+  560e6d34-x86-p2m-pt-tighten-conditions-of-IOMMU-mapping-updates.patch
+- bsc#941074 - VmError: Device 51728 (vbd) could not be connected.
+  Hotplug scripts not working.
+  hotplug-Linux-block-performance-fix.patch
+- bsc#947165 - VUL-0: CVE-2015-7311: xen: libxl fails to honour
+  readonly flag on disks with qemu-xen (xsa-142)
+  CVE-2015-7311-xsa142.patch
+
+-----------------------------------------------------------------------------
+
+o Updated xf86-input-evdev (security/bugfix/feature)
+
+- Added add-smooth-scrolling-config-options.diff and
+  add-evdev-prop-scroll-distance-definition.diff (both from upstream)
+  to provide a definition for EVDEV_PROP_SCROLL_DISTANCE,
+  defined in a more recent version of xf86-input-evdev.
+- 50-elotouch.conf: Make sure an 'TouchSystems CarrollTouch 4500U'
+  is an absolute device (bnc#876089)
+
+-----------------------------------------------------------------------------
+
+o Updated xf86-input-vmmouse (security/bugfix/feature)
+
+- U_dont-dereference-pmse-if-it-hasnt-been-initialised.patch
+  Do not dereference pointers that weren't allocated if PreInit
+  failed. (bnc#922188)
+
+-----------------------------------------------------------------------------
+
+o Updated xf86-video-modesetting (security/bugfix/feature)
+
+- u_04-Add-missing-n-to-log-message.patch
+  u_05-Set-shadow_enable-TRUE-if-shadow_enable2-TRUE.patch
+  u_06-Add-a-shadow_pixmap-to-hold-information-on-shadow_fb2.patch
+  * Fix issues with double buffering (bsc#942871).
+-  u_01-modesetting-Implement-32-24-bpp-conversion-in-shadow-update.patch
+  u_02-modesetting-Implement-a-double-buffered-shadow-mode.patch
+  u_03-Fix-off-by-one-error-in-box-copying-routine.patch:
+  * Backport double buffered shadow mode to speed up remote management
+    cards (bsc#942871).
+
+-----------------------------------------------------------------------------
+
+o Updated xorg-x11-server (security/bugfix/feature)
+
+- u_vesa-Add-VBEDPMSGetCapabilities-VBEDPMSGet.patch
+  Add VBEDPMSGetCapabilities() and VBEDPMSGet() functions
+  (bsc#947356).
+
+-----------------------------------------------------------------------------
+
+o Updated yast2-add-on (security/bugfix/feature)
+
+- restart the installation workflow to activate the new
+  installation steps added by an add-on via installation.xml
+  (bsc#949185)
+- 3.1.11
+
+-----------------------------------------------------------------------------
+
+o Updated yast2-auth-client (security/bugfix/feature)
+
+- Fixed "Relax-NG parser error : Some defines for timeout needs the
+  combine attribute" when checking validity of any AutoYaST profile
+  (bsc#948206).
+- 3.3.3
+- Upgrade to version 3.3.2:
+  * Fix untranslated word in main dialog (bsc#948843)
+
+-----------------------------------------------------------------------------
+
+o Updated yast2-bootloader (security/bugfix/feature)
+
+- Fix proposing stage1 location in autoyast (bnc#948258)
+- 3.1.156
+- fix device map handling if there's no 'hd0' entry in it
+  (bsc#947730) by snwint
+- 3.1.155
+- Including a needed file. This is an additional fix for
+  bnc#930341.
+- 3.1.154
+- fix booting on ppc with /boot on software raid (bnc#940542)
+- 3.1.153
+- fix one click proposal change to behave reasonable
+- add warnings for missing generic_mbr or activate when really
+  missing (bnc#930341)
+- 3.1.152
+
+-----------------------------------------------------------------------------
+
+o Updated yast2-dns-server (security/bugfix/feature)
+
+- UI component for services handling moved from yast2-dns-server
+  to yast2 (fate#318771)
+- 3.1.17
+
+-----------------------------------------------------------------------------
+
+o Updated yast2-installation (security/bugfix/feature)
+
+- Language selection screen fixed to immediately apply the keyboard
+  layout after changing it automatically (bsc#947969).
+- 3.1.161
+- Simplified second stage systemd unit to avoid dependencies cycles
+  (bnc#947521 and bnc#931643). Logic moved to YaST startup scripts.
+- 3.1.160
+
+-----------------------------------------------------------------------------
+
+o Updated yast2-isns (security/bugfix/feature)
+
+- Do not die if connection to isnsd fails (bsc#941813)
+- 3.1.6
+
+-----------------------------------------------------------------------------
+
+o Updated yast2-kdump (security/bugfix/feature)
+
+- when fadump changed write show popup that reboot is needed
+  (bnc#945018)
+- 3.1.33
+- Prevent users from setting a combination of crashkernel values
+  that are bigger than the total memory (bnc#882082)
+- 3.1.32
+- Update AutoYaST rnc to allow specifying multiple values
+  for crash_kernel parameter (bnc#882082).
+- 3.1.31
+- Prevent kdumptool to be called more than once (bnc#882082)
+- 3.1.30
+
+-----------------------------------------------------------------------------
+
+o Updated yast2-migration (security/bugfix/feature)
+
+- fixed crash in the migration proposal (do not use "return"
+  for returning the client result value) (bsc#949484)
+- 3.1.13
+- display a hint to manually rollback the system when migration
+  fails or is aborted during package installation (FATE#315161)
+- 3.1.12
+- do not display the "success" dialog when the package installation
+  is aborted (bsc#947416)
+- 3.1.11
+
+-----------------------------------------------------------------------------
+
+o Updated yast2-network (security/bugfix/feature)
+
+- Fixed "Relax-NG parser error : Some defines for ipv6_forward
+  needs the combine attribute" when checking validity
+  of any AutoYaST profile (bsc#948206).
+- 3.1.133
+- bnc#900647
+  - fixed to accept an empty domain in /etc/hostname
+- 3.1.132
+- Moved "Network Settings" into "System" group also in the Gnome/GTK
+  control center (FATE#318804, bsc#867809).
+- 3.1.131
+- bnc#866742
+  - Do not fail with internal error when cloning configuration
+    twice in a row
+- 3.1.130
+
+-----------------------------------------------------------------------------
+
+o Updated yast2-packager (security/bugfix/feature)
+
+- repository manager - fixed switch between dvd:// and cd:// URL
+  scheme (bsc#947595)
+- 3.1.81
+- Repository editor can now manage urls with repo variables like
+  $arch, $releasever, etc. (bsc#944505)
+- 3.1.80
+- Added a filter showing only those repositories not belonging to
+  any service. (bnc#944504)
+- 3.1.79
+- handle properly the SLES11 SMT upgrade to SLES12 (evaluate all
+  removed products when checking product upgrades) (bsc#946717)
+- 3.1.78
+
+-----------------------------------------------------------------------------
+
+o Updated yast2-pkg-bindings (security/bugfix/feature)
+
+- Add pkgGpgCheck callback (bsc#948608)
+- 3.1.31
+- Added Pkg::SourceRawURL() and Pkg:ExpandedUrl() to deal with
+  repositories including repo variables (bnc#944505)
+- 3.1.30
+
+-----------------------------------------------------------------------------
+
+o Updated yast2-printer (security/bugfix/feature)
+
+- clean up patches and integrate it in git repositories
+- 3.1.2
+- remove X-KDE-Library from desktop file (bnc#899104)
+
+-----------------------------------------------------------------------------
+
+o Updated yast2-registration (security/bugfix/feature)
+
+- Using a "suse_register" section in the AutoYaST profile does not
+  produce an error message anymore (bsc#950119)
+- 3.1.161
+- disable the [Clone] button in the AutoYaST configuration UI, the
+  registration module does not support cloning (bsc#950098)
+- 3.1.160
+- AutoYaST config: fixed crash at the end of the configuration
+  workflow (bsc#949934)
+- Add the SUSEConnect dependency to install the packages required
+  by suse-connect gem (workaround for bsc#947482)
+- 3.1.159
+- Addon selection dialog - sort the addons by the displayed label,
+  not by the internal name (which might not be unique) (bsc#949424)
+- 3.1.158
+- Restore the original $releasever value and refresh the
+  repositories when online migration is aborted (bsc#948363)
+- 3.1.157
+- do not crash when a repository cannot be accessed, ask the user
+  to skip it or abort the online migration (bsc#946200)
+- 3.1.156
+- migration rollback: make sure the base product is downgraded
+  first (FATE#315161)
+- 3.1.155
+
+-----------------------------------------------------------------------------
+
+o Updated yast2-ruby-bindings (security/bugfix/feature)
+
+- Used rb_gc_register_address to fix 'method to_s called on
+  terminated object' during package installation (bsc#945299)
+- 3.1.40
+- Added a regression test for the fix of bnc#943757 implemented
+  in libyui-ncurses 2.47.3
+- 3.1.39
+- Applied the style guide, with Rubocop.
+
+-----------------------------------------------------------------------------
+
+o Updated yast2-schema (security/bugfix/feature)
+
+- Set default value if %is_opensuse has not been set.
+  Additional fix for bnc#948563.
+- 3.1.5
+- Using %is_opensuse in the spec file. (bnc#948563)
+- 3.1.4
+
+-----------------------------------------------------------------------------
+
+o Updated yast2-security (security/bugfix/feature)
+
+- Adapted management of the display manager shutdown to use SLE's
+  DISPLAYMANAGER_SHUTDOWN instead of openSUSE's AllowShutdown
+  (bnc#946889)
+- 3.1.12
+
+-----------------------------------------------------------------------------
+
+o Updated yast2-smt (security/bugfix/feature)
+
+- adjusted several texts (bsc#947276)
+- 3.0.4
+
+-----------------------------------------------------------------------------
+
+o Updated yast2-sound (security/bugfix/feature)
+
+- do not check for %suse_version == 1315, the existing check for
+  %is_opensuse is sufficient (bsc#949046)
+- 3.1.8
+- Enable build for Leap 42.1 (boo#945037).
+
+-----------------------------------------------------------------------------
+
+o Updated yast2-storage (security/bugfix/feature)
+
+- avoid unnessasary steps if no packages need to be installed
+  (bsc#907331 and bsc#915097)
+- 3.1.69
+- install storage related packages before commit (bsc#907331 and
+  bsc#915097)
+- 3.1.68
+
+-----------------------------------------------------------------------------
+
+o Updated yast2-trans (security/bugfix/feature)
+
+- Updated languages: ar cs de es fr hu it ja ko nl nn pl ru sv uk pt_BR
+  zh_CN zh_TW.
+- Updated languages: af am ar be bg bn bs ca cs cy da de el eo es et eu
+  fa fi fr gl gu he hi hr hu id it ja jv ka km kn ko ku lo lt mk mr ms my
+  nb nl nn pa pl pt ro ru si sk sl sr sv sw ta tg th tk tr uk vi wa xh zu
+  en_GB en_US pt_BR zh_CN zh_TW ast nds ; bsc#933411.
+- Updated languages: af am ar be bg bn bs ca cs cy da de el eo es et eu
+  fa fi fr gl gu he hi hr hu id it ja jv ka km kn ko ku lo lt mk mr ms my
+  nb nl nn pa pl pt ro ru si sk sl sr sv sw ta tg th tk tr uk vi wa xh zu
+  en_GB en_US pt_BR zh_CN zh_TW ast nds; bsc#933411.
+
+-----------------------------------------------------------------------------
+
+o Updated yast2-transfer (security/bugfix/feature)
+
+- fixed \r character lost during conversion to Ruby (bnc#344123)
+- 3.1.2
+
+-----------------------------------------------------------------------------
+
+o Updated yast2-update (security/bugfix/feature)
+
+- Added new test for Update.IsProductSupportedForUpgrade
+  (bsc#947398)
+- 3.1.34
+
+-----------------------------------------------------------------------------
+
+o Updated yast2 (security/bugfix/feature)
+
+- Fix "stack level too deep" exception if cd-rom repository is
+  needed (bnc#945879)
+- 3.1.152
+- UI component for services handling moved from yast2-dns-server
+  to yast2 (fate#318771)
+- 3.1.151
+- Properly format the package license in the confirmation dialog
+  to make it better readable (bsc#819311)
+- 3.1.150
+- Avoid too many snapshots created during the online migration
+  (bsc#944019)
+
+-----------------------------------------------------------------------------
+
+o Updated zypper (security/bugfix/feature)
+
+- fix spec file
+- version 1.12.21
+- Update sle-zypper-po.tar.bz2
+- Update zypper-po.tar.bz2
+- Update sle-zypper-po.tar.bz2
+- Update zypper-po.tar.bz2
+- fix suse_version test (bsc#949046)
+- version 1.12.20
+- Show locked packages in summary of patch, up and dup command
+  (FATE#318299)
+- search: Append 'l' to a locked items status tag (FATE#318299)
+- list locks: new command options --matches and --solvables
+  to see the resolvables matched by each lock defintion
+  (FATE#318299)
+- Table: fix details layout to handle multibyte strings correctly
+- Rug-compatible mode is no longer available.
+- Give ZYPPER_EXIT_ERR_COMMIT priority over ZYPPER_EXIT_ON_SIGNAL
+  (bsc#946750, FATE#319467)
+- BuildRequires:  libzypp-devel >= 15.19.1
+- version 1.12.19
+- Update sle-zypper-po.tar.bz2
+- Update zypper-po.tar.bz2
+- Return ZYPPER_EXIT_ERR_COMMIT if an error occurred during commit
+  (bsc#946750, FATE#319467)
+- Do not return 0 if a commit was not performed (bsc#946750,
+  FATE#319467)
+- BuildRequires:  libzypp-devel >= 15.18.0
+- version 1.12.18
+- Update zypper-po.tar.bz2
+- zypper.conf: new option commit/psCheckAccessDeleted to avoid 'lsof'
+  call after commit. On some systems 'lsof' seems to perform very
+  slow, and the check takes up to several minutes. Due to this it's
+  possible to disable the automatic check after each commit. Explicit
+  calls to 'zypper ps' are not affected by this option. (bsc#945169)
+- zypper.conf: deprecate defining 'installRecommends'; better follow
+  the systemwide default in zypp.conf.
+- version 1.12.17
+- Update sle-zypper-po.tar.bz2
+- Update zypper-po.tar.bz2
+
+-----------------------------------------------------------------------------
+
