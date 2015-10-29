@@ -79,7 +79,7 @@ On_IWhite='\e[0;107m'   # White
 
 bonnie++-filter ()
 {
-    awk 'BEGIN{failed=0}/mean/{if ($5 < -10) {printf "%s **\n",$0;failed=1}}END{if (failed==1) {exit 1}}'
+    awk 'BEGIN{failed=0}/^\[.Seq.*mean/{if ($6 < -10) printf "%s **\n",$0;failed=1}/Random.*Seeks.*mean/{if ($5 < -10)printf "%s**\n" $0;failed=1}/ Random.*Create.*mean/{if ($13 < -10) printf"%s**\n" $0;failed=1}END{if (failed==1) {exit 1}}'
 }
 tiobench-filter ()
 {
