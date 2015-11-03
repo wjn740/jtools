@@ -79,11 +79,11 @@ On_IWhite='\e[0;107m'   # White
 
 bonnie++-filter ()
 {
-    awk 'BEGIN{failed=0}/^\[.Seq.*mean/{if ($6 < -10) printf "%s **\n",$0;failed=1}/Random.*Seeks.*mean/{if ($5 < -10)printf "%s**\n" $0;failed=1}/ Random.*Create.*mean/{if ($13 < -10) printf"%s**\n" $0;failed=1}END{if (failed==1) {exit 1}}'
+    awk 'BEGIN{failed=0}/mean/{if ($6 < -10) printf"%s**\n" $0;failed=1}END{if (failed==1) {exit 1}}'
 }
 tiobench-filter ()
 {
-    awk 'BEGIN{failed=0}/mean/{if ($8 < -10) printf "%s **\n",$0;failed=1}END{if (failed==1) {exit 1}}'
+    awk 'BEGIN{failed=0;sum_ratio=0;n=0;}/mean/{sum_ratio=sum_ratio+$8;array[n]=$8;n++;if ($8 < -10) printf "%s **\n",$0;failed=1;}END{for(x=1;x<=n;x++){sumsq+=((array[x]-(sum/n))**2);}printf "**Stddev:%f**\n",sqrt(sumsq/n);printf "**Amean:%f**\n",sum_ratio/n; printf "**C.V:%f**\n",100*(sqrt(sumsq/n)/(sum_ratio/n));if (failed==1) {exit 1}}'
 }
 sysbench_sys-filter ()
 {
@@ -206,10 +206,10 @@ do
                     _FAILED=1
                     #echo -e "The machine $m is ${Red}FAILED${Color_Off}"
                     echo -e "${text}"
-                    echo "$m-$f"
+                    echo $m
                 else
                     :
-                    echo "$m-$f"
+                    echo $m
                     #echo -e "The machine $m is ${White}PASSED${Color_Off}"
                 fi
             done
@@ -222,8 +222,10 @@ do
         echo -e "The test case $d is ${Red}FAILED${Color_Off}"
     else
         echo -e "The test case $d is ${White}PASSED${Color_Off}"
-        :
     fi
 
     echo "========================================================="
 done
+
+
+
