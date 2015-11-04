@@ -656,21 +656,26 @@ comparing_function()
                                 echo "                         ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
                                 paste ~/lmbench_column ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename}  ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv| lmbench_formula>> ${COMARING_RESULT}/${filename}
                                 ;;
-                            *udp6)
-                                echo "                         ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
-                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename}  ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv| netperf_udp_formula>> ${COMARING_RESULT}/${filename}
+                            netperf*)
+                                case ${filename} in
+                                    *udp6)
+                                        echo "netperf                  ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
+                                        paste ${SETUP_DIR}/netperf_udp_title_column ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename}  ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv| netperf_udp_formula>> ${COMARING_RESULT}/${filename}
                                         ;;
-                            *udp)
-                                echo "                         ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
-                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename}  ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv| netperf_udp_formula>> ${COMARING_RESULT}/${filename}
+                                    *udp)
+                                        echo "netperf                 ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
+                                        paste ${SETUP_DIR}/netperf_udp_title_column ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename}  ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv| netperf_udp_formula>> ${COMARING_RESULT}/${filename}
                                         ;;
-                            *tcp6)
-                                echo "                         ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
-                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv | netperf_tcp_formula>> ${COMARING_RESULT}/${filename}
+                                    *tcp6)
+                                        echo "netperf                  ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
+                                        paste ${SETUP_DIR}/netperf_tcp_title_column ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename} ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv | netperf_tcp_formula>> ${COMARING_RESULT}/${filename}
                                         ;;
-                            *tcp)
-                                echo "                         ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
-                                paste ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename}  ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv| netperf_tcp_formula>> ${COMARING_RESULT}/${filename}
+                                    *tcp)
+                                        echo "netperf                  ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
+                                        paste ${SETUP_DIR}/netperf_tcp_title_column ${product[0]}/${RESULT_DATA}/${filename} ${product[1]}/${RESULT_DATA}/${filename}  ${product[0]}/${RESULT_DATA}/${filename}_stddev ${product[1]}/${RESULT_DATA}/${filename}_stddev ${product[0]}/${RESULT_DATA}/${filename}_cv ${product[1]}/${RESULT_DATA}/${filename}_cv| netperf_tcp_formula>> ${COMARING_RESULT}/${filename}
+                                  
+                                        ;;
+                                esac
                                         ;;
                             pgbench*)
                                 echo "tps                            ${product[0]}     ${product[1]}     ratio       stddev(SP0,SP1)      C.V.(SP0,SP1)" >> ${COMARING_RESULT}/${filename}
