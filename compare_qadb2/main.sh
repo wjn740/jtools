@@ -93,17 +93,17 @@ bonniepp_filter()
 ##########################
 time_formula()
 {
-    awk '{printf "%10s %-10s\t %-10s\t %+0.5f\t%s,%s\t%s,%s\n",$1,$2,$3,$2/$3*100-100,$4,$5,$6,$7}'
+    awk '{printf "%10s %-15s\t %-15s\t %+0.3f\t%0.3f,%0.3f\t%0.3f,%0.3f\n",$1,$2,$3,$2/$3*100-100,$4,$5,$6,$7}'
 }
 speed_formula()
 {
     # please explain for dummies like Harald what this AWK formatting is doing ;-)
-    awk '{printf "%10s %-10s\t %-10s\t %+0.5f\t%s,%s\t%s,%s\n",$1,$2,$3,$3/$2*100-100,$4,$5,$6,$7}'
+    awk '{printf "%10s %-15s\t %-15s\t %+0.3f\t%0.3f,%0.3f\t%0.3f,%0.3f\n",$1,$2,$3,$3/$2*100-100,$4,$5,$6,$7}'
 
 }
 iozone_formula()
 {
-    awk '{printf "%s/%s/%-15s\t %-10s\t %-10s\t %+0.5f\t%s,%s\t%s,%s\n",$1,$2,$3,$4,$5,$5/$4*100-100,$6,$7,$8,$9}'
+    awk '{printf "%s/%s/%-15s\t %-15s\t %-15s\t %+0.3f\t%0.3f,%0.3f\t%0.3f,%0.3f\n",$1,$2,$3,$4,$5,$5/$4*100-100,$6,$7,$8,$9}'
     #speed_formula
 }
 kernbench_formula()
@@ -112,12 +112,12 @@ kernbench_formula()
 }
 libmicro_bench_formula()
 {
-    awk 'BEGIN{i=0}{if ($2/$3*100-100 < -10) {printf "%15s \t%10s %10s %+12.5f\t%s,%s\t%s,%s **\n",$1,$2,$3,$2/$3*100-100,$4,$5,$6,$7;i+=1} else {printf "%15s \t%10s %10s %+12.5f\t%s,%s\t%s,%s\n",$1,$2,$3,$2/$3*100-100,$4,$5,$6,$7}}END{printf "Failed %d, Total %d, Ratio %0.5f%",i,NR,i/NR*100}'
+    awk 'BEGIN{i=0}{if ($2/$3*100-100 < -10) {printf "%15s \t%10s %10s %+12.5f\t%0.3f,%0.3f\t%0.3f,%0.3f **\n",$1,$2,$3,$2/$3*100-100,$4,$5,$6,$7;i+=1} else {printf "%15s \t%10s %10s %+12.5f\t%0.3f,%0.3f\t%0.3f,%0.3f\n",$1,$2,$3,$2/$3*100-100,$4,$5,$6,$7}}END{printf "Failed %d, Total %d, Ratio %0.3f%",i,NR,i/NR*100}'
     #time_formula
 }
 lmbench_formula()
 {
-    awk '/^Band/{printf "%23s %-10s\t %-10s\t %+0.5f\t%10s,%10s\t%10s,%10s\n",$1,$2,$3,$3/$2*100-100,$4,$5,$6,$7;next;};{printf "%23s %-10s\t %-10s\t %+0.5f\t%10s,%10s\t%10s,%10s\n",$1,$2,$3,$2/$3*100-100,$4,$5,$6,$7}'
+    awk '/^Band/{printf "%23s %-15s\t %-15s\t %+0.3f\t%10s,%10s\t%10s,%10s\n",$1,$2,$3,$3/$2*100-100,$4,$5,$6,$7;next;};{printf "%23s %-15s\t %-15s\t %+0.3f\t%10s,%10s\t%10s,%10s\n",$1,$2,$3,$2/$3*100-100,$4,$5,$6,$7}'
 }
 netperf_udp_formula()
 {
@@ -134,31 +134,31 @@ reaim_ioperf_formula()
 siege_formula()
 {
     #speed_formula
-    awk '{printf "%20s\t%-10s\t %-10s\t %+0.5f  %s,%s  %s,%s\n",$1,$2,$3,$3/$2*100-100,$4,$5,$6,$7}'
+    awk '{printf "%20s\t%-15s\t %-15s\t %+0.3f  %0.3f,%0.3f  %0.3f,%0.3f\n",$1,$2,$3,$3/$2*100-100,$4,$5,$6,$7}'
 }
 sysbench_formula()
 {
     #time_formula
-    awk '{printf "%-10s\t%-15s\t %-10s\t %+0.5f\t%s,%s\t%s,%s\n",$1,$2,$3,$2/$3*100-100,$4,$5,$6,$7}'
+    awk '{printf "%-15s\t%-15s\t %-15s\t %+0.3f\t%0.3f,%0.3f\t%0.3f,%0.3f\n",$1,$2,$3,$2/$3*100-100,$4,$5,$6,$7}'
 }
 dbench_formula()
 {
-    awk '{printf "%s %15s %10s\t %+0.5f\t%s,%s\t%s,%s\n",$1,$2,$3,$3/$2*100-100,$4,$5,$6,$7}'
+    awk '{printf "%s %15s %10s\t %+0.3f\t%0.3f,%0.3f\t%0.3f,%0.3f\n",$1,$2,$3,$3/$2*100-100,$4,$5,$6,$7}'
     #speed_formula
 }
 pgbench_formula()
 {
-    awk '{printf "%s %s %s\t %12s  %12s\t %+0.5f\t%s,%s\t%s,%s\n",$1,$2,$3,$4,$5,$5/$4*100-100,$4,$5,$6,$7}'
+    awk '{printf "%s %s %s\t %12s  %12s\t %+0.3f\t%0.3f,%0.3f\t%0.3f,%0.3f\n",$1,$2,$3,$4,$5,$5/$4*100-100,$4,$5,$6,$7}'
     #speed_formula
 }
 tiobench_formula()
 {
-    awk '{printf "%-35s\t%10s%10s  %+0.5f\t%s,%s\t%s,%s\n",$1,$2,$3,$3/$2*100-100,$4,$5,$6,$7}'
+    awk '{printf "%-35s\t%10s%10s  %+0.3f\t%0.3f,%0.3f\t%0.3f,%0.3f\n",$1,$2,$3,$3/$2*100-100,$4,$5,$6,$7}'
     #time_formula
 }
 bonniepp_formula()
 {
-    awk '{printf "%-20s\t %-10s\t %-10s\t %+0.5f\t%s,%s\t%s,%s\n",$1,$2,$3,$3/$2*100-100,$4,$5,$6,$7}'
+    awk '{printf "%-20s\t %-15s\t %-15s\t %+0.3f\t%0.3f,%0.3f\t%0.3f,%0.3f\n",$1,$2,$3,$3/$2*100-100,$4,$5,$6,$7}'
     #speed_formula
 }
 

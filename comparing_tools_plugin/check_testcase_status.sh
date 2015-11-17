@@ -163,43 +163,43 @@ do
 
                 case $d in
                     qa_siege*)
-                        text=`cat $f | siege-filter`
+                        text=`cat $f | sort | siege-filter`
                         ;;
                     bonnie++*)
-                        text=`cat $f | bonnie++-filter`
+                        text=`cat $f | sort | bonnie++-filter`
                         ;;
                     dbench4*)
-                        text=`cat $f | dbench4-filter`
+                        text=`cat $f | sort | dbench4-filter`
                         ;;
                     kernbench)
-                        text=`cat $f | kernbench-filter`
+                        text=`cat $f | sort | kernbench-filter`
                         ;;
                     lmbench)
-                        text=`cat $f | lmbench-filter`
+                        text=`cat $f | sort | lmbench-filter`
                         ;;
                     netperf-peer*)
-                        text=`cat $f | netperf-filter`
+                        text=`cat $f | sort | netperf-filter`
                         ;;
                     pgbench_small_rw*)
-                        text=`cat $f | pgbench-rw-filter`
+                        text=`cat $f | sort | pgbench-rw-filter`
                         ;;
                     pgbench_small_ro*)
-                        text=`cat $f | pgbench-filter`
+                        text=`cat $f | sort | pgbench-filter`
                         ;;
                     qa_iozone*)
-                        text=`cat $f | iozone-filter`
+                        text=`cat $f | sort | iozone-filter`
                         ;;
                     qa_tiobench*)
-                        text=`cat $f | tiobench-filter`
+                        text=`cat $f | sort | tiobench-filter`
                         ;;
                     reaim*)
-                        text=`cat $f | reaim-filter`
+                        text=`cat $f | sort | reaim-filter`
                         ;;
                     sysbench_oltp*)
-                        text=`cat $f | sysbench_oltp-filter`
+                        text=`cat $f | sort | sysbench_oltp-filter`
                         ;;
                     sysbench*)
-                        text=`cat $f | sysbench_sys-filter`
+                        text=`cat $f | sort | sysbench_sys-filter`
                         ;;
                 esac
                 if [ -n "${text}" ]; then
