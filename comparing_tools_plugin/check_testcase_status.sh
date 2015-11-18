@@ -147,9 +147,9 @@ do
     pushd $d 2>&1 >/dev/null
     for arch in `ls` 
     do
-        if [ "${arch}x" == "x86_64x" ]; then
-            continue;
-        fi
+#        if [ "${arch}x" == "x86_64x" ]; then
+#            continue;
+#        fi
         echo "Arch on $arch"
         #enter a arch
         pushd $arch 2>&1 >/dev/null
