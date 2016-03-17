@@ -80,7 +80,8 @@ pgbench_filter()
 }
 tiobench_filter()
 {
-    grep "^[2-4]\.[0-9]*\.[0-9]*-[0-9.]*-[a-z]*" | awk '{print $5}'
+    #3.12.51-1.gdb7799c-xen
+    grep "^[2-4]\.[0-9]*\.[0-9]*-[0-9.]*.*-[a-z]*[^0-9]" | awk '{print $5}'
 }
 bonniepp_filter()
 {

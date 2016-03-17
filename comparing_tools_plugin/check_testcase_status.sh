@@ -142,7 +142,7 @@ bonnie++-filter ()
 for d in `ls`
 do
     _FAILED=0
-    echo "Testcase $d"
+    echo "Testcase: $d"
     #enter a testcase
     pushd $d 2>&1 >/dev/null
     for arch in `ls` 
@@ -150,7 +150,7 @@ do
 #        if [ "${arch}x" == "x86_64x" ]; then
 #            continue;
 #        fi
-        echo "Arch on $arch"
+        echo "Arch: on $arch"
         #enter a arch
         pushd $arch 2>&1 >/dev/null
         for m in `ls`
@@ -209,7 +209,7 @@ do
                     echo "$m-$f"
                 else
                     :
-                    echo "$m-$f"
+                    echo "Testcase: $m-$f"
                     #echo -e "The machine $m is ${White}PASSED${Color_Off}"
                 fi
             done
@@ -219,9 +219,9 @@ do
     done
     popd 2>&1 >/dev/null
     if [ ${_FAILED} -eq 1 ]; then
-        echo -e "The test case $d is ${Red}FAILED${Color_Off}"
+        echo -e "Result: The test case $d is ${Red}FAILED${Color_Off}"
     else
-        echo -e "The test case $d is ${White}PASSED${Color_Off}"
+        echo -e "Result: The test case $d is ${White}PASSED${Color_Off}"
         :
     fi
 

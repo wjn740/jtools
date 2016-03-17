@@ -1,11 +1,11 @@
 #!/bin/bash
 set -eu
 
-machines=("apac2-ph022.apac.novell.com" "apac2-ph031.apac.novell.com" "ix64ph1054")
+machines=("apac2-ph022.apac.novell.com")
 archs=("xen0-x86_64")
-products=("SLES-12-SP0" "SLES-12-SP1")
+products=("SLES-12-SP0" "SLES-12-SP1" "SLES-12")
 versions=("RC3A" "GM")
-testcases=("libmicro")
+testcases=("tiobench")
 
 for p in ${products[@]}
 do
