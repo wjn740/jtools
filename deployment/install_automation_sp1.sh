@@ -1,7 +1,7 @@
 #!/bin/bash
 
 zypper rr qa-ibs
-zypper ar http://dist.nue.suse.com/ibs/QA:/Head/SLE-12-SP2/ qa-ibs
+zypper ar http://dist.nue.suse.com/ibs/QA:/Head/SLE-12-SP1/ qa-ibs
 zypper ref
 
 zypper -n install qa_testset_automation
