@@ -10,6 +10,8 @@ from collections import OrderedDict
 DATAURL="http://147.2.207.30/Results/ProductTests/"
 ROOTURL=DATAURL
 
+allmachines_list = list(['apac2-ph033.apac.novell.com', 'ix64ph1054', 'apac2-ph023.apac.novell.com', 'apac2-ph022.apac.novell.com', 'apac2-ph031.apac.novell.com', 'apac2-ph027.apac.novell.com', 'apac2-ph026.apac.novell.com', 'ix64ph1053'])
+
 DataBase=OrderedDict()
 product_set = set()
 release_set = set()
@@ -17,8 +19,10 @@ arch_set = set()
 machine_set = set()
 testcase_set = set()
 
-def testcase_search(html_url, testcase_dict, testcase):
-    print(html_url)
+testcase_object_list = set()
+
+def testcase_search(html_url, testcase_dict, r, a, p, m):
+    #print(html_url)
     http = urllib.request.urlopen(html_url)
     soup = BeautifulSoup(http, "lxml")
     for link in soup.findAll('a'):
@@ -30,7 +34,20 @@ def testcase_search(html_url, testcase_dict, testcase):
         text = link.getText().replace('/','')
         testcase_dict[text] = OrderedDict()
         testcase_set.add(text)
-        testcase.name = text
+        try:
+            testcase = TestCase(text)
+        except NameError:
+            continue
+        if hasattr(testcase, 'name'):
+            testcase.release = r
+            testcase.arch = a
+            testcase.product = p
+            testcase.machine = m
+            testcase.url = html_url
+            print("==>",testcase)
+        else:
+            del testcase
+        testcase_list.add(testcase)
         #print(html_url+text)
 
 
@@ -46,7 +63,15 @@ def machine_search(html_url, arch_dict):
             continue
         text = link.getText().replace('/','')
         arch_dict[text] = OrderedDict()
-        machine_set.add(text)
+        checklist = list(allmachines_list)
+        for item in checklist:
+            r = re.compile(item)
+            if r.match(text):
+                machine_set.add(text)
+                break
+
+
+
 
 
 def arch_search(html_url, release_dict):
@@ -100,20 +125,11 @@ for p in DataBase:
         for a in  DataBase[p][r]:
             machine_search(ROOTURL+p+"/"+r+"/"+a+"/", DataBase[p][r][a])
             for m in DataBase[p][r][a]:
-                testcase = TestCase()
-                testcase_search(ROOTURL+p+"/"+r+"/"+a+"/"+m+"/", DataBase[p][r][a][m], testcase)
-                if hasattr(testcase, 'name'):
-                    testcase.release = r
-                    testcase.arch = a
-                    testcase.product = p
-                    testcase.machine = m
-                    print("==>",testcase)
-                else:
-                    del testcase
+                testcase_search(ROOTURL+p+"/"+r+"/"+a+"/"+m+"/", DataBase[p][r][a][m], r, a, p, m)
 
 
 print(arch_set)
-print(release_set)
+print(sorted(release_set))
 print(product_set)
 print(machine_set)
 print(testcase_set)

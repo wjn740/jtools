@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import re
+
 class TestItem():
     """testitem is a testing item in a subtestcase
         For example:
@@ -25,7 +27,7 @@ class SubTestCase():
         @testcase, the pointer to the parent testcase.
     """
     def __init__(self):
-        self.name = ""
+        self.subname = ""
         self.testitems = list()
         self.testcase = ""
 
@@ -56,12 +58,79 @@ class TestCase():
             pass
         return self.name
 
-    def __init_(self):
-        self.name = ""
+    def check_testcase_name(self, name):
+        checklist = list(["qa_siege_performance",
+                "sysbench-sys",
+                "libmicro-bench",
+                "lmbench",
+                "kernbench",
+                "reaim-alltest",
+                "netperf-peer-loop",
+                "netperf-peer-loop6",
+                "reaim_disk_ext3",
+                "reaim_disk_xfs",
+                "reaim_disk_btrfs",
+                "reaim_disk_ext4",
+                "qa_iozone_doublemem_ext3",
+                "qa_iozone_doublemem_xfs",
+                "qa_iozone_doublemem_btrfs",
+                "qa_iozone_doublemem_ext4",
+                "qa_tiobench_async_ext3",
+                "qa_tiobench_async_xfs",
+                "qa_tiobench_async_btrfs",
+                "qa_tiobench_async_ext4",
+                "bonnie\+\+_async_ext3",
+                "bonnie\+\+_async_xfs",
+                "bonnie\+\+_async_btrfs",
+                "bonnie\+\+_async_ext4",
+                "bonnie\+\+_fsync_ext3",
+                "bonnie\+\+_fsync_xfs",
+                "bonnie\+\+_fsync_btrfs",
+                "bonnie\+\+_fsync_ext4",
+                "sysbench_oltp_ext3",
+                "sysbench_oltp_xfs",
+                "sysbench_oltp_btrfs",
+                "sysbench_oltp_ext4",
+                "dbench4_async_ext3",
+                "dbench4_async_xfs",
+                "dbench4_async_btrfs",
+                "dbench4_async_ext4",
+                "pgbench_small_rw_ext3",
+                "pgbench_small_rw_xfs",
+                "pgbench_small_rw_btrfs",
+                "pgbench_small_rw_ext4",
+                "pgbench_small_ro_ext3",
+                "pgbench_small_ro_xfs",
+                "pgbench_small_ro_btrfs",
+                "pgbench_small_ro_ext4",
+                "dbench4_fsync_ext3",
+                "dbench4_fsync_xfs",
+                "dbench4_fsync_btrfs",
+                "dbench4_fsync_ext4"])
+        for item in checklist:
+            r = re.compile(item)
+            if r.match(name):
+                print(">>_+OK+_")
+                return
+        raise NameError('Name Wrong')
+
+    def __init__(self, n="", r="", a="", p="", m="", u="", k=""):
+        try:
+            self.check_testcase_name(n)
+        except NameError:
+            raise NameError("Testcase's name is invaild")
+            return
+
+        self.name = n
         self.subtestcases = list()
-        self.url = ""
-        self.machine = ""
-        self.arch = ""
-        self.release = ""
+        self.url = u
+        self.machine = m
+        self.arch = a
+        self.release = r
+        self.product = p
+        self.kernel = k
+
+
+class product():
+    def __init__(self):
         self.product = ""
-        self.kernel = ""
