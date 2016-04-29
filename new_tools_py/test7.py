@@ -110,7 +110,6 @@ class TestCase():
         for item in checklist:
             r = re.compile(item)
             if r.match(name):
-                print(">>_+OK+_")
                 return
         raise NameError('Name Wrong')
 
