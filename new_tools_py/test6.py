@@ -19,7 +19,7 @@ arch_set = set()
 machine_set = set()
 testcase_set = set()
 
-testcase_object_list = set()
+testcase_list = set()
 
 def testcase_search(html_url, testcase_dict, r, a, p, m):
     #print(html_url)
@@ -44,7 +44,6 @@ def testcase_search(html_url, testcase_dict, r, a, p, m):
             testcase.product = p
             testcase.machine = m
             testcase.url = html_url
-            print("==>",testcase)
         else:
             del testcase
         testcase_list.add(testcase)
@@ -133,5 +132,7 @@ print(sorted(release_set))
 print(product_set)
 print(machine_set)
 print(testcase_set)
+
+print(testcase_list)
 
 #print(DataBase)
