@@ -9,7 +9,7 @@ done
 for number in 166
 do
     echo 147.2.208.$number:
-    sshpass -p susetesting ssh root@147.2.208.${number} $@
+    sshpass -p ${password} ssh root@147.2.208.${number} $@
 done
 
 for number in 53 54

@@ -9,7 +9,7 @@ done
 for number in 166
 do
     echo 147.2.208.$number:
-    sshpass -p "susetesting" scp -r $@ root@147.2.208.${number}:
+    sshpass -p "${password}" scp -r $@ root@147.2.208.${number}:
 done
 
 for number in 53 54
