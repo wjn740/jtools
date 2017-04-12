@@ -31,5 +31,5 @@ done
 
 eval ${ntp_enable_cmd}
 
-mkdir ~/qaset/config
+mkdir ~/qaset/
 echo "_QASET_RUNID=80000"  >> ~/qaset/config
