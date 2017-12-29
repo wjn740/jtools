@@ -3,4 +3,5 @@
 
 
 week=`date "+%V"`
-mailx -v -A suse -s "[qa-reports] Workreport of week ${week}, 2016" qa-reports@suse.de
+year=`date "+%G"`
+mailx -v -A suse -s "[qa-reports] Workreport of week ${week}, ${year}" qa-reports@suse.de
