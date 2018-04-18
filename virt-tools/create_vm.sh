@@ -11,7 +11,7 @@ virt-install --connect qemu:///system \
 --noautoconsole \
 --cpu model='Haswell-noTSX',require=pcid,require=invpcid
 
-virt-viewer -c qemu:///system test
+virt-viewer -c qemu:///system $1
 
 
 

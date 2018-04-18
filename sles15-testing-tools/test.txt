@@ -1,0 +1,3 @@
+compare beta4MU and Beta4MU with server_policy.
+
+./libmicro_curl.sh http://apac2-kvm.qa2.suse.asia/Results/ProductTests/SLES-15/beta4/x86_64/ph027.qa2.suse.asia/libmicro-process-2017-12-29-18-00-02/workload_syscall_libmicro_process http://dashboard.qa2.suse.asia/index2/jnwang/libmicro-process-2018-01-02-14-27-08/workload_syscall_libmicro_process
