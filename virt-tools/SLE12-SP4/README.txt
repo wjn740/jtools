@@ -20,12 +20,22 @@ Detail:
 
 KVM performance testing has more level than Hypervisor performance testing.
 
+Environment Preparetion
+
+
 Installation
 
 YaST
 
 #!/bin/bash
-virt-install --name vm-perf-test \
+
+#Prepare Environment
+mkdir -pv /kvm/tmpfs
+mount -t tmpfs tmpfs /kvm/tmpfs
+
+#Install VM
+#!/bin/bash
+virt-install --name opensuseks \
     --disk path=/kvm/opensuseks,size=20,format=qcow2,bus=virtio,cache=none \
     --os-variant sles12 \
     --noautoconsole \
@@ -33,14 +43,33 @@ virt-install --name vm-perf-test \
     --vnc \
     --vcpus=4 \
     --ram=1024 \
+    --console=log.file=/root/vm-install.log \
     --network bridge=br0,mac=52:54:00:C7:06:F3,model=virtio \
     --location=http://mirror.suse.asia/dist/install/SLP/SLE-12-SP4-Server-Alpha3/x86_64/DVD1/ \
     -x "console=ttyS0,115200n8 install=http://mirror.suse.asia/dist/install/SLP/SLE-12-SP4-Server-Alpha3/x86_64/DVD1/ autoyast=http://dashboard.qa2.suse.asia/index2/jnwang/autoyast_gnome.xml"
-virsh destroy vm-perf-test 
+if [ $? eq 0 ]; then
+  virsh destroy vm-perf-test 
+fi
+
 
 Manually
 
 
+Deployment
+
+#!/bin/bash -
+set -e
+
+guestname="$1"
+
+guestfish -d "${guestname}" <<'EOF'
+run
+mount /dev/sda2 /
+#Deployment script
+copy-in install_automation_sles12_sp4_vm.sh /
+#Running list
+copy-in james_care.list /
+EOF
 
 
 
