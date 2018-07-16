@@ -2,6 +2,7 @@
 #Testing configure
 test_name="io-test"
 testing_run_id="19870828"
+test_fs=xfs
 
 #Host Configure
 imagepool_path=/kvm
@@ -12,15 +13,25 @@ testpool_path=${imagepool_path}/${test_name}
 vm_ip_addr=10.67.18.91
 vm_mac_addr=52:54:00:C7:05:F3
 vm_hostname=vm-io-test
-vm_domain_name=opensuseksio
+vm_domain_name=apple1
 vm_ram_size=2048
+vm_serial_log=${testpool_path}/${vm_domain_name}.serial.log
 
 install_media_url="http://mirror.suse.asia/dist/install/SLP/SLE-12-SP4-Server-Alpha3/x86_64/DVD1/"
+sha1no=`echo ${install_media_url} | sha1sum | awk '{print $1}'`
 vm_install_kernel_parameter="console=ttyS0,115200n8 install=http://mirror.suse.asia/dist/install/SLP/SLE-12-SP4-Server-Alpha3/x86_64/DVD1/ autoyast=http://dashboard.qa2.suse.asia/index2/jnwang/autoyast_gnome.xml"
 
-
-
-
+#QASET configure
+cat <<EOF >config
+_QASET_RUNID=${testing_run_id}
+EOF
+#QASET list
+cat <<EOF >list
+SQ_ABUILD_PARTITION=/dev/vdb1
+SQ_TEST_RUN_LIST=(
+io_block_generic_iozone_fsync_${test_fs}
+)
+EOF
 
 
 function setup_filesystem_and_mount ()
@@ -51,19 +62,10 @@ function setup_filesystem_and_mount ()
 	
 }
 
-function start ()
+function install_vm ()
 {
-
-		setup_filesystem_and_mount /dev/sdb2 ${testpool_path}/btrfs "mkfs.btrfs -f"
-		setup_filesystem_and_mount /dev/sdb3 ${testpool_path}/ext4  "mkfs.ext4 -F"
-		setup_filesystem_and_mount /dev/sdb4 ${testpool_path}/xfs	"mkfs.xfs -f"
-
-		>/root/${vm_domain_name}.log
-
-
 		#fixme
-		fs=xfs
-		addon_disk="--disk path=${testpool_path}/${fs}/${vm_domain_name},size=7,format=raw,bus=virtio"
+		addon_disk="--disk path=${testpool_path}/${test_fs}/${vm_domain_name},size=7,format=raw,bus=virtio"
 
 		virt-install --name ${vm_domain_name} \
 		--disk path=${mempool_path}/${vm_domain_name},size=7,format=qcow2,bus=virtio \
@@ -76,25 +78,18 @@ function start ()
 		--vcpus cpuset=0,2,4,8 \
 		--vcpus sockets=1,cores=2,threads=2 \
 		--ram=${vm_ram_size} \
-		--console=log.file=/root/${vm_domain_name}.log \
+		--console=log.file=${vm_serial_log} \
 		--network bridge=br0,mac=${vm_mac_addr},model=virtio \
 		--location="${install_media_url}" \
 		-x "${vm_install_kernel_parameter}"
 
-		if [ $? -eq 0 ]; then
-			virsh destroy ${vm_domain_name}
-			if [ $? -ne 0 ]; then
-				exit 1
-			fi
-		else 
-			virsh destroy ${vm_domain_name}
-			exit 1
-		fi
 
+		mv ${mempool_path}/${vm_domain_name} ${imagepool_path}
 
-		mv /kvm/tmpfs/${vm_domain_name} /kvm/
+		mv ${imagepool_path}/${vm_domain_name} ${imagepool_path}/${vm_domain_name}.${sha1no}
+		qemu-img create -f qcow2 -b ${imagepool_path}/${vm_domain_name}.${sha1no} ${imagepool_path}/${vm_domain_name}
 
-		EDITOR='sed -i s#/kvm/tmpfs/${vm_domain_name}#/kvm/${vm_domain_name}#g' virsh edit ${vm_domain_name}
+		EDITOR="sed -i s#${mempool_path}/${vm_domain_name}#${imagepool_path}/${vm_domain_name}#g" virsh edit ${vm_domain_name}
 
 
 		sh guestfish.sh ${vm_domain_name}
@@ -106,6 +101,58 @@ function start ()
 		echo "Start VM..."
 		echo "Wait VM boot up...about 180 seconds."
 		sleep 180
+
+}
+function start ()
+{
+
+		setup_filesystem_and_mount /dev/sdb2 ${testpool_path}/btrfs "mkfs.btrfs -f"
+		setup_filesystem_and_mount /dev/sdb3 ${testpool_path}/ext4  "mkfs.ext4 -F"
+		setup_filesystem_and_mount /dev/sdb4 ${testpool_path}/xfs	"mkfs.xfs -f"
+
+		>${vm_serial_log}
+		
+		#fastpath if the img is exist
+		if [ -f ${imagepool_path}/${vm_domain_name}.${sha1no} ]; then
+			qemu-img create -f qcow2 -b ${imagepool_path}/${vm_domain_name}.${sha1no} ${imagepool_path}/${vm_domain_name}
+			
+			addon_disk="--disk path=${testpool_path}/${test_fs}/${vm_domain_name},size=7,format=raw,bus=virtio"
+
+			virt-install --name ${vm_domain_name} \
+			--disk path=${imagepool_path}/${vm_domain_name},size=7,format=qcow2,bus=virtio \
+			--import \
+			${addon_disk} \
+			--os-variant sles12 \
+			--noautoconsole \
+			--vnc \
+			--vcpus=4 \
+			--vcpus cpuset=0,2,4,8 \
+			--vcpus sockets=1,cores=2,threads=2 \
+			--memory=${vm_ram_size} \
+			--console=log.file=${vm_serial_log} \
+			--network bridge=br0,mac=${vm_mac_addr},model=virtio
+
+			(tail -f -n0 ${vm_serial_log}&) | grep -q "Welcome to SUSE"
+
+			virsh destroy ${vm_domain_name}
+			if [ $? -ne 0 ]; then
+				exit 1
+			fi
+
+			echo "Guestfish is working......."
+			sh guestfish.sh ${vm_domain_name}
+			echo "Guestfish is working done"
+
+			echo "Start ${vm_domain_name}"
+			virsh start ${vm_domain_name}
+			if [ $? -ne 0 ]; then
+				exit 1		
+			fi
+			echo "Start VM..."
+			(tail -f -n0 ${vm_serial_log}&) | grep -q "Welcome to SUSE"
+		else
+			install_vm
+		fi
 }
 
 
@@ -113,6 +160,8 @@ function prepare ()
 {
 	virsh undefine ${vm_domain_name}
 	virsh destroy ${vm_domain_name}
+	
+	find ${imagepool_path} -name ${vm_domain_name} -delete
 	
 	mkdir -pv /kvm/tmpfs
 	umount /kvm/tmpfs
