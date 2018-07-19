@@ -170,6 +170,9 @@ function start ()
 
 function prepare ()
 {
+
+  sudo zypper -n in sshpass libvirt-client
+
 	virsh undefine ${vm_domain_name}
 	virsh destroy ${vm_domain_name}
 	
