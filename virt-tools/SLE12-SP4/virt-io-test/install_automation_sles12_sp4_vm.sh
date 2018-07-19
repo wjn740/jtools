@@ -1,7 +1,7 @@
 #!/bin/bash
 
 zypper rr qa-ibs
-zypper ar http://dist.nue.suse.com/ibs/QA:/Head/SLE-12-SP4/ qa-ibs
+zypper ar http://dist.suse.de/ibs/QA:/Head/SLE-12-SP4/ qa-ibs
 zypper ar http://mirror.suse.asia/dist/install/SLP/SLE-12-SP4-SDK-LATEST/x86_64/DVD1/ qa-sdk
 zypper -n --gpg-auto-import-keys ref
 
@@ -32,4 +32,3 @@ done
 eval ${ntp_enable_cmd}
 
 mkdir ~/qaset/
-echo "_QASET_RUNID=101000"  >> ~/qaset/config

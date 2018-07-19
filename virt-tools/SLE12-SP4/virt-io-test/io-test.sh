@@ -10,11 +10,16 @@ mempool_path=${imagepool_path}/tmpfs
 testpool_path=${imagepool_path}/${test_name}
 
 #Guest Configure
-vm_ip_addr=10.67.18.91
+vm_ip_addr=10.67.132.66
 vm_mac_addr=52:54:00:C7:05:F3
 vm_hostname=vm-io-test
 vm_domain_name=apple1
 vm_ram_size=2048
+vm_cpus=4
+vm_cpuset=
+vm_per_cpu_thread=$(lscpu | grep "Thread" | awk '{print $4}')
+vm_cpu_cores=$((${vm_cpus} / ${vm_per_cpu_thread}))
+vm_cpu_socket=1
 vm_serial_log=${testpool_path}/${vm_domain_name}.serial.log
 
 install_media_url="http://mirror.suse.asia/dist/install/SLP/SLE-12-SP4-Server-Alpha3/x86_64/DVD1/"
@@ -74,15 +79,21 @@ function install_vm ()
 		--noautoconsole \
 		--wait=-1 \
 		--vnc \
-		--vcpus=4 \
-		--vcpus cpuset=0,2,4,8 \
-		--vcpus sockets=1,cores=2,threads=2 \
+		--vcpus=${vm_cpus} \
+		--vcpus cpuset=${vm_cpuset} \
+		--vcpus sockets=1,cores=${vm_cpu_cores},threads=2 \
 		--ram=${vm_ram_size} \
 		--console=log.file=${vm_serial_log} \
 		--network bridge=br0,mac=${vm_mac_addr},model=virtio \
 		--location="${install_media_url}" \
 		-x "${vm_install_kernel_parameter}"
 
+		(tail -f -n0 ${vm_serial_log}&) | grep -q "Welcome to SUSE"
+
+		virsh destroy ${vm_domain_name}
+		if [ $? -ne 0 ]; then
+			exit 1
+		fi
 
 		mv ${mempool_path}/${vm_domain_name} ${imagepool_path}
 
@@ -91,16 +102,17 @@ function install_vm ()
 
 		EDITOR="sed -i s#${mempool_path}/${vm_domain_name}#${imagepool_path}/${vm_domain_name}#g" virsh edit ${vm_domain_name}
 
-
+		echo "Guestfish is working......."
 		sh guestfish.sh ${vm_domain_name}
+		echo "Guestfish is working done"
 
+		echo "Start ${vm_domain_name}"
 		virsh start ${vm_domain_name}
 		if [ $? -ne 0 ]; then
 			exit 1		
 		fi
 		echo "Start VM..."
-		echo "Wait VM boot up...about 180 seconds."
-		sleep 180
+		(tail -f -n0 ${vm_serial_log}&) | grep -q "Welcome to SUSE"
 
 }
 function start ()
@@ -125,9 +137,9 @@ function start ()
 			--os-variant sles12 \
 			--noautoconsole \
 			--vnc \
-			--vcpus=4 \
-			--vcpus cpuset=0,2,4,8 \
-			--vcpus sockets=1,cores=2,threads=2 \
+			--vcpus=${vm_cpus} \
+			--vcpus cpuset=${vm_cpuset} \
+			--vcpus sockets=1,cores=${vm_cpu_cores},threads=2 \
 			--memory=${vm_ram_size} \
 			--console=log.file=${vm_serial_log} \
 			--network bridge=br0,mac=${vm_mac_addr},model=virtio
@@ -183,11 +195,13 @@ function prepare ()
 
 function do_test ()
 {
-		sshpass -p susetesting ssh root@${vm_ip_addr} sh install_automation_sles12_sp4_vm.sh >/dev/null
-		sshpass -p susetesting ssh root@${vm_ip_addr} "echo ${vm_hostname} >/etc/hostname"  >/dev/null
-		sshpass -p susetesting ssh root@${vm_ip_addr} "hostname --file /etc/hostname" >/dev/null
-		sshpass -p susetesting ssh root@${vm_ip_addr} "sh ./parted-vm.sh" >/dev/null
-		sshpass -p susetesting ssh root@${vm_ip_addr} "/usr/share/qa/qaset/run/performance-run.upload_Beijing" >/dev/null 2>&1
+set -x
+		sshpass -p susetesting ssh root@${vm_ip_addr} sh install_automation_sles12_sp4_vm.sh >${vm_serial_log}
+		sshpass -p susetesting ssh root@${vm_ip_addr} "echo ${vm_hostname} >/etc/hostname" >${vm_serial_log}
+		sshpass -p susetesting ssh root@${vm_ip_addr} "hostname --file /etc/hostname" >${vm_serial_log}
+		sshpass -p susetesting ssh root@${vm_ip_addr} "sh ./parted-vm.sh" >${vm_serial_log}
+		sshpass -p susetesting ssh root@${vm_ip_addr} "/usr/share/qa/qaset/run/performance-run.upload_Beijing" >${vm_serial_log}
+set +x
 		echo "Testing still running...."
 
 }
