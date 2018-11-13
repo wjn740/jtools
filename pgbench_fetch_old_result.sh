@@ -32,7 +32,7 @@ pushd ${OLD_DIR}
 
 pgbench_extract ${2} ${1}
 
- d_group"pgbench"
+data_group "pgbench"
 
 popd
 ##$1 is OLD_LOGS_DIR's name

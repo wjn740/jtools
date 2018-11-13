@@ -2,7 +2,7 @@
 
 #ROOT_DIR=$(pwd)
 #NEW_LOGS_DIR=${ROOT_DIR}/logs_bz2
-#HANDLER_DIR=${ROOT_DIR}/James_handler_directory
+#HANDLER_DIR=${ROOT_DIR}/handler_directory
 
 
 working_dir=${HANDLER_DIR}/$1

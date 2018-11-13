@@ -32,7 +32,7 @@ pushd ${OLD_DIR}
 
 tiobench_extract ${2} ${1}
 
- d_group"tiobench"
+data_group "tiobench"
 
 popd
 ##$1 is OLD_LOGS_DIR's name

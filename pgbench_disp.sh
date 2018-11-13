@@ -2,7 +2,7 @@
 
 #ROOT_DIR=$(pwd)
 #NEW_LOGS_DIR=${ROOT_DIR}/logs_bz2
-#HANDLER_DIR=${ROOT_DIR}/James_handler_directory
+#HANDLER_DIR=${ROOT_DIR}/handler_directory
 
 . ${ROOT_DIR}/common.sh
 . ${ROOT_DIR}/libdata_group.sh
@@ -20,6 +20,6 @@ echo $0 done.
 pgbench_extract ${NEW_LOGS_DIR} ${1}
 
 
- d_group"pgbench"
+data_group "pgbench"
 
 exit 0

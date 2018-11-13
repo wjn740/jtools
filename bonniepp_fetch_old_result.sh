@@ -32,7 +32,7 @@ pushd ${OLD_DIR}
 
 bonniepp_extract ${2} ${1}
 
- d_group"bonniepp"
+data_group "bonniepp"
 
 popd
 ##$1 is OLD_LOGS_DIR's name
