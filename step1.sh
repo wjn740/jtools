@@ -5,7 +5,7 @@ export ROOT_DIR=$(pwd)
 #export NEW_LOGS_DIR=${ROOT_DIR}/new_logs_bz2
 export NEW_LOGS_DIR=/home/jnwang/t3400_sp4_others_ts
 export OLD_LOGS_DIR=/home/jnwang/t3400_sp3_others_ts
-export HANDLER_DIR=${ROOT_DIR}/James_handler_directory
+export HANDLER_DIR=${ROOT_DIR}/handler_directory
 
 #sync logs from Testing Server
 #pushd ${NEW_LOGS_DIR}

@@ -1,0 +1,24 @@
+<network>
+  <name>testing_network</name>
+  <bridge name="virbr2"/>
+  <mac address='00:16:3E:11:11:11'/>
+  <domain name="qa2.suse.asia"/>
+  <dns>
+    <txt name="example" value="example value"/>
+    <srv service='name' protocol='tcp' domain='test-domain-name' target='.'
+      port='1024' priority='10' weight='10'/>
+    <host ip='192.168.122.10'>
+      <hostname>network-test1</hostname>
+    </host>
+    <host ip='192.168.122.11'>
+      <hostname>network-test2</hostname>
+    </host>
+  </dns>
+  <ip address="192.168.122.1" netmask="255.255.255.0" localPtr="yes">
+    <dhcp>
+      <range start="192.168.122.100" end="192.168.122.254"/>
+      <host mac="52:54:00:C7:06:F4" name="network-test1.qa2.suse.asia" ip="192.168.122.10"/>
+      <host mac="52:54:00:C7:06:F6" name="network-test2.qa2.suse.asia" ip="192.168.122.11"/>
+    </dhcp>
+  </ip>
+</network>

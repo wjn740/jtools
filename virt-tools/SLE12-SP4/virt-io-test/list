@@ -1,0 +1,4 @@
+SQ_ABUILD_PARTITION=/dev/vdb1
+SQ_TEST_RUN_LIST=(
+io_block_generic_iozone_fsync_xfs
+)

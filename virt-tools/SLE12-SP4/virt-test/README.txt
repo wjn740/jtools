@@ -22,6 +22,26 @@ KVM performance testing has more level than Hypervisor performance testing.
 
 Environment Preparetion
 
+Host environment setup steps:
+1. A independed disk for IO test.
+/dev/sdb
+2. parted it to different partition.
+#!/bin/bash
+parted /dev/sdb --script -- mklabel gpt
+parted /dev/sdb --script -- mkpart primary xfs 32MiB 70GiB
+parted /dev/sdb --script -- mkpart primary btrfs 70GiB 90GiB
+parted /dev/sdb --script -- mkpart primary ext4 90GiB 100GiB
+parted /dev/sdb --script -- mkpart primary xfs 100GiB 110GiB
+
+3. format all partitions to different filesystems.(xfs, btrfs, ext4)
+mkfs.xfs -f /dev/sdb1
+mkfs.btrfs -f /dev/sdb2
+mkfs.ext4 -F /dev/sdb3
+mkfs.xfs -f /dev/sdb4
+
+4. layout of partitions is needed to desgin.
+First partition be use to store the image that will setup OS system.
+Other partitions be use to store the image that as secondary disk for performance testing in VM.
 
 Installation
 
@@ -31,12 +51,22 @@ YaST
 
 #Prepare Environment
 mkdir -pv /kvm/tmpfs
+mkdir -pv /kvm/btrfs
+mkdir -pv /kvm/ext4
+mkdir -pv /kvm/tmpfs
+
+#Mount all directory
+mount /dev/sdb1 /kvm
+mount /dev/sdb2 /kvm/btrfs
+mount /dev/sdb3 /kvm/ext4
+mount /dev/sdb4 /kvm/xfs
 mount -t tmpfs tmpfs /kvm/tmpfs
 
 #Install VM
 #!/bin/bash
 virt-install --name opensuseks \
     --disk path=/kvm/opensuseks,size=20,format=qcow2,bus=virtio,cache=none \
+    --disk path=/kvm/xfs/iotest,size=10,format=qcow2,bus=virtio,cache=none \
     --os-variant sles12 \
     --noautoconsole \
     --wait=-1 \
@@ -57,6 +87,12 @@ Manually
 
 Deployment
 
+Task management
+
+Running management
+
+
+
 #!/bin/bash -
 set -e
 
@@ -71,6 +107,11 @@ copy-in install_automation_sles12_sp4_vm.sh /
 copy-in james_care.list /
 EOF
 
+CPU Bound testing
+
+CPU topology configure
+
+NUMA / SMP / Multi-threads configure secnarios.
 
 
 IO testing

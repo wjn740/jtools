@@ -199,11 +199,11 @@ function prepare ()
 function do_test ()
 {
 set -x
-		sshpass -p susetesting ssh root@${vm_ip_addr} sh install_automation_sles12_sp4_vm.sh >${vm_serial_log}
-		sshpass -p susetesting ssh root@${vm_ip_addr} "echo ${vm_hostname} >/etc/hostname" >${vm_serial_log}
-		sshpass -p susetesting ssh root@${vm_ip_addr} "hostname --file /etc/hostname" >${vm_serial_log}
-		sshpass -p susetesting ssh root@${vm_ip_addr} "sh ./parted-vm.sh" >${vm_serial_log}
-		sshpass -p susetesting ssh root@${vm_ip_addr} "/usr/share/qa/qaset/run/performance-run.upload_Beijing" >${vm_serial_log}
+		sshpass -p ${password} ssh root@${vm_ip_addr} sh install_automation_sles12_sp4_vm.sh >${vm_serial_log}
+		sshpass -p ${password} ssh root@${vm_ip_addr} "echo ${vm_hostname} >/etc/hostname" >${vm_serial_log}
+		sshpass -p ${password} ssh root@${vm_ip_addr} "hostname --file /etc/hostname" >${vm_serial_log}
+		sshpass -p ${password} ssh root@${vm_ip_addr} "sh ./parted-vm.sh" >${vm_serial_log}
+		sshpass -p ${password} ssh root@${vm_ip_addr} "/usr/share/qa/qaset/run/performance-run.upload_Beijing" >${vm_serial_log}
 set +x
 		echo "Testing still running...."
 
@@ -233,9 +233,9 @@ function wait_for_jobs_done
 {
 		while true;
 		do
-			sshpass -p susetesting ssh root@${vm_ip_addr} "journalctl | grep QA_SET | grep finish" >/dev/null 2>&1
+			sshpass -p ${password} ssh root@${vm_ip_addr} "journalctl | grep QA_SET | grep finish" >/dev/null 2>&1
 			if [ $? -eq 0 ]; then
-				sshpass -p susetesting ssh root@${vm_ip_addr} test -f /var/log/qaset/control/DONE >/dev/null 2>&1
+				sshpass -p ${password} ssh root@${vm_ip_addr} test -f /var/log/qaset/control/DONE >/dev/null 2>&1
 					if [ $? -eq 0 ]; then
 						echo "Testing Done"
 							exit 0
