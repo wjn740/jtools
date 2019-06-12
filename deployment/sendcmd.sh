@@ -1,10 +1,10 @@
 #!/bin/bash
 
 
-for number in 210 211 209 163 114
+for number in vh004 ph044 ph045
 do
-    echo 147.2.207.$number:
-    sshpass -p ${password} ssh root@147.2.207.${number} $@ &
+    echo ${number}.qa2.suse.asia:
+    sshpass -p ${password} -- ssh -t root@${number}.qa2.suse.asia $@ &
 done
 
 
