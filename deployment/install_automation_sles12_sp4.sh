@@ -36,3 +36,9 @@ eval ${ntp_enable_cmd}
 
 mkdir ~/qaset/
 echo "_QASET_RUNID=80000"  >> ~/qaset/config
+
+if [ -d ~/mitigation-testsuite/.git ]; then
+  :
+else
+  git clone gitlab@gitlab.suse.de:qa-testsuites/mitigation-testsuite.git
+fi
